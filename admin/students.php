@@ -105,7 +105,7 @@
                                 <div class="btn btn-outline-success btn-sm">show</div>
                               </td>
                               <td class="font-weight-medium">
-                                <a href="view_payments.php">
+                                <a href="views_payments.php">
                                   <div class="btn btn-outline-danger btn-sm">view</div>
                                 </a>
                               </td>
