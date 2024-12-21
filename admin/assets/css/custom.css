@@ -1,3 +1,10 @@
+* {
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
+}
+
+
 ::-webkit-scrollbar {
     display: none;
 }
@@ -27,10 +34,12 @@
 
 /* student payment table */
 .payslip {
-    border: 1px solid #ccc;
-    padding: 20px;
-    max-width: 600px;
-    margin: auto;
+    width: 100%;
+}
+
+.data {
+    border-top: 1px solid black;
+    padding: 25px;
 }
 
 .header {
@@ -38,30 +47,24 @@
     margin-bottom: 20px;
 }
 
-.details,
-.summary {
+.details {
     margin-bottom: 20px;
 }
 
-.details table,
-.summary table {
+.details table {
+    border-top: 1px solid black;
     width: 100%;
-    border-collapse: collapse;
 }
-
+.payslip,
 .details th,
-.details td,
-.summary th,
-.summary td {
-    border: 1px solid #ccc;
+.details td {
     padding: 8px;
-    text-align: left;
 }
-
 .table-fixed {
     overflow-x: scroll;
     overflow-y: scroll;
 }
+
 
 /* print pdf */
 @media print {
@@ -86,7 +89,8 @@
         display: none;
     }
 
-    .payslip {
+    .payslip table{
+        height: auto;
         margin-top: -30px;
     }
 

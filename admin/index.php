@@ -82,10 +82,10 @@
                   </div>
                   <div class="col-lg-3 mb-4 stretch-card transparent">
                     <div class="card  bg-warning">
-                      <div class="card-body">
-                        <p class="mb-4 fw-bolder"><i class="fa-regular fa-user"></i> Total staffs</p>
-                        <p class="fs-30 mb-2 fw-bolder">61344</p>
-                      </div>
+                        <div class="card-body">
+                          <p class="mb-4 fw-bolder"><i class="fa-regular fa-user"></i> Total staffs</p>
+                          <p class="fs-30 mb-2 fw-bolder">61344</p>
+                        </div>
                     </div>
                   </div>
                 </div>

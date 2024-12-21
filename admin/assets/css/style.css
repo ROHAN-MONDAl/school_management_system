@@ -14588,6 +14588,7 @@ fieldset:disabled .btn {
   flex: 1 1 auto;
   padding: var(--bs-card-spacer-y) var(--bs-card-spacer-x);
   color: var(--bs-card-color);
+  text-decoration: none;
 }
 
 .card-title {
@@ -27190,7 +27191,7 @@ dl li {
 
 .expandable-table thead tr th {
   position: sticky;
-  background: #4B49AC;
+  background-color: #4B49AC;
   padding: 10px;
   color: #ffffff;
 }
