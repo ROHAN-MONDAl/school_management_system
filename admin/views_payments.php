@@ -47,7 +47,7 @@
             <!-- Main Dashboard Panel -->
             <!-- partial -->
             <div class="main-panel">
-                <div class="content-wrapper bg-light">
+                <div class="content-wrapper">
                     <div class="row">
                         <div class="col-md-12 d-flex justify-content-center">
                             <div class="row">
@@ -58,25 +58,26 @@
                         </div>
                     </div>
                     <div class="row col-12 col-lg-12 d-flex justify-content-center mx-auto">
-                        <div class="payslip col-lg-12">
-                            <div class="header mb-5">
+                        <div class="payslip col-lg-12 bg-warning bg-opacity-25">
+                            <div class="header mb-5 fs-2">
                                 <div><b>Daffodils School</b></div>
                                 <p>Address Line 1, City, State, ZIP</p>
                                 <p>Contact: 123-456-7890</p>
+                                                        <hr class="border border-black">    
                             </div>
 
-                            <div class="row">
+                            <div class="">
                                 <div class="details">
                                     <table>
                                         <tr class="rounded float-start">
-                                            <td><img src="assets/images/faces/face15.jpg" alt="" srcset=""></td>
+                                            <td><img src="assets/images/faces/face15.jpg" class="border rounded" alt="" srcset="" width="200px"></td>
                                         </tr>
                                         <tr>
-                                            <th>Name</th>
-                                            <td>John Doe</td>
+                                            <th scope="row">Name</th>
+                                            <td class="colspan-2">John Doe</td>
                                         </tr>
                                         <tr>
-                                            <th>Phone numbert</th>
+                                            <th>Phone number</th>
                                             <td>10</td>
                                         </tr>
                                         <tr>
@@ -96,24 +97,33 @@
                             </div>
 
                             <div class="col-lg-12 col-md-12 d-flex justify-content-center grid gap-0 column-gap-3 g-4 mb-5 data">
-                                <div class="col-lg-6 col-md-6 ">  
+                                <div class="col-lg-6 col-md-6 ">
                                     <div class="fs-5"><b>Summary</b></div>
                                     <div>fsdf</div>
                                     <div>fsdf</div>
                                     <div>fsdf</div>
-                                    <div>fsdf</div>
+                                    <div>lorem3000</div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 text-center justify-content-center">
                                     <div class="fs-5"><b>Amount</b></div>
-                                    <div>fsdf</div>
-                                    <div>fsdf</div>
-                                    <div>fsdf</div>
-                                    <div>fsdf</div>
-                                    <div>fsdf</div>
+                                    <div>Rs fsdf</div>
+                                    <div>Rs fsdf</div>
+                                    <div>Rs fsdf</div>
+                                    <div>Rs fsdf</div>
+                                    <div>Rs fsdf</div>
+                                </div>
+
+
+                            </div>
+                            <div class="col-lg-12 col-md-12 d-flex justify-content-center grid gap-0 column-gap-3 g-4 mb-5">
+                                <div class="col-lg-6 col-md-6 ">
+                                    <div class="fs-5"><b>Total</b></div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 text-center justify-content-center">
+                                    <div class="fs-5"><b>Rs 5500</b></div>
                                 </div>
 
                             </div>
-
 
 
                         </div>
@@ -122,12 +132,12 @@
                             <div class="col-lg-12 col-md-12 d-flex justify-content-center grid gap-0 column-gap-3 g-4">
                                 <button type="button" id="print" class="btn btn-danger text-light col-lg-3 col-md-3 download mx-1">Download PDF</button>
                                 <button type="button" id="print" class="btn btn-success text-light col-lg-3 col-md-3 download" data-toggle="modal"
-                                 data-target="#exampleModalCenter">Shares dues</button>
+                                    data-target="#exampleModalCenter">Shares dues</button>
 
                             </div>
-                            <a href="http://" target="_blank" class="row d-flex justify-content-center g-4 mx-auto" style="text-decoration: none;" rel="noopener noreferrer"><button type="button" id="print" 
-                            class="btn btn-info text-light col-lg-6 g-2 mt-3 fs-5">Edit</button></a>
-                            
+                            <a href="http://" target="_blank" class="row d-flex justify-content-center g-4 mx-auto" style="text-decoration: none;" rel="noopener noreferrer"><button type="button" id="print"
+                                    class="btn btn-info text-light col-lg-6 g-2 mt-3 fs-5">Edit</button></a>
+
 
                             <!-- Form -->
                             <div class="modal fade bg-white" id="exampleModalCenter" tabindex="-1" role="dialog"
@@ -136,14 +146,14 @@
                                     <div class="modal-content">
 
 
-                                        <form class="forms-sample border border-info">
+                                        <form class="forms-sample  bg-warning bg-opacity-25 border rounded border-dark">
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="exampleModalLongTitle" value="jfvhjksd">Message box</h5>
                                             </div>
                                             <div class="form-group col-12 flex-grow-1">
                                                 <div class="col-lg-12 col-md-12 text-lg-start text-md-start mt-3">
                                                     <label for="" class="form-label ">Class:</label>
-                                                    <select name="" class="form-control form-select text-black classs border border-info">
+                                                    <select name="" class="form-control form-select text-black classs border border-dark">
                                                         <option value="Nursury">Nursury</option>
                                                         <option value="Pre nursury">Pre nursury</option>
                                                         <option value="Kg">Kg</option>
@@ -157,7 +167,7 @@
 
                                                 <div class="col-lg-12 col-md-12 text-lg-start text-md-start mt-3">
                                                     <label for="">Branch name</label>
-                                                    <select name="" class="form-control form-select text-black branch border border-info">
+                                                    <select name="" class="form-control form-select text-black branch border border-dark">
                                                         <option value="a">A</option>
                                                         <option value="b">B</option>
                                                     </select>
@@ -165,23 +175,26 @@
 
                                                 <div class="col-lg-12 col-md-12 text-lg-start text-md-start mt-3">
                                                     <label for="" class="form-label">Amount</label>
-                                                    <input type="number" class="form-control duesamt border border-info">
+                                                    <input type="number" class="form-control duesamt border border-dark">
                                                 </div>
 
                                                 <div class="col-lg-12 col-md-12 text-lg-start text-md-start mt-3">
                                                     <label for="" class="form-label">Message</label>
-                                                    <textarea class="form-control message border border-info"></textarea>
+                                                    <textarea class="form-control message border border-dark"></textarea>
                                                 </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Close</button>
+                                                <button type="button" id="share-whatsapp" class="btn btn-success bg-opacity-25"
+                                                    data-bs-toggle="button" data-dismiss="modal" autocomplete="off"
+                                                    onclick="sendwhatsapp();">Send</button>
                                             </div>
                                         </form>
 
-                                        <div class="modal-footer border border-info">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-dismiss="modal">Close</button>
-                                            <button type="button" id="share-whatsapp" class="btn btn-danger"
-                                                data-bs-toggle="button" data-dismiss="modal" autocomplete="off"
-                                                onclick="sendwhatsapp();">Send Via WhatsApp</button>
-                                        </div>
+
+
+
                                     </div>
                                 </div>
                             </div>

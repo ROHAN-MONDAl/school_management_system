@@ -34,11 +34,13 @@
 
 /* student payment table */
 .payslip {
+    font-size: 1rem;
     width: 100%;
 }
 
 .data {
     border-top: 1px solid black;
+    border-bottom: 1px solid black;
     padding: 25px;
 }
 
@@ -52,14 +54,15 @@
 }
 
 .details table {
-    border-top: 1px solid black;
-    width: 100%;
+    margin-top: 30px;
+    width: 10%;
 }
 .payslip,
 .details th,
 .details td {
     padding: 8px;
 }
+
 .table-fixed {
     overflow-x: scroll;
     overflow-y: scroll;
