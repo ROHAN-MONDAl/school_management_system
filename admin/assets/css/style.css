@@ -11667,8 +11667,9 @@ progress {
 }
 
 .table-responsive{
+  border-radius: 10px;
   word-wrap: break-word;
-  max-height: 50vh;
+  max-height: 100vh;
   overflow-x: scroll;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
@@ -27192,7 +27193,7 @@ dl li {
 .expandable-table thead tr th {
   position: sticky;
   background-color: #4B49AC;
-  padding: 10px;
+  padding: 6px 10px ;
   color: #ffffff;
 }
 

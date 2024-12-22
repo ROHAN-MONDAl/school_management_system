@@ -63,7 +63,7 @@
                                 <div><b>Daffodils School</b></div>
                                 <p>Address Line 1, City, State, ZIP</p>
                                 <p>Contact: 123-456-7890</p>
-                                                        <hr class="border border-black">    
+                                <hr class="border border-black">
                             </div>
 
                             <div class="">

@@ -20,6 +20,21 @@
       </div>
     </li>
     <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="collapse" href="#attendence" aria-expanded="false" aria-controls="attendence">
+        <i class="icon-head menu-icon"></i>
+        <span class="menu-title">Attendence</span>
+        <i class="menu-arrow"></i>
+      </a>
+      <div class="collapse" id="attendence">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item"> <a class="nav-link" href="">Students</a></li>
+          <li class="nav-item"> <a class="nav-link" href="students.php">Teachers</a></li>
+          <li class="nav-item"> <a class="nav-link" href="">Employees</a></li>
+          <li class="nav-item"> <a class="nav-link" href="">Staffs</a></li>
+        </ul>
+      </div>
+    </li>
+    <li class="nav-item">
       <a class="nav-link" data-bs-toggle="collapse" href="#error" aria-expanded="false" aria-controls="error">
         <i class="icon-ban menu-icon"></i>
         <span class="menu-title">Employers</span>
@@ -33,15 +48,15 @@
       </div>
     </li>
     <li class="nav-item">
-      <a class="nav-link" data-bs-toggle="collapse" href="#icons" aria-expanded="false" id="icons" aria-controls="icons">
+      <a class="nav-link" data-bs-toggle="collapse" href="#e" aria-expanded="false" aria-controls="e">
         <i class="icon-ban menu-icon"></i>
-        <span class="menu-title">Finance</span>
+        <span class="menu-title">Employers</span>
         <i class="menu-arrow"></i>
       </a>
-      <div class="collapse" id="icons">
+      <div class="collapse" id="e">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"> <a class="nav-link" href="cashiers.php"> Expenses </a></li>
-          <li class="nav-item "> <a class="nav-link" href="views_cashiers.php"> View cashiers </a></li>
+          <li class="nav-item"> <a class="nav-link" href="expenses.php"> Expenses </a></li>
+          <li class="nav-item"> <a class="nav-link" href="expense_Users.php"> View users </a></li>
         </ul>
       </div>
     </li>

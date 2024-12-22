@@ -48,7 +48,7 @@
                 <div class="col-md-12">
                   <div class="row">
                     <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                      <h2 class="font-weight-bold text-primary fw-bolder">Expenses Users</h2>
+                      <h2 class="font-weight-bold text-primary fw-bolder">Expenses History</h2>
                       <p class="text-secondary">Users Data</p>
                     </div>
                   </div>
@@ -99,7 +99,7 @@
                     <button type="button" class="btn bg-success btn-rounded add_button col-5 col-md-3 col-lg-2"
                       data-mdb-ripple-init>ADD</button>
                   </div>
-                  <div class="row">
+                  <div class="row mt-3">
                     <div class="col-12">
                       <div class="table-responsive">
                         <table id="dataTable" class="display expandable-table col-lg-12">
