@@ -48,6 +48,7 @@
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
                   <h2 class="font-weight-bold text-primary fw-bolder">Dashboard</h2>
+                  <p class="text-secondary">Employers and teachers Attendence</p>
                 </div>
               </div>
 
@@ -116,10 +117,10 @@
                       <div class="form-group col-12 flex-grow-1">
                         <h5 class="modal-title text-danger" id="exampleModalLongTitle" value="jfvhjksd"><b>Filter</b></h5>
                         <div class="col-lg-12 col-md-12 text-center text-lg-start text-md-start mt-3">
-                            <label for="startDate" class="text-danger">Start Date:</label>
-                            <input type="date" class="form-control" id="startDate">
-                            <label for="endDate" class=" text-danger mt-2">End Date:</label>
-                            <input type="date" class="form-control" id="endDate">
+                          <label for="startDate" class="text-danger">Start Date:</label>
+                          <input type="date" class="form-control" id="startDate">
+                          <label for="endDate" class=" text-danger mt-2">End Date:</label>
+                          <input type="date" class="form-control" id="endDate">
                         </div>
                       </div>
                     </form>
@@ -182,92 +183,143 @@
               </div>
             </div>
           </div>
+          <div class="row mt-2">
+            <div class="col-md-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <p class="card-title">Employers Attendence</p>
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="table-responsive">
+                        <table id="dataTable" class="display expandable-table col-lg-12">
+                          <thead class="text-center text-wrap">
+                            <tr>
+                              <th>Slno</th>
+                              <th>Quote#</th>
+                              <th>Product</th>
+                              <th>Business type</th>
+                              <th>Policy holder</th>
+                              <th>Premium</th>
+                              <th>Status</th>
+                              <th>Updated at</th>
+                            </tr>
+                          </thead>
+                          <tbody class="text-center text-wrap">
+                            <tr>
+                              <td>John Doe</td>
+                              <td>30</td>
+                              <td>2024-01-15</td>
+                            </tr>
+                            <tr>
+                              <td>Jane Smith</td>
+                              <td>25</td>
+                              <td>2023-12-10</td>
+                            </tr>
+                            <tr>
+                              <td>Sam Brown</td>
+                              <td>22</td>
+                              <td>2024-03-05</td>
+                            </tr>
+                            <tr>
+                              <td>Amy Lee</td>
+                              <td>28</td>
+                              <td>2024-02-18</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-<?php include "footer.php"  ?>
-        <!-- partial -->
+          <?php include "footer.php"  ?>
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
       </div>
-      <!-- main-panel ends -->
+      <!-- page-body-wrapper ends -->
     </div>
-    <!-- page-body-wrapper ends -->
-  </div>
-  <!-- container-scroller -->
+    <!-- container-scroller -->
 
-  <!-- search filter -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- search filter -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
-  <script>
-    $(document).ready(function () {
+    <script>
+      $(document).ready(function() {
         // Function to filter rows based on search input
-        $('#search').on('keyup', function () {
-            var searchTerm = $(this).val().toLowerCase();
-            $('#dataTable tbody tr').each(function () {
-                var row = $(this);
-                var rowText = row.text().toLowerCase();
-                if (rowText.includes(searchTerm)) {
-                    row.show();
-                } else {
-                    row.hide();
-                }
-            });
+        $('#search').on('keyup', function() {
+          var searchTerm = $(this).val().toLowerCase();
+          $('#dataTable tbody tr').each(function() {
+            var row = $(this);
+            var rowText = row.text().toLowerCase();
+            if (rowText.includes(searchTerm)) {
+              row.show();
+            } else {
+              row.hide();
+            }
+          });
         });
 
         // Function to filter rows based on date range
-        $('#startDate, #endDate').on('change', function () {
-            var startDate = $('#startDate').val();
-            var endDate = $('#endDate').val();
+        $('#startDate, #endDate').on('change', function() {
+          var startDate = $('#startDate').val();
+          var endDate = $('#endDate').val();
 
-            $('#dataTable tbody tr').each(function () {
-                var row = $(this);
-                var dateText = row.find('td').eq(2).text(); // Get the date column (third column)
+          $('#dataTable tbody tr').each(function() {
+            var row = $(this);
+            var dateText = row.find('td').eq(2).text(); // Get the date column (third column)
 
-                if (startDate && new Date(dateText) < new Date(startDate)) {
-                    row.hide();
-                    return;
-                }
-                if (endDate && new Date(dateText) > new Date(endDate)) {
-                    row.hide();
-                    return;
-                }
+            if (startDate && new Date(dateText) < new Date(startDate)) {
+              row.hide();
+              return;
+            }
+            if (endDate && new Date(dateText) > new Date(endDate)) {
+              row.hide();
+              return;
+            }
 
-                row.show(); // Show the row if within the date range
-            });
+            row.show(); // Show the row if within the date range
+          });
         });
-    });
-</script>
-  <!-- custom js -->
-  <script src="assets/js/script.js"></script>
-  <!-- bootstrap Library -->
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
-    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-    crossorigin="anonymous"></script>
-  <!-- plugins:js -->
-  <script src="assets/vendors/js/vendor.bundle.base.js"></script>
-  <!-- endinject -->
-  <!-- Plugin js for this page -->
-  <script src="assets/vendors/chart.js/chart.umd.js"></script>
-  <script src="assets/vendors/datatables.net/jquery.dataTables.js"></script>
-  <!-- <script src="assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script> -->
-  <script src="assets/vendors/datatables.net-bs5/dataTables.bootstrap5.js"></script>
-  <script src="assets/js/dataTables.select.min.js"></script>
-  <!-- End plugin js for this page -->
-  <!-- inject:js -->
-  <script src="assets/js/off-canvas.js"></script>
-  <script src="assets/js/template.js"></script>
-  <script src="assets/js/settings.js"></script>
-  <script src="assets/js/todolist.js"></script>
-  <!-- endinject -->
-  <!-- Custom js for this page-->
-  <script src="assets/js/jquery.cookie.js" type="text/javascript"></script>
-  <script src="assets/js/dashboard.js"></script>
-  <!-- <script src="assets/js/Chart.roundedBarCharts.js"></script> -->
-  <!-- End custom js for this page-->
+      });
+    </script>
+    <!-- custom js -->
+    <script src="assets/js/script.js"></script>
+    <!-- bootstrap Library -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"></script>
+    <!-- plugins:js -->
+    <script src="assets/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="assets/vendors/chart.js/chart.umd.js"></script>
+    <script src="assets/vendors/datatables.net/jquery.dataTables.js"></script>
+    <!-- <script src="assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script> -->
+    <script src="assets/vendors/datatables.net-bs5/dataTables.bootstrap5.js"></script>
+    <script src="assets/js/dataTables.select.min.js"></script>
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="assets/js/off-canvas.js"></script>
+    <script src="assets/js/template.js"></script>
+    <script src="assets/js/settings.js"></script>
+    <script src="assets/js/todolist.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page-->
+    <script src="assets/js/jquery.cookie.js" type="text/javascript"></script>
+    <script src="assets/js/dashboard.js"></script>
+    <!-- <script src="assets/js/Chart.roundedBarCharts.js"></script> -->
+    <!-- End custom js for this page-->
 </body>
 
 </html>
