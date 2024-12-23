@@ -3,7 +3,7 @@
 include '../server_database.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     date_default_timezone_set("Asia/kolkata");
-    $date = date('Y-m-d H:i:s');
+    $date = date('Y-m-d');
     $status = $_POST['status'];
 
     // Check if "class" is provided

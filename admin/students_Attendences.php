@@ -63,40 +63,6 @@ $result = $conn->query("SELECT * FROM students");
                                             <div class="search-container align-items-center">
                                                 <input type="text" class="form-control search-input" id="search"
                                                     placeholder="Search...">
-                                                <p class="mx-3 mt-2 text-danger" style="cursor:pointer "
-                                                    data-toggle="modal" data-target="#exampleModalCenter"><i
-                                                        style="font-size:24px;"
-                                                        class="fa text-danger">&#xf0b0;</i><b>filter</b></p>
-                                            </div>
-                                        </div>
-
-                                        <!-- Modal -->
-                                        <div class="row d-flex justify-content-center g-4 mx-auto">
-                                            <!-- Form -->
-                                            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-                                                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                                    <div class="modal-content">
-                                                        <form class="forms-sample bg-warning bg-opacity-25 rounded">
-                                                            <div class="form-group col-12 flex-grow-1">
-                                                                <h5 class="modal-title text-danger"
-                                                                    id="exampleModalLongTitle" value="jfvhjksd">
-                                                                    <b>Filter</b></h5>
-                                                                <div
-                                                                    class="col-lg-12 col-md-12 text-center text-lg-start text-md-start mt-3">
-                                                                    <label for="startDate" class="text-danger">Start
-                                                                        Date:</label>
-                                                                    <input type="date" class="form-control"
-                                                                        id="startDate">
-                                                                    <label for="endDate" class=" text-danger mt-2">End
-                                                                        Date:</label>
-                                                                    <input type="date" class="form-control"
-                                                                        id="endDate">
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -105,21 +71,23 @@ $result = $conn->query("SELECT * FROM students");
                         </div>
                     </div>
 
-                    <!-- table header -->
+                   
                     <div class="row mt-2">
-                        <div class=" col-md-12 grid-margin stretch-card">
+                        <div class="col-lg-12 col-md-12 grid-margin stretch-card">
                             <div class="card">
                                 <div class="card-body">
-                                    <div class="row col-12 col-lg-12 col-md-12 p-1 align-content-center">
-                                        <p class="card-title col-12 mx-3 col-md-12 col-lg-12"><a
-                                                href="student_att_history.php">
-                                                <button class="btn btn-success btn-sm text-white font-weight-bold">Check
-                                                    history</button></a></p>
-                                        <div class="card-title col-12 mx-4 col-md-12 col-lg-12" id="date"></div>
+
+                                    <div class="card-title col-12 mx-4 col-md-12 col-lg-12 d-flex justify-content-between">
+                                        <span class="col-lg-6" id="date" style="font-size:1em"></span>
+                                        
+                                        <a href="student_att_history.php">
+                                            <button class="btn btn-success btn-sm text-white font-weight-bold me-4">Check
+                                                history</button></a>
                                     </div>
+
                                     <div class="row mt-3">
                                         <div class="col-12">
-                                            <div class="table-responsive col-lg-12">
+                                            <div class="table-responsive col-lg-12 col-md-12">
                                                 <form action="attendence_table.php" method="POST">
                                                     <table id="dataTable"
                                                         class="display expandable-table text-center col-lg-12 col-md-12 col-sm-6">
@@ -154,11 +122,12 @@ $result = $conn->query("SELECT * FROM students");
                                                                 </tr>
                                                             <?php endwhile; ?>
                                                         </tbody>
-
                                                     </table>
-                                                    <button type="submit" class="btn btn-success btn-sm mt-5 text-white"
-                                                        style="margin-left:45%">Submit</button>
                                                 </form>
+                                            </div>
+                                            <div class="d-flex justify-content-center">
+                                                <button type="reset" class="btn btn-danger fw-bolder btn-sm mt-5 text-white">Reset</button>
+                                                <button type="submit" class="btn btn-success btn-sm fw-bolder mt-5 mx-3 text-white">Submit</button>
                                             </div>
                                         </div>
                                     </div>
@@ -178,7 +147,7 @@ $result = $conn->query("SELECT * FROM students");
         <!-- page-body-wrapper ends -->
     </div>
     <!-- container-scroller -->
-    <script src="assets/javascript/script.js"></script>
+    <script src="assets/js/script.js"></script>
     <!-- search filter -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -191,15 +160,12 @@ $result = $conn->query("SELECT * FROM students");
         d = n.getDate();
         document.getElementById("date").innerHTML = d + "-" + m + "-" + y;
 
-
-
-
         // search function
-        $(document).ready(function () {
+        $(document).ready(function() {
             // Function to filter rows based on search input
-            $('#search').on('keyup', function () {
+            $('#search').on('keyup', function() {
                 var searchTerm = $(this).val().toLowerCase();
-                $('#dataTable tbody tr').each(function () {
+                $('#dataTable tbody tr').each(function() {
                     var row = $(this);
                     var rowText = row.text().toLowerCase();
                     if (rowText.includes(searchTerm)) {
@@ -211,11 +177,11 @@ $result = $conn->query("SELECT * FROM students");
             });
 
             // Function to filter rows based on date range
-            $('#startDate, #endDate').on('change', function () {
+            $('#startDate, #endDate').on('change', function() {
                 var startDate = $('#startDate').val();
                 var endDate = $('#endDate').val();
 
-                $('#dataTable tbody tr').each(function () {
+                $('#dataTable tbody tr').each(function() {
                     var row = $(this);
                     var dateText = row.find('td').eq(2).text(); // Get the date column (third column)
 

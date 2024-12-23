@@ -103,7 +103,7 @@
                   <div class="row mt-3">
                     <div class="col-12">
                       <div class="table-responsive">
-                      <table id="dataTable" class="display expandable-table col-lg-12">
+                        <table id="dataTable" class="display expandable-table col-lg-12">
                           <thead class="text-center text-wrap">
                             <tr>
                               <th>Slno</th>
@@ -120,22 +120,23 @@
                             <tr>
                               <td>John Doe</td>
                               <td>30</td>
+                              <td><a href="views_payments.php" target="_blank" rel="noopener noreferrer">
+                                <button type="button" class="btn btn-success btn-sm text-white fw-bolder">View</button></a></td>
+                            </tr>
+                            <tr>
+                              <td>John Doe</td>
+                              <td>30</td>
                               <td>2024-01-15</td>
                             </tr>
                             <tr>
-                              <td>Jane Smith</td>
-                              <td>25</td>
-                              <td>2023-12-10</td>
+                              <td>John Doe</td>
+                              <td>30</td>
+                              <td>2024-01-15</td>
                             </tr>
                             <tr>
-                              <td>Sam Brown</td>
-                              <td>22</td>
-                              <td>2024-03-05</td>
-                            </tr>
-                            <tr>
-                              <td>Amy Lee</td>
-                              <td>28</td>
-                              <td>2024-02-18</td>
+                              <td>John Doe</td>
+                              <td>30</td>
+                              <td>2024-01-15</td>
                             </tr>
                           </tbody>
                         </table>
@@ -202,7 +203,7 @@
     });
   </script>
   <!-- custom js -->
-  <script src="assets/javascript/script.js"></script>
+  <script src="assets/js/script.js"></script>
   <!-- bootstrap Library -->
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
