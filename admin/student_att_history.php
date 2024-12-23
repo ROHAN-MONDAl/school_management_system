@@ -54,9 +54,9 @@ $result = $conn->query("
                                     <div class="row justify-content-center p-1">
                                         <div class="col-md-12">
                                             <div class="search-container align-items-center">
-                                            <div class="search-container align-items-center">
-                                            <input type="text" class="form-control search-input" id="search" placeholder="Search...">
-                                            </div>
+                                                <div class="search-container align-items-center">
+                                                    <input type="text" class="form-control search-input" id="search" placeholder="Search..." onkeyup="filterTable()">
+                                                </div>
                                                 <p class="mx-3 mt-2 text-danger" style="cursor:pointer" data-toggle="modal" data-target="#exampleModalCenter">
                                                     <i style="font-size:24px;" class="fa text-danger">&#xf0b0;</i><b>Filter</b>
                                                 </p>
@@ -65,13 +65,13 @@ $result = $conn->query("
                                             <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                                     <div class="modal-content">
-                                                    <form id="dateFilterForm" method="post" class="forms-sample bg-info bg-opacity-25 text-center rounded">
-                                                        <label for="startDate" class="text-black">Start Date:</label>
-                                                        <input type="date" id="startDate" class="form-control" name="start_date" required>
-                                                        <label for="endDate" class="text-black mt-2">End Date:</label>
-                                                        <input type="date" id="endDate" class="form-control" name="end_date" required>
-                                                        <button type="button" class="btn btn-primary mt-3" onclick="filterByDate()">Filter</button> 
-                                                    </form>
+                                                        <form id="dateFilterForm" method="post" class="forms-sample bg-info bg-opacity-25 text-center rounded">
+                                                            <label for="startDate" class="text-black">Start Date:</label>
+                                                            <input type="date" id="startDate" class="form-control" name="start_date" required>
+                                                            <label for="endDate" class="text-black mt-2">End Date:</label>
+                                                            <input type="date" id="endDate" class="form-control" name="end_date" required>
+                                                            <button type="button" class="btn btn-primary mt-3" onclick="filterByDate()">Filter</button>
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>
@@ -96,14 +96,14 @@ $result = $conn->query("
                                         </tr>
                                     </thead>
                                     <tbody class="text-center text-wrap">
-                                    <?php while ($row = $result->fetch_assoc()): ?>
-                                       <td><?php echo $row['name']; ?></td>
+                                        <?php while ($row = $result->fetch_assoc()): ?>
+                                            <td><?php echo $row['name']; ?></td>
                                             <td><?php echo $row['class']; ?></td>
                                             <td><?php echo $row['roll_no']; ?></td>
-                                            <td><?php echo $row['date']; ?></td> 
+                                            <td><?php echo $row['date']; ?></td>
                                             <td><?php echo $row['status']; ?></td>
-                                        </tr>
-                                    <?php endwhile; ?>
+                                            </tr>
+                                        <?php endwhile; ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -115,38 +115,50 @@ $result = $conn->query("
         </div>
 
         <script>
-            // search function
-            $(document).ready(function() {
-            // Function to filter rows based on search input
-            $('#search').on('keyup', function() {
-                var searchTerm = $(this).val().toLowerCase();
-                $('#dataTable tbody tr').each(function() {
-                    var row = $(this);
-                    var rowText = row.text().toLowerCase();
-                    if (rowText.includes(searchTerm)) {
-                        row.show();
-                    } else {
-                        row.hide();
+            function filterTable() {
+                var input, filter, table, tr, td, i, txtValue;
+                input = document.getElementById("search");
+                filter = input.value.toUpperCase();
+                table = document.getElementById("dataTable");
+                tr = table.getElementsByTagName("tr");
+
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td");
+                    let matchFound = false;
+
+                    for (let j = 0; j < td.length; j++) {
+                        if (td[j]) {
+                            txtValue = td[j].textContent || td[j].innerText;
+                            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                                matchFound = true;
+                                break;
+                            }
+                        }
                     }
-                });
-            });
-        });
+
+                    if (matchFound) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
 
             function filterByDate() {
-            var startDate = $('#startDate').val();
-            var endDate = $('#endDate').val();
+                var startDate = $('#startDate').val();
+                var endDate = $('#endDate').val();
 
-            $('#dataTable tbody tr').each(function() {
-                var row = $(this);
-                var rowDate = new Date(row.find('td:eq(3)').text()); // Get date from the 4th column (index 3)
+                $('#dataTable tbody tr').each(function() {
+                    var row = $(this);
+                    var rowDate = new Date(row.find('td:eq(3)').text()); // Get date from the 4th column (index 3)
 
-                if (startDate && rowDate < new Date(startDate) || endDate && rowDate > new Date(endDate)) {
-                    row.hide();
-                } else {
-                    row.show();
-                }
-            });
-        }
+                    if (startDate && rowDate < new Date(startDate) || endDate && rowDate > new Date(endDate)) {
+                        row.hide();
+                    } else {
+                        row.show();
+                    }
+                });
+            }
         </script>
 
 
