@@ -124,3 +124,11 @@
     }
 
 }
+
+/* date text from students attendance table */
+@media screen and (max-width: 400px) {
+    .myfont {
+        font-size: 3px;
+    }
+
+}

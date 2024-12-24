@@ -77,8 +77,8 @@ $result = $conn->query("SELECT * FROM students");
                             <div class="card">
                                 <div class="card-body">
 
-                                    <div class="card-title col-12 col-md-12 col-lg-12 d-flex justify-content-between">
-                                        <span class="col-lg-6" id="date" style="font-size:1em"></span>
+                                    <div class="card-title col-12 col-md-12 col-lg-12 d-flex justify-content-between align-items-center">
+                                        <span class="col-lg-6 fs-6 text-info" id="date"></span>
                                         
                                         <a href="student_att_history.php">
                                             <button class="btn btn-success btn-sm text-white font-weight-bold me-4">Check
