@@ -52,9 +52,9 @@ $result = $conn->query("
                                     </div>
 
                                     <div class="row justify-content-center p-1">
-                                        <div class="col-md-12">
-                                            <div class="search-container align-items-center">
-                                                <div class="search-container align-items-center">
+                                        <div class="col-md-12 me-5">
+                                            <div class="search-container align-items-center me-2">
+                                                <div class="search-container col-lg-12  align-items-center">
                                                     <input type="text" class="form-control search-input" id="search" placeholder="Search..." onkeyup="filterTable()">
                                                 </div>
                                                 <p class="mx-3 mt-2 text-danger" style="cursor:pointer" data-toggle="modal" data-target="#exampleModalCenter">
@@ -82,112 +82,116 @@ $result = $conn->query("
                         </div>
                     </div>
 
-                    <div class="row mt-3">
-                        <div class="col-12">
-                            <div class="table-responsive">
-                                <table id="dataTable" class="display expandable-table col-lg-12">
-                                    <thead class="text-center text-wrap">
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Class</th>
-                                            <th>Roll no</th>
-                                            <th>Date</th>
-                                            <th>Attendance</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="text-center text-wrap">
-                                        <?php while ($row = $result->fetch_assoc()): ?>
-                                            <td><?php echo $row['name']; ?></td>
-                                            <td><?php echo $row['class']; ?></td>
-                                            <td><?php echo $row['roll_no']; ?></td>
-                                            <td><?php echo $row['date']; ?></td>
-                                            <td><?php echo $row['status']; ?></td>
-                                            </tr>
-                                        <?php endwhile; ?>
-                                    </tbody>
-                                </table>
+                    <div class="row mt-2">
+                        <div class="col-md-12 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row mt-3">
+                                        <div class="col-12">
+                                            <div class="table-responsive">
+                                                <table id="dataTable" class="display expandable-table col-lg-12">
+                                                    <thead class="text-center text-wrap">
+                                                        <tr>
+                                                            <th>Name</th>
+                                                            <th>Class</th>
+                                                            <th>Roll no</th>
+                                                            <th>Date</th>
+                                                            <th>Attendance</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="text-center text-wrap">
+                                                        <?php while ($row = $result->fetch_assoc()): ?>
+                                                            <td><?php echo $row['name']; ?></td>
+                                                            <td><?php echo $row['class']; ?></td>
+                                                            <td><?php echo $row['roll_no']; ?></td>
+                                                            <td><?php echo $row['date']; ?></td>
+                                                            <td><?php echo $row['status']; ?></td>
+                                                            </tr>
+                                                        <?php endwhile; ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <?php include "footer.php"  ?>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <?php include "footer.php"  ?>
-                </div>
-            </div>
-        </div>
 
-        <script>
-            function filterTable() {
-                var input, filter, table, tr, td, i, txtValue;
-                input = document.getElementById("search");
-                filter = input.value.toUpperCase();
-                table = document.getElementById("dataTable");
-                tr = table.getElementsByTagName("tr");
+                        <script>
+                            function filterTable() {
+                                var input, filter, table, tr, td, i, txtValue;
+                                input = document.getElementById("search");
+                                filter = input.value.toUpperCase();
+                                table = document.getElementById("dataTable");
+                                tr = table.getElementsByTagName("tr");
 
-                for (i = 0; i < tr.length; i++) {
-                    td = tr[i].getElementsByTagName("td");
-                    let matchFound = false;
+                                for (i = 0; i < tr.length; i++) {
+                                    td = tr[i].getElementsByTagName("td");
+                                    let matchFound = false;
 
-                    for (let j = 0; j < td.length; j++) {
-                        if (td[j]) {
-                            txtValue = td[j].textContent || td[j].innerText;
-                            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                                matchFound = true;
-                                break;
+                                    for (let j = 0; j < td.length; j++) {
+                                        if (td[j]) {
+                                            txtValue = td[j].textContent || td[j].innerText;
+                                            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                                                matchFound = true;
+                                                break;
+                                            }
+                                        }
+                                    }
+
+                                    if (matchFound) {
+                                        tr[i].style.display = "";
+                                    } else {
+                                        tr[i].style.display = "none";
+                                    }
+                                }
                             }
-                        }
-                    }
 
-                    if (matchFound) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
-                    }
-                }
-            }
+                            function filterByDate() {
+                                var startDate = $('#startDate').val();
+                                var endDate = $('#endDate').val();
 
-            function filterByDate() {
-                var startDate = $('#startDate').val();
-                var endDate = $('#endDate').val();
+                                $('#dataTable tbody tr').each(function() {
+                                    var row = $(this);
+                                    var rowDate = new Date(row.find('td:eq(3)').text()); // Get date from the 4th column (index 3)
 
-                $('#dataTable tbody tr').each(function() {
-                    var row = $(this);
-                    var rowDate = new Date(row.find('td:eq(3)').text()); // Get date from the 4th column (index 3)
-
-                    if (startDate && rowDate < new Date(startDate) || endDate && rowDate > new Date(endDate)) {
-                        row.hide();
-                    } else {
-                        row.show();
-                    }
-                });
-            }
-        </script>
+                                    if (startDate && rowDate < new Date(startDate) || endDate && rowDate > new Date(endDate)) {
+                                        row.hide();
+                                    } else {
+                                        row.show();
+                                    }
+                                });
+                            }
+                        </script>
 
 
 
 
 
 
-        <script src="assets/js/script.js"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-            crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
-            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-            crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-            crossorigin="anonymous"></script>
-        <script src="assets/vendors/js/vendor.bundle.base.js"></script>
-        <script src="assets/vendors/chart.js/chart.umd.js"></script>
-        <script src="assets/vendors/datatables.net/jquery.dataTables.js"></script>
-        <script src="assets/vendors/datatables.net-bs5/dataTables.bootstrap5.js"></script>
-        <script src="assets/js/dataTables.select.min.js"></script>
-        <script src="assets/js/off-canvas.js"></script>
-        <script src="assets/js/template.js"></script>
-        <script src="assets/js/settings.js"></script>
-        <script src="assets/js/todolist.js"></script>
-        <script src="assets/js/jquery.cookie.js" type="text/javascript"></script>
-        <script src="assets/js/dashboard.js"></script>
+                        <script src="assets/js/script.js"></script>
+                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+                            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+                            crossorigin="anonymous"></script>
+                        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+                            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+                            crossorigin="anonymous"></script>
+                        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+                            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+                            crossorigin="anonymous"></script>
+                        <script src="assets/vendors/js/vendor.bundle.base.js"></script>
+                        <script src="assets/vendors/chart.js/chart.umd.js"></script>
+                        <script src="assets/vendors/datatables.net/jquery.dataTables.js"></script>
+                        <script src="assets/vendors/datatables.net-bs5/dataTables.bootstrap5.js"></script>
+                        <script src="assets/js/dataTables.select.min.js"></script>
+                        <script src="assets/js/off-canvas.js"></script>
+                        <script src="assets/js/template.js"></script>
+                        <script src="assets/js/settings.js"></script>
+                        <script src="assets/js/todolist.js"></script>
+                        <script src="assets/js/jquery.cookie.js" type="text/javascript"></script>
+                        <script src="assets/js/dashboard.js"></script>
 </body>
 
 </html>

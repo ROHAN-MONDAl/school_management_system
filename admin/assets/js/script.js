@@ -38,3 +38,5 @@ function sendwhatsapp() {
 
   window.open(url, '_blank').focus();
 }
+
+
