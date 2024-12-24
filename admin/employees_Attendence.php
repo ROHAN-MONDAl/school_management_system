@@ -1,3 +1,7 @@
+<?php include '../server_database.php';
+
+$result = $conn->query("SELECT * FROM students");
+?>
 <!DOCTYPE php>
 <html lang="en">
 
@@ -21,7 +25,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- End plugin css for this page -->
     <!-- inject:css -->
@@ -34,7 +39,7 @@
 <body>
     <div class="container-scroller">
         <!-- partial:partials/_navbar.php -->
-        <?php include 'header.php'   ?>
+        <?php include 'header.php' ?>
         <!-- partial -->
         <div class="container-fluid page-body-wrapper">
             <!-- partial:partials/_sidebar.php -->
@@ -49,39 +54,15 @@
                                 <div class="col-md-12">
                                     <div class="row">
                                         <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                                            <h2 class="font-weight-bold text-primary fw-bolder">Staffs</h2>
-                                            <p class="text-secondary">Ground staffs and co-workers</p>
+                                            <h2 class="font-weight-bold text-primary fw-bolder">Students Attendance</h2>
+                                            <p class="text-secondary">Update students attendances</p>
                                         </div>
                                     </div>
                                     <div class="row justify-content-center p-1">
                                         <div class="col-md-12">
                                             <div class="search-container align-items-center">
-                                                <input type="text" class="form-control search-input" id="search" placeholder="Search...">
-                                                <p class="mx-3 mt-2 text-danger" style="cursor:pointer " data-toggle="modal"
-                                                    data-target="#exampleModalCenter"><i style="font-size:24px;" class="fa text-danger">&#xf0b0;</i><b>filter</b></p>
-                                            </div>
-                                        </div>
-
-                                        <!-- Modal -->
-                                        <div class="row d-flex justify-content-center g-4 mx-auto">
-                                            <!-- Form -->
-                                            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-                                                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                                    <div class="modal-content">
-                                                        <form class="forms-sample bg-warning bg-opacity-25 rounded">
-                                                            <div class="form-group col-12 flex-grow-1">
-                                                                <h5 class="modal-title text-danger" id="exampleModalLongTitle" value="jfvhjksd"><b>Filter</b></h5>
-                                                                <div class="col-lg-12 col-md-12 text-center text-lg-start text-md-start mt-3">
-                                                                    <label for="startDate" class="text-danger">Start Date:</label>
-                                                                    <input type="date" class="form-control" id="startDate">
-                                                                    <label for="endDate" class=" text-danger mt-2">End Date:</label>
-                                                                    <input type="date" class="form-control" id="endDate">
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
+                                                <input type="text" class="form-control search-input" id="search"
+                                                    placeholder="Search...">
                                             </div>
                                         </div>
                                     </div>
@@ -90,55 +71,63 @@
                         </div>
                     </div>
 
-                    <!-- table header -->
+                   
                     <div class="row mt-2">
-                        <div class="col-md-12 grid-margin stretch-card">
+                        <div class="col-lg-12 col-md-12 grid-margin stretch-card">
                             <div class="card">
                                 <div class="card-body">
-                                    <div class="row col-12 col-lg-12 col-md-12 p-1 align-content-center">
-                                        <p class="card-title col-6 mx-auto col-md-9 col-lg-10">Data</p>
-                                        <button type="button" class="btn bg-success btn-rounded add_button col-5 col-md-3 col-lg-2"
-                                            data-mdb-ripple-init>ADD</button>
+
+                                    <div class="card-title col-12 col-md-12 col-lg-12 d-flex justify-content-between align-items-center">
+                                        <span class="col-lg-6 fs-6 text-info" id="date"></span>
+                                        
+                                        <a href="student_att_history.php">
+                                            <button class="btn btn-success btn-sm text-white font-weight-bold me-4">Check
+                                                history</button></a>
                                     </div>
+
                                     <div class="row mt-3">
                                         <div class="col-12">
-                                            <div class="table-responsive">
-                                                <table id="dataTable" class="display expandable-table col-lg-12">
-                                                    <thead class="text-center text-wrap">
-                                                        <tr>
-                                                            <th>Slno</th>
-                                                            <th>Quote#</th>
-                                                            <th>Product</th>
-                                                            <th>Business type</th>
-                                                            <th>Policy holder</th>
-                                                            <th>Premium</th>
-                                                            <th>Status</th>
-                                                            <th>Updated at</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody class="text-center text-wrap">
-                                                        <tr>
-                                                            <td>John Doe</td>
-                                                            <td>30</td>
-                                                            <td>2024-01-15</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Jane Smith</td>
-                                                            <td>25</td>
-                                                            <td>2023-12-10</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Sam Brown</td>
-                                                            <td>22</td>
-                                                            <td>2024-03-05</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Amy Lee</td>
-                                                            <td>28</td>
-                                                            <td>2024-02-18</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
+                                            <div class="table-responsive col-lg-12 col-md-12">
+                                                <form action="attendence_table.php" method="POST">
+                                                    <table id="dataTable"
+                                                        class="display expandable-table text-center col-lg-12 col-md-12 col-sm-6">
+                                                        <thead class="text-center text-wrap">
+                                                            <tr>
+                                                                <th>Name</th>
+                                                                <th>Class</th>
+                                                                <th>Roll no</th>
+                                                                <th>Present</th>
+                                                                <th>Absent</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="text-center text-wrap">
+
+                                                            <?php while ($row = $result->fetch_assoc()): ?>
+                                                                <tr>
+                                                                    <td><?php echo $row['name']; ?></td>
+                                                                    <td><?php echo $row['class']; ?></td>
+                                                                    <td><?php echo $row['roll_no']; ?></td>
+                                                                    <td>
+                                                                        <input type="radio"
+                                                                            class="form-check-input btn btn-danger"
+                                                                            name="status[<?php echo $row['id']; ?>]"
+                                                                            value="Present" required> Present
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="radio"
+                                                                            class="form-check-input btn btn-danger"
+                                                                            name="status[<?php echo $row['id']; ?>]"
+                                                                            value="Absent" required> Absent
+                                                                    </td>
+                                                                </tr>
+                                                            <?php endwhile; ?>
+                                                        </tbody>
+                                                    </table>
+                                                </form>
+                                            </div>
+                                            <div class="d-flex justify-content-center">
+                                                <button type="reset" class="btn btn-danger fw-bolder btn-sm mt-5 text-white">Reset</button>
+                                                <button type="submit" class="btn btn-success btn-sm fw-bolder mt-5 mx-3 text-white">Submit</button>
                                             </div>
                                         </div>
                                     </div>
@@ -150,7 +139,7 @@
                 </div>
                 <!-- content-wrapper ends -->
                 <!-- partial:partials/_footer.php -->
-                <?php include "footer.php"  ?>
+                <?php include "footer.php" ?>
                 <!-- partial -->
             </div>
             <!-- main-panel ends -->
@@ -158,11 +147,20 @@
         <!-- page-body-wrapper ends -->
     </div>
     <!-- container-scroller -->
+    <script src="assets/js/script.js"></script>
     <!-- search filter -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
     <script>
+        // Date update
+        n = new Date();
+        y = n.getFullYear();
+        m = n.getMonth() + 1;
+        d = n.getDate();
+        document.getElementById("date").innerHTML = d + "-" + m + "-" + y;
+
+        // search function
         $(document).ready(function() {
             // Function to filter rows based on search input
             $('#search').on('keyup', function() {
@@ -202,7 +200,7 @@
         });
     </script>
     <!-- custom js -->
-    <script src="assets/js/script.js"></script>
+
     <!-- bootstrap Library -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
