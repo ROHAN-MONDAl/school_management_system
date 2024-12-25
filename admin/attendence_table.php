@@ -1,22 +1,28 @@
 <?php
 // ... (database connection code) ...
 include '../server_database.php';
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     date_default_timezone_set("Asia/kolkata");
     $date = date('Y-m-d');
-    $status = $_POST['status'];
 
-    // Check if "class" is provided
-    if (isset($_POST['class']) && !empty($_POST['class'])) {
-        $class = $_POST['class']; 
-    } else {
-        // Handle the case where "class" is not provided
-        // For example, set a default value or display an error
-        $class = 'Unknown'; // Or another appropriate default value
-    }
+    foreach ($_POST['status'] as $student_id => $attendance_status) {
+        // Get the class for the current student
+        $sql = "SELECT class FROM students WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $student_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
 
-    foreach ($status as $student_id => $attendance_status) {
-        $stmt = $conn->prepare("INSERT INTO attendance (student_id, date, status, class) VALUES (?, ?, ?, ?)");
+        if ($row) { 
+            $class = $row['class']; 
+        } else {
+            $class = 'Unknown'; // Handle case where student ID is not found
+        }
+
+        // Insert attendance record
+        $stmt = $conn->prepare("INSERT INTO students_attendance (student_id, date, status, class) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("issi", $student_id, $date, $attendance_status, $class);
         $stmt->execute();
     }

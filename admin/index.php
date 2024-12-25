@@ -1,4 +1,4 @@
-<?php  include '../server_database.php'  ?>
+<?php include '../server_database.php'  ?>
 <!DOCTYPE php>
 <html lang="en">
 
@@ -33,7 +33,7 @@
 </head>
 
 <body>
-<div class="container-scroller">
+  <div class="container-scroller">
     <!-- partial:partials/_navbar.php -->
     <?php include 'header.php'   ?>
     <!-- partial -->
@@ -42,7 +42,7 @@
       <?php include 'navbar.php' ?>
       <!-- Main Dashboard Panel -->
 
-      
+
       <!-- partial -->
       <div class="main-panel">
         <div class="content-wrapper">
@@ -57,71 +57,66 @@
                     </div>
                   </div>
                   <div class="container">
-            <div class="row">
-              <div class="col-lg-12 gy-2 transparent">
-                <div class="row">
-                  <div class="col-lg-3 mb-4 stretch-card transparent">
-                    <div class="card bg-dark-subtle">
-                      <div class="card-body">
-                        <p class="mb-4 fw-bolder"><i class="fa-regular fa-user"></i> Total teachers</p>
-                        <p class="fs-30 mb-2 fw-bolder">4006</p>
+                    <div class="row">
+                      <div class="col-lg-12 gy-2 transparent">
+                        <div class="row">
+                          <div class="col-lg-3 mb-4 stretch-card transparent">
+                            <div class="card bg-dark-subtle">
+                              <div class="card-body">
+                                <p class="mb-4 fw-bolder"><i class="fa-regular fa-user"></i> Total teachers</p>
+                                <p class="fs-30 mb-2 fw-bolder">4006</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-lg-3 mb-4 stretch-card transparent">
+                            <div class="card bg-info-subtle">
+                              <div class="card-body">
+                                <p class="mb-4 fw-bolder"><i class="fa-regular fa-user"></i> Total Students</p>
+                                <p class="fs-30 mb-2 fw-bolder">61344</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-lg-3 mb-4 stretch-card transparent">
+                            <div class="card bg-success">
+                              <div class="card-body">
+                                <p class="mb-4 fw-bolder"><i class="fa-regular fa-user  "></i> Total Employers</p>
+                                <p class="fs-30 mb-2 fw-bolder">61344</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-lg-3 mb-4 stretch-card transparent">
+                            <div class="card  bg-warning">
+                              <div class="card-body">
+                                <p class="mb-4 fw-bolder"><i class="fa-regular fa-user"></i> Total staffs</p>
+                                <p class="fs-30 mb-2 fw-bolder">61344</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <div class="col-lg-3 mb-4 stretch-card transparent">
-                    <div class="card bg-info-subtle">
-                      <div class="card-body">
-                        <p class="mb-4 fw-bolder"><i class="fa-regular fa-user"></i> Total Students</p>
-                        <p class="fs-30 mb-2 fw-bolder">61344</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-3 mb-4 stretch-card transparent">
-                    <div class="card bg-success">
-                      <div class="card-body">
-                        <p class="mb-4 fw-bolder"><i class="fa-regular fa-user  "></i> Total Employers</p>
-                        <p class="fs-30 mb-2 fw-bolder">61344</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-3 mb-4 stretch-card transparent">
-                    <div class="card  bg-warning">
-                      <div class="card-body">
-                        <p class="mb-4 fw-bolder"><i class="fa-regular fa-user"></i> Total staffs</p>
-                        <p class="fs-30 mb-2 fw-bolder">61344</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
                   <div class="row justify-content-center p-1">
-                    <div class="col-md-12">
-                      <div class="search-container align-items-center">
-                        <input type="text" class="form-control search-input" id="search" placeholder="Search...">
-                        <p class="mx-3 mt-2 text-danger" style="cursor:pointer " data-toggle="modal"
-                          data-target="#exampleModalCenter"><i style="font-size:24px;" class="fa text-danger">&#xf0b0;</i><b>filter</b></p>
+                    <div class="col-md-12 me-5">
+                      <div class="search-container align-items-center me-2">
+                        <div class="search-container col-lg-12  align-items-center">
+                          <input type="text" class="form-control search-input" id="search" placeholder="Search..." onkeyup="filterTable()">
+                        </div>
+                        <p class="mx-3 mt-2 text-danger" style="cursor:pointer" data-toggle="modal" data-target="#exampleModalCenter">
+                          <i style="font-size:24px;" class="fa text-danger">&#xf0b0;</i><b>Filter</b>
+                        </p>
                       </div>
-                    </div>
 
-                    <!-- Modal -->
-                    <div class="row d-flex justify-content-center g-4 mx-auto">
-                      <!-- Form -->
-                      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">
                           <div class="modal-content">
-                            <form class="forms-sample bg-warning bg-opacity-25 rounded">
-                              <div class="form-group col-12 flex-grow-1">
-                                <h5 class="modal-title text-danger" id="exampleModalLongTitle" value="jfvhjksd"><b>Filter</b></h5>
-                                <div class="col-lg-12 col-md-12 text-center text-lg-start text-md-start mt-3">
-                                  <label for="startDate" class="text-danger">Start Date:</label>
-                                  <input type="date" class="form-control" id="startDate">
-                                  <label for="endDate" class=" text-danger mt-2">End Date:</label>
-                                  <input type="date" class="form-control" id="endDate">
-                                </div>
-                              </div>
+                            <form id="dateFilterForm" method="post" class="forms-sample bg-secondary p-5 text-center rounded">
+                              <h3 class="text-white fx-bolder">Filter</h3>
+                              <label for="startDate" class="text-black">Start Date:</label>
+                              <input type="date" id="startDate" class="form-control" name="start_date" required>
+                              <label for="endDate" class="text-black mt-2">End Date:</label>
+                              <input type="date" id="endDate" class="form-control" name="end_date" required>
+                              <button type="button" class="btn btn-primary mt-3" onclick="filterByDate()">Filter</button>
                             </form>
                           </div>
                         </div>
@@ -135,47 +130,57 @@
 
           <!-- table header -->
           <div class="row mt-3">
-                    <div class="col-12">
-                      <div class="table-responsive">
-                        <table id="dataTable" class="display expandable-table col-lg-12">
-                          <thead class="text-center text-wrap">
-                            <tr>
-                              <th>Slno</th>
-                              <th>Quote#</th>
-                              <th>Product</th>
-                              <th>Business type</th>
-                              <th>Policy holder</th>
-                              <th>Premium</th>
-                              <th>Status</th>
-                              <th>Updated at</th>
-                            </tr>
-                          </thead>
-                          <tbody class="text-center text-wrap">
-                            <tr>
-                              <td>John Doe</td>
-                              <td>30</td>
-                              <td>2024-01-15</td>
-                            </tr>
-                            <tr>
-                              <td>Jane Smith</td>
-                              <td>25</td>
-                              <td>2023-12-10</td>
-                            </tr>
-                            <tr>
-                              <td>Sam Brown</td>
-                              <td>22</td>
-                              <td>2024-03-05</td>
-                            </tr>
-                            <tr>
-                              <td>Amy Lee</td>
-                              <td>28</td>
-                              <td>2024-02-18</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
+            <div class="col-12">
+              <div class="table-responsive">
+              
+                <table id="dataTable" class="display expandable-table col-lg-12">
+                   <h3 class="font-weight-bold text-dark fw-bolder mx-3 mb-3">Teachers Attendance</h3>
+                  <thead class="text-center text-wrap">
+                    <tr>
+                      <th>Slno</th>
+                      <th>Quote#</th>
+                      <th>Product</th>
+                      <th>Business type</th>
+                      <th>Policy holder</th>
+                      <th>Premium</th>
+                      <th>Status</th>
+                      <th>Updated at</th>
+                    </tr>
+                  </thead>
+                  <tbody class="text-center text-wrap">
+                    <tr>
+                      <td class="text-wrap text-break w-25">John Doe</td>
+                      <td class="text-wrap text-break w-25">30</td>
+                      <td class="text-wrap text-break w-25">2024-01-15</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <table id="dataTable" class="display expandable-table col-lg-12">
+                   <h3 class="font-weight-bold text-dark fw-bolder mx-3 mb-3">Employers Attendance</h3>
+                  <thead class="text-center text-wrap">
+                    <tr>
+                      <th>Slno</th>
+                      <th>Quote#</th>
+                      <th>Product</th>
+                      <th>Business type</th>
+                      <th>Policy holder</th>
+                      <th>Premium</th>
+                      <th>Status</th>
+                      <th>Updated at</th>
+                    </tr>
+                  </thead>
+                  <tbody class="text-center text-wrap">
+                    <tr>
+                      <td class="text-wrap text-break w-25">John sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssDoe</td>
+                      <td class="text-wrap text-break w-25">30</td>
+                      <td class="text-wrap text-break w-25">2024-01-15</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
           <!-- /table header -->
         </div>
         <!-- content-wrapper ends -->

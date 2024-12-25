@@ -71,7 +71,7 @@ $result = $conn->query("SELECT * FROM students");
                         </div>
                     </div>
 
-                   
+
                     <div class="row mt-2">
                         <div class="col-lg-12 col-md-12 grid-margin stretch-card">
                             <div class="card">
@@ -79,7 +79,7 @@ $result = $conn->query("SELECT * FROM students");
 
                                     <div class="card-title col-12 col-md-12 col-lg-12 d-flex justify-content-between align-items-center">
                                         <span class="col-lg-6 fs-6 text-info" id="date"></span>
-                                        
+
                                         <a href="student_att_history.php">
                                             <button class="btn btn-success btn-sm text-white font-weight-bold me-4">Check
                                                 history</button></a>
@@ -89,10 +89,10 @@ $result = $conn->query("SELECT * FROM students");
                                         <div class="col-12">
                                             <div class="table-responsive col-lg-12 col-md-12">
                                                 <form action="attendence_table.php" method="POST">
-                                                    <table id="dataTable"
-                                                        class="display expandable-table text-center col-lg-12 col-md-12 col-sm-6">
-                                                        <thead class="text-center text-wrap">
+                                                    <table id="dataTable" class="display expandable-table text-center col-lg-12 col-md-12 col-sm-6">
+                                                        <thead>
                                                             <tr>
+                                                            <th>Slno</th>
                                                                 <th>Name</th>
                                                                 <th>Class</th>
                                                                 <th>Roll no</th>
@@ -100,34 +100,37 @@ $result = $conn->query("SELECT * FROM students");
                                                                 <th>Absent</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody class="text-center text-wrap">
+                                                        <tbody>
+                                                            <?php $i = 1;
+                                                            while ($row = $result->fetch_assoc()):
 
-                                                            <?php while ($row = $result->fetch_assoc()): ?>
+                                                            ?>
                                                                 <tr>
-                                                                    <td><?php echo $row['name']; ?></td>
-                                                                    <td><?php echo $row['class']; ?></td>
-                                                                    <td><?php echo $row['roll_no']; ?></td>
+                                                                    <td><?php echo $i;  ?></td>
+                                                                    <td class="text-wrap text-break w-25"><?php echo $row['name']; ?></td>
                                                                     <td>
-                                                                        <input type="radio"
-                                                                            class="form-check-input btn btn-danger"
-                                                                            name="status[<?php echo $row['id']; ?>]"
-                                                                            value="Present" required> Present
+                                                                        <input type="hidden" class=" text-wrap text-break w-25" name="class[<?php echo $row['id']; ?>]" value="<?php echo $row['class']; ?>">
+                                                                        <?php echo $row['class']; ?>
+                                                                    </td>
+                                                                    <td class="text-wrap text-break w-25"><?php echo $row['roll_no']; ?></td>
+                                                                    <td>
+                                                                        <input type="radio" class="form-check-input btn btn-danger" name="status[<?php echo $row['id']; ?>]" value="Present" required> Present
                                                                     </td>
                                                                     <td>
-                                                                        <input type="radio"
-                                                                            class="form-check-input btn btn-danger"
-                                                                            name="status[<?php echo $row['id']; ?>]"
-                                                                            value="Absent" required> Absent
+                                                                        <input type="radio" class="form-check-input btn btn-danger" name="status[<?php echo $row['id']; ?>]" value="Absent" required> Absent
                                                                     </td>
                                                                 </tr>
-                                                            <?php endwhile; ?>
+
+                                                            <?php
+                                                                $i++;
+                                                            endwhile; ?>
                                                         </tbody>
                                                     </table>
+                                                    <div class="d-flex justify-content-end">
+                                                        <button type="reset" class="btn btn-danger fw-bolder btn-sm mt-5 text-white">Reset</button>
+                                                        <button type="submit" class="btn btn-success btn-sm fw-bolder mt-5 mx-3 text-white">Submit</button>
+                                                    </div>
                                                 </form>
-                                            </div>
-                                            <div class="d-flex justify-content-center">
-                                                <button type="reset" class="btn btn-danger fw-bolder btn-sm mt-5 text-white">Reset</button>
-                                                <button type="submit" class="btn btn-success btn-sm fw-bolder mt-5 mx-3 text-white">Submit</button>
                                             </div>
                                         </div>
                                     </div>
@@ -202,6 +205,8 @@ $result = $conn->query("SELECT * FROM students");
     <!-- custom js -->
 
     <!-- bootstrap Library -->
+    <script src="assets/js/script.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
@@ -211,27 +216,17 @@ $result = $conn->query("SELECT * FROM students");
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
-    <!-- plugins:js -->
     <script src="assets/vendors/js/vendor.bundle.base.js"></script>
-    <!-- endinject -->
-    <!-- Plugin js for this page -->
     <script src="assets/vendors/chart.js/chart.umd.js"></script>
     <script src="assets/vendors/datatables.net/jquery.dataTables.js"></script>
-    <!-- <script src="assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script> -->
     <script src="assets/vendors/datatables.net-bs5/dataTables.bootstrap5.js"></script>
     <script src="assets/js/dataTables.select.min.js"></script>
-    <!-- End plugin js for this page -->
-    <!-- inject:js -->
     <script src="assets/js/off-canvas.js"></script>
     <script src="assets/js/template.js"></script>
     <script src="assets/js/settings.js"></script>
     <script src="assets/js/todolist.js"></script>
-    <!-- endinject -->
-    <!-- Custom js for this page-->
     <script src="assets/js/jquery.cookie.js" type="text/javascript"></script>
     <script src="assets/js/dashboard.js"></script>
-    <!-- <script src="assets/js/Chart.roundedBarCharts.js"></script> -->
-    <!-- End custom js for this page-->
 </body>
 
 </html>

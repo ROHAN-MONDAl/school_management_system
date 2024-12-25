@@ -50,7 +50,7 @@
     <li class="nav-item">
       <a class="nav-link" data-bs-toggle="collapse" href="#e" aria-expanded="false" aria-controls="e">
         <i class="icon-ban menu-icon"></i>
-        <span class="menu-title">Employers</span>
+        <span class="menu-title">Finance</span>
         <i class="menu-arrow"></i>
       </a>
       <div class="collapse" id="e">

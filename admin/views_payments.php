@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
     <link rel="stylesheet" href="assets/vendors/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- endinject -->
     <!-- Plugin css for this page -->
     <!-- <link rel="stylesheet" href="assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css"> -->
@@ -32,183 +33,91 @@
 <body>
     <div class="container-scroller">
         <!-- partial:partials/_navbar.php -->
-        <div id="header">
-            <?php include 'header.php' ?>
-        </div>
-
+        <?php include 'header.php'   ?>
         <!-- partial -->
         <div class="container-fluid page-body-wrapper">
             <!-- partial:partials/_sidebar.php -->
-            <nav style="background-color:#1A233A" id="navbar_print">
-                <?php include 'navbar.php' ?>
-            </nav>
-
-
+            <?php include 'navbar.php' ?>
             <!-- Main Dashboard Panel -->
             <!-- partial -->
             <div class="main-panel">
                 <div class="content-wrapper">
                     <div class="row">
-                        <div class="col-md-12 d-flex justify-content-center">
+                        <div class="col-md-12">
                             <div class="row">
-                                <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                                    <h2 class="font-weight-bold text-primary fw-bolder">Payments</h2>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row col-12 col-lg-12 d-flex justify-content-center mx-auto">
-                        <div class="payslip col-lg-12 bg-warning bg-opacity-25">
-                            <div class="header mb-5 fs-2">
-                                <div><b>Daffodils School</b></div>
-                                <p>Address Line 1, City, State, ZIP</p>
-                                <p>Contact: 123-456-7890</p>
-                                <hr class="border border-black">
-                            </div>
-
-                            <div class="">
-                                <div class="details">
-                                    <table>
-                                        <tr class="rounded float-start">
-                                            <td><img src="assets/images/faces/face15.jpg" class="border rounded" alt="" srcset="" width="200px"></td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Name</th>
-                                            <td class="colspan-2">John Doe</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Phone number</th>
-                                            <td>10</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Whats app Number</th>
-                                            <td>12345</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Branch name</th>
-                                            <td>Bankura</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Admission daye</th>
-                                            <td>12.12.2001</td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-12 col-md-12 d-flex justify-content-center grid gap-0 column-gap-3 g-4 mb-5 data">
-                                <div class="col-lg-6 col-md-6 ">
-                                    <div class="fs-5"><b>Summary</b></div>
-                                    <div>fsdf</div>
-                                    <div>fsdf</div>
-                                    <div>fsdf</div>
-                                    <div>lorem3000</div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 text-center justify-content-center">
-                                    <div class="fs-5"><b>Amount</b></div>
-                                    <div>Rs fsdf</div>
-                                    <div>Rs fsdf</div>
-                                    <div>Rs fsdf</div>
-                                    <div>Rs fsdf</div>
-                                    <div>Rs fsdf</div>
-                                </div>
-
-
-                            </div>
-                            <div class="col-lg-12 col-md-12 d-flex justify-content-center grid gap-0 column-gap-3 g-4 mb-5">
-                                <div class="col-lg-6 col-md-6 ">
-                                    <div class="fs-5"><b>Total</b></div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 text-center justify-content-center">
-                                    <div class="fs-5"><b>Rs 5500</b></div>
-                                </div>
-
-                            </div>
-
-
-                        </div>
-                        <!-- Button trigger modal -->
-                        <div class="row d-flex justify-content-center g-4 mx-auto">
-                            <div class="col-lg-12 col-md-12 d-flex justify-content-center grid gap-0 column-gap-3 g-4">
-                                <button type="button" id="print" class="btn btn-danger text-light col-lg-3 col-md-3 download mx-1">Download PDF</button>
-                                <button type="button" id="print" class="btn btn-success text-light col-lg-3 col-md-3 download" data-toggle="modal"
-                                    data-target="#exampleModalCenter">Shares dues</button>
-
-                            </div>
-                            <a href="http://" target="_blank" class="row d-flex justify-content-center g-4 mx-auto" style="text-decoration: none;" rel="noopener noreferrer"><button type="button" id="print"
-                                    class="btn btn-info text-light col-lg-6 g-2 mt-3 fs-5">Edit</button></a>
-
-
-                            <!-- Form -->
-                            <div class="modal fade bg-white" id="exampleModalCenter" tabindex="-1" role="dialog"
-                                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                    <div class="modal-content">
-
-
-                                        <form class="forms-sample  bg-warning bg-opacity-25 border rounded border-dark">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLongTitle" value="jfvhjksd">Message box</h5>
-                                            </div>
-                                            <div class="form-group col-12 flex-grow-1">
-                                                <div class="col-lg-12 col-md-12 text-lg-start text-md-start mt-3">
-                                                    <label for="" class="form-label ">Class:</label>
-                                                    <select name="" class="form-control form-select text-black classs border border-dark">
-                                                        <option value="Nursury">Nursury</option>
-                                                        <option value="Pre nursury">Pre nursury</option>
-                                                        <option value="Kg">Kg</option>
-                                                        <option value="1">1</option>
-                                                        <option value="2">2</option>
-                                                        <option value="3">3</option>
-                                                        <option value="4">4</option>
-                                                        <option value="5">5</option>
-                                                    </select>
-                                                </div>
-
-                                                <div class="col-lg-12 col-md-12 text-lg-start text-md-start mt-3">
-                                                    <label for="">Branch name</label>
-                                                    <select name="" class="form-control form-select text-black branch border border-dark">
-                                                        <option value="a">A</option>
-                                                        <option value="b">B</option>
-                                                    </select>
-                                                </div>
-
-                                                <div class="col-lg-12 col-md-12 text-lg-start text-md-start mt-3">
-                                                    <label for="" class="form-label">Amount</label>
-                                                    <input type="number" class="form-control duesamt border border-dark">
-                                                </div>
-
-                                                <div class="col-lg-12 col-md-12 text-lg-start text-md-start mt-3">
-                                                    <label for="" class="form-label">Message</label>
-                                                    <textarea class="form-control message border border-dark"></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-dismiss="modal">Close</button>
-                                                <button type="button" id="share-whatsapp" class="btn btn-success bg-opacity-25"
-                                                    data-bs-toggle="button" data-dismiss="modal" autocomplete="off"
-                                                    onclick="sendwhatsapp();">Send</button>
-                                            </div>
-                                        </form>
-
-
-
-
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-12 col-xl-8 mb-4 mb-xl-0">
+                                            <h2 class="font-weight-bold text-primary fw-bolder">Students</h2>
+                                            <p class="text-secondary">Students Admision and Attendence</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
+                    <!-- table header -->
+                    <div class="container rounded mt-5" id="invoice">
+                        <div class="card">
+                            <div class="card-body">
+                                
+                                <h1 class="text-center mb-4"><b>Daffodils School</b>
+                                    <p>kids school</p>
+                                </h1>
+
+                                <h4 class="text-center mb-4">Student Invoice</h4>
+                                <div class="row">
+                                    <div class="col-md-6 mb-5">
+                                        <img src="assets/images/faces/face16.jpg" alt="" srcset="">
+                                    </div>
+                                </div>
+                                <div class="row mb-5">
+                                    <div class="col-md-6">
+                                        <p><strong>Student Name:</strong> John Doe</p>
+                                        <p><strong>Student ID:</strong> 123456</p>
+                                    </div>
+                                    <div class="col-md-6 text-md-end">
+                                        <p><strong>Date:</strong> 2024-12-24</p>
+                                        <p><strong>Invoice #:</strong> INV-001</p>
+                                    </div>
+                                </div>
+
+                                <table class="table mt-3">
+                                    <thead>
+                                        <tr>
+                                            <th>Slno</th>
+                                            <th style="width: 50%;">Summary</th>
+                                            <th colspan="4">Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-wrap text-break">1</td>
+                                            <td class="text-wrap text-break">
+                                                Lorem ipsum dolor sit amet consec
+                                            </td>
+                                            <td colspan="4" class="text-wrap text-break">Course Fee</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4"><strong>Total</strong></td>
+                                            <td class="text-wrap text-break"><strong>$550</strong></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-4">
+                        <button class="btn btn-primary mt-2" onclick="printInvoice()">Download/Print Invoice</button>
+                        <button class="btn btn-success mt-2" onclick="sendWhatsApp()">Send via WhatsApp</button>
+                    </div>
+
+                    <!-- /table header -->
                 </div>
                 <!-- content-wrapper ends -->
                 <!-- partial:partials/_footer.php -->
-                <div id="print_footer">
-                    <?php include "footer.php"  ?>
-                </div>
-
-
+                <?php include "footer.php"  ?>
                 <!-- partial -->
             </div>
             <!-- main-panel ends -->
@@ -216,9 +125,36 @@
         <!-- page-body-wrapper ends -->
     </div>
     <!-- /container-scroller -->
+    <script>
+        // Function to download the invoice as a PDF
+        function printInvoice() {
+            const originalContent = document.body.innerHTML;
+            const invoiceContent = document.getElementById('invoice').outerHTML;
 
+            // Temporarily replace body content with the invoice
+            document.body.innerHTML = invoiceContent;
+
+            // Trigger print
+            window.print();
+
+            // Restore the original body content
+            document.body.innerHTML = originalContent;
+        }
+
+        // Function to send the invoice via WhatsApp
+        function sendWhatsApp() {
+            const phoneNumber = prompt("Enter the recipient's WhatsApp number:");
+            if (phoneNumber) {
+                const message = encodeURIComponent(`Hello,\n\nPlease find your invoice below:\n\nStudent Name: John Doe\nInvoice #: <?php echo "heloo" ?>\n\nYour due amount: $200\nTotal Amount: $550`);
+                const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+                window.open(whatsappUrl, '_blank');
+            }
+        }
+    </script>
     <!-- custom js -->
     <script src="assets/js/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <!-- bootstrap Library -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

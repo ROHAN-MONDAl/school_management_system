@@ -1,12 +1,15 @@
 <?php include '../server_database.php';
 
+$query = "SELECT * FROM students";
+$result = $conn->query($query);
 // Fetch attendance records
 $result = $conn->query("
-    SELECT students.roll_no, students.class, students.name, attendance.date, attendance.status
-    FROM attendance
-    JOIN students ON attendance.student_id = students.id
-    ORDER BY attendance.date DESC
+SELECT students.roll_no, students.class, students.name, students_attendance.date, students_attendance.status
+FROM students_attendance
+JOIN students ON students_attendance.student_id = students.id
+ORDER BY students_attendance.date DESC
 ");
+
 ?>
 <!DOCTYPE php>
 <html lang="en">
@@ -65,7 +68,8 @@ $result = $conn->query("
                                             <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                                     <div class="modal-content">
-                                                        <form id="dateFilterForm" method="post" class="forms-sample bg-info bg-opacity-25 text-center rounded">
+                                                        <form id="dateFilterForm" method="post" class="forms-sample bg-secondary p-5 text-center rounded">
+                                                            <h3 class="text-white fx-bolder">Filter</h3>
                                                             <label for="startDate" class="text-black">Start Date:</label>
                                                             <input type="date" id="startDate" class="form-control" name="start_date" required>
                                                             <label for="endDate" class="text-black mt-2">End Date:</label>
@@ -92,6 +96,7 @@ $result = $conn->query("
                                                 <table id="dataTable" class="display expandable-table col-lg-12">
                                                     <thead class="text-center text-wrap">
                                                         <tr>
+                                                            <th>Slno</th>
                                                             <th>Name</th>
                                                             <th>Class</th>
                                                             <th>Roll no</th>
@@ -100,98 +105,114 @@ $result = $conn->query("
                                                         </tr>
                                                     </thead>
                                                     <tbody class="text-center text-wrap">
-                                                        <?php while ($row = $result->fetch_assoc()): ?>
-                                                            <td><?php echo $row['name']; ?></td>
-                                                            <td><?php echo $row['class']; ?></td>
-                                                            <td><?php echo $row['roll_no']; ?></td>
-                                                            <td><?php echo $row['date']; ?></td>
-                                                            <td><?php echo $row['status']; ?></td>
+                                                        <?php if ($result->num_rows > 0): ?>
+                                                            <?php
+                                                            $i = 1;
+                                                            while ($row = $result->fetch_assoc()): ?>
+                                                                <td><?php echo $i; ?></td>
+                                                                <td><?php echo $row['name']; ?></td>
+                                                                <td><?php echo $row['class']; ?></td>
+                                                                <td><?php echo $row['roll_no']; ?></td>
+                                                                <td><?php echo $row['date']; ?></td>
+                                                                <td><?php echo $row['status']; ?></td>
+                                                                </tr>
+                                                            <?php
+                                                                $i++;
+                                                            endwhile; ?>
+                                                        <?php else: ?>
+                                                            <tr>
+                                                                <td colspan="10">No data found</td>
                                                             </tr>
-                                                        <?php endwhile; ?>
+                                                        <?php endif; ?>
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </div>
                                     </div>
-                                    <?php include "footer.php"  ?>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <?php include "footer.php"  ?>
+            </div>
+        </div>
+    </div>
+    </div>
 
-                        <script>
-                            function filterTable() {
-                                var input, filter, table, tr, td, i, txtValue;
-                                input = document.getElementById("search");
-                                filter = input.value.toUpperCase();
-                                table = document.getElementById("dataTable");
-                                tr = table.getElementsByTagName("tr");
+    </div>
+    </div>
+    </div>
 
-                                for (i = 0; i < tr.length; i++) {
-                                    td = tr[i].getElementsByTagName("td");
-                                    let matchFound = false;
+    <script>
+        function filterTable() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("search");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("dataTable");
+            tr = table.getElementsByTagName("tr");
 
-                                    for (let j = 0; j < td.length; j++) {
-                                        if (td[j]) {
-                                            txtValue = td[j].textContent || td[j].innerText;
-                                            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                                                matchFound = true;
-                                                break;
-                                            }
-                                        }
-                                    }
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td");
+                let matchFound = false;
 
-                                    if (matchFound) {
-                                        tr[i].style.display = "";
-                                    } else {
-                                        tr[i].style.display = "none";
-                                    }
-                                }
-                            }
+                for (let j = 0; j < td.length; j++) {
+                    if (td[j]) {
+                        txtValue = td[j].textContent || td[j].innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            matchFound = true;
+                            break;
+                        }
+                    }
+                }
 
-                            function filterByDate() {
-                                var startDate = $('#startDate').val();
-                                var endDate = $('#endDate').val();
+                if (matchFound) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
 
-                                $('#dataTable tbody tr').each(function() {
-                                    var row = $(this);
-                                    var rowDate = new Date(row.find('td:eq(3)').text()); // Get date from the 4th column (index 3)
+        function filterByDate() {
+            var startDate = $('#startDate').val();
+            var endDate = $('#endDate').val();
 
-                                    if (startDate && rowDate < new Date(startDate) || endDate && rowDate > new Date(endDate)) {
-                                        row.hide();
-                                    } else {
-                                        row.show();
-                                    }
-                                });
-                            }
-                        </script>
+            $('#dataTable tbody tr').each(function() {
+                var row = $(this);
+                var rowDate = new Date(row.find('td:eq(3)').text()); // Get date from the 4th column (index 3)
 
+                if (startDate && rowDate < new Date(startDate) || endDate && rowDate > new Date(endDate)) {
+                    row.hide();
+                } else {
+                    row.show();
+                }
+            });
+        }
+    </script>
 
-
-
-
-
-                        <script src="assets/js/script.js"></script>
-                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-                        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-                            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-                            crossorigin="anonymous"></script>
-                        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
-                            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-                            crossorigin="anonymous"></script>
-                        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-                            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-                            crossorigin="anonymous"></script>
-                        <script src="assets/vendors/js/vendor.bundle.base.js"></script>
-                        <script src="assets/vendors/chart.js/chart.umd.js"></script>
-                        <script src="assets/vendors/datatables.net/jquery.dataTables.js"></script>
-                        <script src="assets/vendors/datatables.net-bs5/dataTables.bootstrap5.js"></script>
-                        <script src="assets/js/dataTables.select.min.js"></script>
-                        <script src="assets/js/off-canvas.js"></script>
-                        <script src="assets/js/template.js"></script>
-                        <script src="assets/js/settings.js"></script>
-                        <script src="assets/js/todolist.js"></script>
-                        <script src="assets/js/jquery.cookie.js" type="text/javascript"></script>
-                        <script src="assets/js/dashboard.js"></script>
+    <script src="assets/js/script.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="assets/vendors/js/vendor.bundle.base.js"></script>
+    <script src="assets/vendors/chart.js/chart.umd.js"></script>
+    <script src="assets/vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="assets/vendors/datatables.net-bs5/dataTables.bootstrap5.js"></script>
+    <script src="assets/js/dataTables.select.min.js"></script>
+    <script src="assets/js/off-canvas.js"></script>
+    <script src="assets/js/template.js"></script>
+    <script src="assets/js/settings.js"></script>
+    <script src="assets/js/todolist.js"></script>
+    <script src="assets/js/jquery.cookie.js" type="text/javascript"></script>
+    <script src="assets/js/dashboard.js"></script>
 </body>
 
 </html>

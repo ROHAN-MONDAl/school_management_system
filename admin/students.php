@@ -1,3 +1,9 @@
+<?php include '../server_database.php';
+
+// Query to fetch student data from the database
+$query = "SELECT * FROM students";
+$result = $conn->query($query);
+?>
 <!DOCTYPE php>
 <html lang="en">
 
@@ -54,31 +60,26 @@
                     </div>
                   </div>
                   <div class="row justify-content-center p-1">
-                    <div class="col-md-12">
-                      <div class="search-container align-items-center">
-                        <input type="text" class="form-control search-input" id="search" placeholder="Search...">
-                        <p class="mx-3 mt-2 text-danger" style="cursor:pointer " data-toggle="modal"
-                          data-target="#exampleModalCenter"><i style="font-size:24px;" class="fa text-danger">&#xf0b0;</i><b>filter</b></p>
+                    <div class="col-md-12 me-5">
+                      <div class="search-container align-items-center me-2">
+                        <div class="search-container col-lg-12  align-items-center">
+                          <input type="text" class="form-control search-input" id="search" placeholder="Search..." onkeyup="filterTable()">
+                        </div>
+                        <p class="mx-3 mt-2 text-danger" style="cursor:pointer" data-toggle="modal" data-target="#exampleModalCenter">
+                          <i style="font-size:24px;" class="fa text-danger">&#xf0b0;</i><b>Filter</b>
+                        </p>
                       </div>
-                    </div>
 
-                    <!-- Modal -->
-                    <div class="row d-flex justify-content-center g-4 mx-auto">
-                      <!-- Form -->
-                      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">
                           <div class="modal-content">
-                            <form class="forms-sample bg-warning bg-opacity-25 rounded">
-                              <div class="form-group col-12 flex-grow-1">
-                                <h5 class="modal-title text-danger" id="exampleModalLongTitle" value="jfvhjksd"><b>Filter</b></h5>
-                                <div class="col-lg-12 col-md-12 text-center text-lg-start text-md-start mt-3">
-                                  <label for="startDate" class="text-danger">Start Date:</label>
-                                  <input type="date" class="form-control" id="startDate">
-                                  <label for="endDate" class=" text-danger mt-2">End Date:</label>
-                                  <input type="date" class="form-control" id="endDate">
-                                </div>
-                              </div>
+                            <form id="dateFilterForm" method="post" class="forms-sample bg-secondary p-5 text-center rounded">
+                              <h3 class="text-white fx-bolder">Filter</h3>
+                              <label for="startDate" class="text-black">Start Date:</label>
+                              <input type="date" id="startDate" class="form-control" name="start_date" required>
+                              <label for="endDate" class="text-black mt-2">End Date:</label>
+                              <input type="date" id="endDate" class="form-control" name="end_date" required>
+                              <button type="button" class="btn btn-primary mt-3" onclick="filterByDate()">Filter</button>
                             </form>
                           </div>
                         </div>
@@ -92,61 +93,74 @@
 
           <!-- table header -->
           <div class="row mt-2">
-            <div class="col-md-12 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <div class="row col-12 col-lg-12 col-md-12 p-1 align-content-center">
-                    <p class="card-title col-6 mx-auto col-md-9 col-lg-10">Data</p>
-                    <button type="button" class="btn bg-success btn-rounded add_button col-5 col-md-3 col-lg-2"
-                      data-mdb-ripple-init>ADD</button>
-                  </div>
-                  <div class="row mt-3">
-                    <div class="col-12">
-                      <div class="table-responsive">
-                        <table id="dataTable" class="display expandable-table col-lg-12">
-                          <thead class="text-center text-wrap">
-                            <tr>
-                              <th>Slno</th>
-                              <th>Quote#</th>
-                              <th>Product</th>
-                              <th>Business type</th>
-                              <th>Policy holder</th>
-                              <th>Premium</th>
-                              <th>Status</th>
-                              <th>Updated at</th>
-                            </tr>
-                          </thead>
-                          <tbody class="text-center text-wrap">
-                            <tr>
-                              <td>John Doe</td>
-                              <td>30</td>
-                              <td><a href="views_payments.php" target="_blank" rel="noopener noreferrer">
-                                <button type="button" class="btn btn-success btn-sm text-white fw-bolder">View</button></a></td>
-                            </tr>
-                            <tr>
-                              <td>John Doe</td>
-                              <td>30</td>
-                              <td>2024-01-15</td>
-                            </tr>
-                            <tr>
-                              <td>John Doe</td>
-                              <td>30</td>
-                              <td>2024-01-15</td>
-                            </tr>
-                            <tr>
-                              <td>John Doe</td>
-                              <td>30</td>
-                              <td>2024-01-15</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+  <div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <div class="card-title col-12 col-md-12 col-lg-12 d-flex justify-content-between align-items-center">
+          <span class="col-lg-6 fs-6 text-info">Data</span>
+
+          <a href="student_addmission_frm.php">
+            <button class="btn btn-success btn-sm text-white font-weight-bold me-4">Add Students</button>
+          </a>
+        </div>
+        <div class="row mt-3">
+          <div class="col-12">
+            <div class="table-responsive">
+              <table id="dataTable" class="display expandable-table col-lg-12">
+                <thead class="text-center text-wrap">
+                  <tr>
+                    <th>Slno</th>
+                    <th>Photo</th>
+                    <th>Name</th>
+                    <th>Class</th>
+                    <th>Roll no</th>
+                    <th>Phone no</th>
+                    <th>Whatsapp</th>
+                    <th>Admission Date</th>
+                    <th>Password</th>
+                    <th>View</th>
+                  </tr>
+                </thead>
+                <tbody class="text-center text-wrap">
+                  <?php if ($result->num_rows > 0): ?>
+                    <?php
+                    $slno = 1;
+                    while ($row = $result->fetch_assoc()):
+                    ?>
+                      <tr>
+                        <td><?php echo $slno++; ?></td>
+                        <td><img src="<?php echo $row['img_path']; ?>" alt="Student Image" style="width: 50px; height: 50px; object-fit: cover;"></td>
+                        <td><?php echo $row['name']; ?></td>
+                        <td><?php echo $row['class']; ?></td>
+                        <td><?php echo $row['roll_no']; ?></td>
+                        <td><?php echo $row['phone_no']; ?></td>
+                        <td><?php echo $row['whatsapp']; ?></td>
+                        <td><?php echo $row['admission_date']; ?></td>
+                        <td>******</td> <!-- Masked password -->
+                        <td>
+                          <a href="views_payments.php?roll_no=<?php echo $row['roll_no']; ?>" target="_blank" rel="noopener noreferrer">
+                            <button type="button" class="btn btn-success btn-sm text-white fw-bolder">View</button>
+                          </a>
+                        </td>
+                      </tr>
+                    <?php endwhile; ?>
+                  <?php else: ?>
+                    <tr>
+                      <td colspan="10">No data found</td>
+                    </tr>
+                  <?php endif; ?>
+                </tbody>
+              </table>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+          <?php $conn->close(); ?>
           <!-- /table header -->
         </div>
         <!-- content-wrapper ends -->

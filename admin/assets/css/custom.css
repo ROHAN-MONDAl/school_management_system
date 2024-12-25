@@ -57,6 +57,7 @@
     margin-top: 30px;
     width: 10%;
 }
+
 .payslip,
 .details th,
 .details td {
@@ -66,55 +67,6 @@
 .table-fixed {
     overflow-x: scroll;
     overflow-y: scroll;
-}
-
-
-/* print pdf */
-@media print {
-
-    @page {
-        margin: 0;
-    }
-
-    body {
-        margin: 0;
-    }
-
-    #header {
-        display: none;
-    }
-
-    h2 {
-        display: none;
-    }
-
-    #navbar_print {
-        display: none;
-    }
-
-    .payslip table{
-        height: auto;
-        margin-top: -30px;
-    }
-
-    #print {
-        display: none;
-    }
-
-    #share-whatsapp {
-        display: none;
-    }
-
-    #print_footer {
-        display: none;
-        page-break-after: always;
-    }
-
-    .payslip .header .details .summary table th tr td {
-        page-break-inside: avoid;
-        page-break-before: always;
-        page-break-after: always;
-    }
 }
 
 /* add students employers button css */

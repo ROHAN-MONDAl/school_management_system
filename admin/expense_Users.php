@@ -53,31 +53,26 @@
                     </div>
                   </div>
                   <div class="row justify-content-center p-1">
-                    <div class="col-md-12">
-                      <div class="search-container align-items-center">
-                        <input type="text" class="form-control search-input" id="search" placeholder="Search...">
-                        <p class="mx-3 mt-2 text-danger" style="cursor:pointer " data-toggle="modal"
-                          data-target="#exampleModalCenter"><i style="font-size:24px;" class="fa text-danger">&#xf0b0;</i><b>filter</b></p>
+                    <div class="col-md-12 me-5">
+                      <div class="search-container align-items-center me-2">
+                        <div class="search-container col-lg-12  align-items-center">
+                          <input type="text" class="form-control search-input" id="search" placeholder="Search..." onkeyup="filterTable()">
+                        </div>
+                        <p class="mx-3 mt-2 text-danger" style="cursor:pointer" data-toggle="modal" data-target="#exampleModalCenter">
+                          <i style="font-size:24px;" class="fa text-danger">&#xf0b0;</i><b>Filter</b>
+                        </p>
                       </div>
-                    </div>
 
-                    <!-- Modal -->
-                    <div class="row d-flex justify-content-center g-4 mx-auto">
-                      <!-- Form -->
-                      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">
                           <div class="modal-content">
-                            <form class="forms-sample bg-warning bg-opacity-25 rounded">
-                              <div class="form-group col-12 flex-grow-1">
-                                <h5 class="modal-title text-danger" id="exampleModalLongTitle" value="jfvhjksd"><b>Filter</b></h5>
-                                <div class="col-lg-12 col-md-12 text-center text-lg-start text-md-start mt-3">
-                                  <label for="startDate" class="text-danger">Start Date:</label>
-                                  <input type="date" class="form-control" id="startDate">
-                                  <label for="endDate" class=" text-danger mt-2">End Date:</label>
-                                  <input type="date" class="form-control" id="endDate">
-                                </div>
-                              </div>
+                            <form id="dateFilterForm" method="post" class="forms-sample bg-secondary p-5 text-center rounded">
+                              <h3 class="text-white fx-bolder">Filter</h3>
+                              <label for="startDate" class="text-black">Start Date:</label>
+                              <input type="date" id="startDate" class="form-control" name="start_date" required>
+                              <label for="endDate" class="text-black mt-2">End Date:</label>
+                              <input type="date" id="endDate" class="form-control" name="end_date" required>
+                              <button type="button" class="btn btn-primary mt-3" onclick="filterByDate()">Filter</button>
                             </form>
                           </div>
                         </div>
