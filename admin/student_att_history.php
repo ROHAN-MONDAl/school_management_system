@@ -4,10 +4,10 @@ $query = "SELECT * FROM students";
 $result = $conn->query($query);
 // Fetch attendance records
 $result = $conn->query("
-SELECT students.roll_no, students.class, students.name, students_attendance.date, students_attendance.status
-FROM students_attendance
-JOIN students ON students_attendance.student_id = students.id
-ORDER BY students_attendance.date DESC
+SELECT students.roll_no, students.class, students.name, school_attendance.date, school_attendance.status
+FROM school_attendance
+JOIN students ON school_attendance.student_id = students.id
+ORDER BY school_attendance.date DESC
 ");
 
 ?>
@@ -93,37 +93,40 @@ ORDER BY students_attendance.date DESC
                                     <div class="row mt-3">
                                         <div class="col-12">
                                             <div class="table-responsive">
-                                                <table id="dataTable" class="display expandable-table col-lg-12">
+
+
+                                                <table id="dataTable" class=" table display expandable-table col-lg-12">
                                                     <thead class="text-center text-wrap">
-                                                        <tr>
-                                                            <th>Slno</th>
-                                                            <th>Name</th>
-                                                            <th>Class</th>
-                                                            <th>Roll no</th>
-                                                            <th>Date</th>
-                                                            <th>Attendance</th>
-                                                        </tr>
+                                                        <th>Slno</th>
+                                                        <th>Name</th>
+                                                        <th>Class</th>
+                                                        <th>Roll no</th>
+                                                        <th>Date</th>
+                                                        <th>Attendance</th>
                                                     </thead>
                                                     <tbody class="text-center text-wrap">
-                                                        <?php if ($result->num_rows > 0): ?>
-                                                            <?php
-                                                            $i = 1;
-                                                            while ($row = $result->fetch_assoc()): ?>
-                                                                <td><?php echo $i; ?></td>
-                                                                <td><?php echo $row['name']; ?></td>
-                                                                <td><?php echo $row['class']; ?></td>
-                                                                <td><?php echo $row['roll_no']; ?></td>
-                                                                <td><?php echo $row['date']; ?></td>
-                                                                <td><?php echo $row['status']; ?></td>
-                                                                </tr>
-                                                            <?php
-                                                                $i++;
-                                                            endwhile; ?>
-                                                        <?php else: ?>
-                                                            <tr>
-                                                                <td colspan="10">No data found</td>
-                                                            </tr>
-                                                        <?php endif; ?>
+                                                        <tr>
+                                                            <?php if ($result->num_rows > 0): ?>
+                                                                <?php
+                                                                $i = 1;
+                                                                while ($row = $result->fetch_assoc()): ?>
+                                                                    <td><?php echo $i; ?></td>
+                                                                    <td><?php echo $row['name']; ?></td>
+                                                                    <td><?php echo $row['class']; ?></td>
+                                                                    <td><?php echo $row['roll_no']; ?></td>
+                                                                    <td><?php echo $row['date']; ?></td>
+                                                                    <td><?php echo $row['status']; ?></td>
+                                                        </tr>
+                                                    <?php
+                                                                    $i++;
+                                                                endwhile; ?>
+                                                <?php else: ?>
+                                                    <tr>
+                                                        <td colspan="10">No data found</td>
+                                                    </tr>
+                                                <?php endif; ?>
+                                                </tr>
+
                                                     </tbody>
                                                 </table>
                                             </div>
