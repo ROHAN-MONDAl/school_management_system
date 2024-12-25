@@ -49,7 +49,7 @@
                   <div class="row">
                     <div class="col-12 col-xl-8 mb-4 mb-xl-0">
                       <h2 class="font-weight-bold text-primary fw-bolder">Expenses History</h2>
-                      <p class="text-secondary">Users Data</p>
+                      <p class="text-secondary">Daily consumable items</p>
                     </div>
                   </div>
                   <div class="row justify-content-center p-1">
@@ -201,7 +201,7 @@
     });
 </script>
   <!-- custom js -->
-  <script src="assets/js/script.js"></script>
+  <script src="assets/javascript/script.js"></script>
   <!-- bootstrap Library -->
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

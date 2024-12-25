@@ -22,15 +22,16 @@
     <li class="nav-item">
       <a class="nav-link" data-bs-toggle="collapse" href="#attendence" aria-expanded="false" aria-controls="attendence">
         <i class="icon-head menu-icon"></i>
-        <span class="menu-title">Attendence</span>
+        <span class="menu-title">Attendance</span>
         <i class="menu-arrow"></i>
       </a>
       <div class="collapse" id="attendence">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"> <a class="nav-link" href="">Students</a></li>
-          <li class="nav-item"> <a class="nav-link" href="students.php">Teachers</a></li>
-          <li class="nav-item"> <a class="nav-link" href="">Employees</a></li>
-          <li class="nav-item"> <a class="nav-link" href="">Staffs</a></li>
+          <li class="nav-item"> <a class="nav-link" href="students_Attendences.php">Students</a></li>
+          <li class="nav-item"> <a class="nav-link" href="test.php">Teachers</a></li>
+          <li class="nav-item"> <a class="nav-link" href="attendence_table.php">Employees</a></li>
+          <li class="nav-item"> <a class="nav-link" href="view.php">Employees</a></li>
+          <li class="nav-item"> <a class="nav-link" href="staffs_Attendence.php">Staffs</a></li>
         </ul>
       </div>
     </li>

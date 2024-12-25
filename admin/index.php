@@ -134,187 +134,48 @@
           </div>
 
           <!-- table header -->
-          <div class="row mt-2">
-            <div class="col-md-12 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <div class="row col-12 col-lg-12 col-md-12 p-1 align-content-center">
-                    <p class="card-title col-6 mx-auto col-md-9 col-lg-10">Data</p>
-                    <button type="button" class="btn bg-success btn-rounded add_button col-5 col-md-3 col-lg-2"
-                      data-mdb-ripple-init>ADD</button>
-                  </div>
-                  <div class="row mt-3">
+          <div class="row mt-3">
                     <div class="col-12">
                       <div class="table-responsive">
                         <table id="dataTable" class="display expandable-table col-lg-12">
                           <thead class="text-center text-wrap">
                             <tr>
                               <th>Slno</th>
-                              <th>Photo</th>
-                              <th>Name</th>
-                              <th>Class</th>
-                              <th>Addmision</th>
-                              <th>Branch</th>
-                              <th>Phone no</th>
-                              <th>WhatsApp no</th>
-                              <th>Passwords</th>
-                              <th>Profiles</th>
+                              <th>Quote#</th>
+                              <th>Product</th>
+                              <th>Business type</th>
+                              <th>Policy holder</th>
+                              <th>Premium</th>
+                              <th>Status</th>
+                              <th>Updated at</th>
                             </tr>
                           </thead>
                           <tbody class="text-center text-wrap">
                             <tr>
-                              <td>1</td>
-                              <td><img src="assets/images/faces/face10.jpg" alt="" srcset=""></td>
-                              <td>Ram kumar</td>
                               <td>John Doe</td>
                               <td>30</td>
                               <td>2024-01-15</td>
-                              <td>John Doe</td>
-                              <td>30</td>
-                              <td>2024-01-15</td>
-                              <td><a href="views_payments.php" target="_blank" rel="noopener noreferrer"><button type="button" class="btn btn-success rounded btn-sm text-white">View</button></a></td>
                             </tr>
                             <tr>
-                              <td>1</td>
-                              <td><img src="assets/images/faces/face10.jpg" alt="" srcset=""></td>
-                              <td>Ram kumar</td>
-                              <td>John Doe</td>
-                              <td>30</td>
-                              <td>2024-01-15</td>
-                              <td>John Doe</td>
-                              <td>30</td>
-                              <td>2024-01-15</td>
-                              <td><a href="views_payments.php" target="_blank" rel="noopener noreferrer"><button type="button" class="btn btn-success rounded btn-sm text-white">View</button></a></td>
+                              <td>Jane Smith</td>
+                              <td>25</td>
+                              <td>2023-12-10</td>
                             </tr>
                             <tr>
-                              <td>1</td>
-                              <td><img src="assets/images/faces/face10.jpg" alt="" srcset=""></td>
-                              <td>Ram kumar</td>
-                              <td>John Doe</td>
-                              <td>30</td>
-                              <td>2024-01-15</td>
-                              <td>John Doe</td>
-                              <td>30</td>
-                              <td>2024-01-15</td>
-                              <td><a href="views_payments.php" target="_blank" rel="noopener noreferrer"><button type="button" class="btn btn-success rounded btn-sm text-white">View</button></a></td>
+                              <td>Sam Brown</td>
+                              <td>22</td>
+                              <td>2024-03-05</td>
                             </tr>
                             <tr>
-                              <td>1</td>
-                              <td><img src="assets/images/faces/face10.jpg" alt="" srcset=""></td>
-                              <td>Ram kumar</td>
-                              <td>John Doe</td>
-                              <td>30</td>
-                              <td>2024-01-15</td>
-                              <td>John Doe</td>
-                              <td>30</td>
-                              <td>2024-01-15</td>
-                              <td><a href="views_payments.php" target="_blank" rel="noopener noreferrer"><button type="button" class="btn btn-success rounded btn-sm text-white">View</button></a></td>
-                            </tr>
-                            <tr>
-                              <td>1</td>
-                              <td><img src="assets/images/faces/face10.jpg" alt="" srcset=""></td>
-                              <td>Ram kumar</td>
-                              <td>John Doe</td>
-                              <td>30</td>
-                              <td>2024-01-15</td>
-                              <td>John Doe</td>
-                              <td>30</td>
-                              <td>2024-01-15</td>
-                              <td><a href="views_payments.php" target="_blank" rel="noopener noreferrer"><button type="button" class="btn btn-success rounded btn-sm text-white">View</button></a></td>
-                            </tr>
-                            <tr>
-                              <td>1</td>
-                              <td><img src="assets/images/faces/face10.jpg" alt="" srcset=""></td>
-                              <td>Ram kumar</td>
-                              <td>John Doe</td>
-                              <td>30</td>
-                              <td>2024-01-15</td>
-                              <td>John Doe</td>
-                              <td>30</td>
-                              <td>2024-01-15</td>
-                              <td><a href="views_payments.php" target="_blank" rel="noopener noreferrer"><button type="button" class="btn btn-success rounded btn-sm text-white">View</button></a></td>
-                            </tr>
-                            <tr>
-                              <td>1</td>
-                              <td><img src="assets/images/faces/face10.jpg" alt="" srcset=""></td>
-                              <td>Ram kumar</td>
-                              <td>John Doe</td>
-                              <td>30</td>
-                              <td>2024-01-15</td>
-                              <td>John Doe</td>
-                              <td>30</td>
-                              <td>2024-01-15</td>
-                              <td><a href="views_payments.php" target="_blank" rel="noopener noreferrer"><button type="button" class="btn btn-success rounded btn-sm text-white">View</button></a></td>
-                            </tr>
-                            <tr>
-                              <td>1</td>
-                              <td><img src="assets/images/faces/face10.jpg" alt="" srcset=""></td>
-                              <td>Ram kumar</td>
-                              <td>John Doe</td>
-                              <td>30</td>
-                              <td>2024-01-15</td>
-                              <td>John Doe</td>
-                              <td>30</td>
-                              <td>2024-01-15</td>
-                              <td><a href="views_payments.php" target="_blank" rel="noopener noreferrer"><button type="button" class="btn btn-success rounded btn-sm text-white">View</button></a></td>
-                            </tr>
-                            <tr>
-                              <td>1</td>
-                              <td><img src="assets/images/faces/face10.jpg" alt="" srcset=""></td>
-                              <td>Ram kumar</td>
-                              <td>John Doe</td>
-                              <td>30</td>
-                              <td>2024-01-15</td>
-                              <td>John Doe</td>
-                              <td>30</td>
-                              <td>2024-01-15</td>
-                              <td><a href="views_payments.php" target="_blank" rel="noopener noreferrer"><button type="button" class="btn btn-success rounded btn-sm text-white">View</button></a></td>
-                            </tr>
-                            <tr>
-                              <td>1</td>
-                              <td><img src="assets/images/faces/face10.jpg" alt="" srcset=""></td>
-                              <td>Ram kumar</td>
-                              <td>John Doe</td>
-                              <td>30</td>
-                              <td>2024-01-15</td>
-                              <td>John Doe</td>
-                              <td>30</td>
-                              <td>2024-01-15</td>
-                              <td><a href="views_payments.php" target="_blank" rel="noopener noreferrer"><button type="button" class="btn btn-success rounded btn-sm text-white">View</button></a></td>
-                            </tr>
-                            <tr>
-                              <td>1</td>
-                              <td><img src="assets/images/faces/face10.jpg" alt="" srcset=""></td>
-                              <td>Ram kumar</td>
-                              <td>John Doe</td>
-                              <td>30</td>
-                              <td>2024-01-15</td>
-                              <td>John Doe</td>
-                              <td>30</td>
-                              <td>2024-01-15</td>
-                              <td><a href="views_payments.php" target="_blank" rel="noopener noreferrer"><button type="button" class="btn btn-success rounded btn-sm text-white">View</button></a></td>
-                            </tr>
-                            <tr>
-                              <td>1</td>
-                              <td><img src="assets/images/faces/face10.jpg" alt="" srcset=""></td>
-                              <td>Ram kumar</td>
-                              <td>John Doe</td>
-                              <td>30</td>
-                              <td>2024-01-15</td>
-                              <td>John Doe</td>
-                              <td>30</td>
-                              <td>2024-01-15</td>
-                              <td><a href="views_payments.php" target="_blank" rel="noopener noreferrer"><button type="button" class="btn btn-success rounded btn-sm text-white">View</button></a></td>
+                              <td>Amy Lee</td>
+                              <td>28</td>
+                              <td>2024-02-18</td>
                             </tr>
                           </tbody>
                         </table>
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
           <!-- /table header -->
         </div>
         <!-- content-wrapper ends -->
@@ -371,7 +232,7 @@
     });
   </script>
   <!-- custom js -->
-  <script src="assets/js/script.js"></script>
+  <script src="assets/javascript/script.js"></script>
   <!-- bootstrap Library -->
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

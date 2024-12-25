@@ -110,7 +110,7 @@
     </div>
     <!-- container-scroller -->
     <!-- custom js -->
-    <script src="assets/js/script.js"></script>
+    <script src="assets/javascript/script.js"></script>
     <!-- plugins:js -->
     <script src="assets/vendors/js/vendor.bundle.base.js"></script>
     <!-- endinject -->
