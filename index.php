@@ -183,15 +183,6 @@
     </div>
 
 
-
-
-
-
-
-
-
-
-
     <!-- Custom js script -->
     <script src="script.js"></script>
 

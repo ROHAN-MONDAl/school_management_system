@@ -41,19 +41,20 @@ $result_classes = $conn->query($query_classes);
                         <div class="col-lg-12 col-md-12 grid-margin stretch-card">
                             <div class="card">
                                 <div class="card-body">
-                                    <div class="card-title col-12 col-md-12 col-lg-12 d-flex justify-content-between align-items-center">
-                                        <span class="col-lg-6 fs-6 text-info" id="date"></span>
+                                    <div class="card-title col-12 col-md-12 col-lg-12 d-flex justify-content-between align-items-start">
+                                        <span class="col-lg-8 me-5 fs-6 text-info" id="date"></span>
                                         <a href="student_att_history.php">
                                             <button class="btn btn-success btn-sm text-white font-weight-bold me-4">Check history</button>
                                         </a>
                                     </div>
                                     <div class="row mt-3">
                                         <div class="col-12">
+
                                             <div class="table-responsive col-lg-12 col-md-12">
-                                                <h3>Select Class for Attendance</h3>
+                                                <h3><b>Attendance</b></h3>
                                                 <form action="student_mark_attendance.php" method="GET">
                                                     <div class="form-group">
-                                                        <label for="class">Select Class:</label>
+                                                        <label for="class">Select class attendance:</label>
                                                         <select name="class" id="class" class="form-control" required>
                                                             <option value="">Select a class</option>
                                                             <?php while ($row = $result_classes->fetch_assoc()): ?>
@@ -61,7 +62,10 @@ $result_classes = $conn->query($query_classes);
                                                             <?php endwhile; ?>
                                                         </select>
                                                     </div>
-                                                    <button type="submit" class="btn btn-primary">Proceed</button>
+                                                    <div class="form-group text-center">
+                                                        <button type="submit" class="btn btn-primary">Proceed</button>
+                                                    </div>
+                                                    
                                                 </form>
                                             </div>
                                         </div>

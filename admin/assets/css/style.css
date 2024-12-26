@@ -11667,7 +11667,7 @@ progress {
   border-color: var(--bs-table-border-color);
 }
 
-.table-responsive{
+.table-responsive {
   border-radius: 10px;
   word-wrap: break-word;
   max-height: 100vh;
@@ -25501,6 +25501,7 @@ code {
 
 /* Cards */
 .card {
+  margin-right: 10%;
   box-shadow: none;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
@@ -27194,7 +27195,7 @@ dl li {
 .expandable-table thead tr th {
   position: sticky;
   background-color: #4B49AC;
-  padding: 6px 10px ;
+  padding: 6px 10px;
   color: #ffffff;
 }
 

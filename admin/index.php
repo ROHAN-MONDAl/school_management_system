@@ -110,13 +110,13 @@
                       <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">
                           <div class="modal-content">
-                            <form id="dateFilterForm" method="post" class="forms-sample bg-secondary p-5 text-center rounded">
-                              <h3 class="text-white fx-bolder">Filter</h3>
+                            <form id="dateFilterForm" method="post" class="forms-sample bg-white p-5 text-start rounded">
+                              <h3 class="text-center text-primary fx-bolder">Filter</h3>
                               <label for="startDate" class="text-black">Start Date:</label>
                               <input type="date" id="startDate" class="form-control" name="start_date" required>
                               <label for="endDate" class="text-black mt-2">End Date:</label>
                               <input type="date" id="endDate" class="form-control" name="end_date" required>
-                              <button type="button" class="btn btn-primary mt-3" onclick="filterByDate()">Filter</button>
+                              <button type="button" class="btn btn-primary col-md-12 mt-3" onclick="filterByDate()">Filter</button>
                             </form>
                           </div>
                         </div>
@@ -132,9 +132,9 @@
           <div class="row mt-3">
             <div class="col-12">
               <div class="table-responsive">
-              
+
                 <table id="dataTable" class="display expandable-table col-lg-12">
-                   <h3 class="font-weight-bold text-dark fw-bolder mx-3 mb-3">Teachers Attendance</h3>
+                  <h3 class="font-weight-bold text-dark fw-bolder mx-3 mb-3">Teachers Attendance</h3>
                   <thead class="text-center text-wrap">
                     <tr>
                       <th>Slno</th>
@@ -157,7 +157,7 @@
                 </table>
 
                 <table id="dataTable" class="display expandable-table col-lg-12">
-                   <h3 class="font-weight-bold text-dark fw-bolder mx-3 mb-3">Employers Attendance</h3>
+                  <h3 class="font-weight-bold text-dark fw-bolder mx-3 mb-3">Employers Attendance</h3>
                   <thead class="text-center text-wrap">
                     <tr>
                       <th>Slno</th>

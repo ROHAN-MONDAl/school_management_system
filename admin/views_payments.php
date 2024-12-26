@@ -1,3 +1,9 @@
+<?php include '../server_database.php';
+$id = $_GET['id'];
+// Query to fetch student data from the database
+$query = "SELECT * FROM students where id = '$id'";
+$result = $conn->query($query);
+?>
 <!DOCTYPE php>
 <html lang="en">
 
@@ -12,7 +18,6 @@
     <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
     <link rel="stylesheet" href="assets/vendors/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- endinject -->
     <!-- Plugin css for this page -->
     <!-- <link rel="stylesheet" href="assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css"> -->
@@ -21,6 +26,8 @@
     <link rel="stylesheet" type="text/css" href="assets/js/select.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- End plugin css for this page -->
     <!-- inject:css -->
@@ -58,62 +65,99 @@
                     </div>
 
                     <!-- table header -->
-                    <div class="container rounded mt-5" id="invoice">
-                        <div class="card">
-                            <div class="card-body">
-                                
-                                <h1 class="text-center mb-4"><b>Daffodils School</b>
-                                    <p>kids school</p>
+                    <div class="col-12 col-lg-12 col-md-12 rounded mt-5" id="invoice">
+                        <div class="card col-lg-12 col-md-12">
+                            <div class="card-body me-5">
+
+                                <h1 class="text-center mb-4 text-primary d-flex justify-content-center align-items-center">
+                                    <img src="assets/images/favicon.png" style="width: 80px;  object-fit: cover;"><b>Daffodils School</b>
+
                                 </h1>
+                                <div class="text-center mb-4 d-flex justify-content-center align-items-center" style="margin-top:-30px">
+                                    <p class="mt-3">Address: 63MG+G5J, 237, Kuchkuchia Rd, Bankura, West Bengal 722101, <br> Phone number: 094348 60435, </p>
+                                    </p>
 
-                                <h4 class="text-center mb-4">Student Invoice</h4>
-                                <div class="row">
-                                    <div class="col-md-6 mb-5">
-                                        <img src="assets/images/faces/face16.jpg" alt="" srcset="">
-                                    </div>
                                 </div>
-                                <div class="row mb-5">
-                                    <div class="col-md-6">
-                                        <p><strong>Student Name:</strong> John Doe</p>
-                                        <p><strong>Student ID:</strong> 123456</p>
+
+                                <h3 class="text-center mb-4">Invoice</h3>
+                                <hr style="color:black">
+                                <?php
+                                while ($row = $result->fetch_assoc()):
+                                ?>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-5">
+                                            <img src="<?php echo $row['img_path']; ?>" class="rounded" alt="Student Image" style="width: 100px; height: 130px; object-fit: cover;">
+                                        </div>
                                     </div>
+                                    <div class="row mb-5">
+                                        <div class="col-md-6">
+                                            <p><strong>Student Name:</strong> &nbsp; &nbsp; <?php echo $row['name']; ?></p>
+                                            <p><strong>Class:</strong> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <?php echo $row['class']; ?></p>
+                                            <p><strong>Student Roll no:</strong> &nbsp;<?php echo $row['roll_no']; ?></p>
+                                            <p><strong>Phone no:</strong> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <?php echo $row['phone_no']; ?></p>
+                                            <p><strong>Whatsapp no:</strong> &nbsp; &nbsp; <?php echo $row['whatsapp']; ?></p>
+                                            <p><strong>City:</strong> &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; <?php echo $row['city']; ?></p>
+                                            <p><strong>Admission date:</strong> &nbsp;<?php echo $row['admission_date']; ?></p>
+                                            <p><strong>Date:</strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<?php echo date('d-m-Y')  ?></p>
+
+
+                                        </div>
+                                    <?php endwhile; ?>
                                     <div class="col-md-6 text-md-end">
-                                        <p><strong>Date:</strong> 2024-12-24</p>
-                                        <p><strong>Invoice #:</strong> INV-001</p>
+                                        <p><strong>Invoice no:</strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 01 /<?php echo date('Y')  ?></p>
                                     </div>
-                                </div>
+                                    </div>
+                                    <hr style="color:black">
+                                    <div class="table-responsive">
+                                        <table class=" col-lg-12 mt-3 mx-5">
+                                            <thead class="text-center text-wrap">
+                                                <tr>
+                                                    <th>Slno</th>
+                                                    <th style="width: 50%;">Summary</th>
+                                                    <th colspan="4">Amount</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="text-center text-wrap">
+                                                <tr>
+                                                    <td><br></td>
+                                                </tr>
+                                                <tr class="mt-5">
+                                                    <td class="text-wrap text-break">1</td>
+                                                    <td class="text-wrap text-break">
+                                                        lorem100
+                                                    </td>
+                                                    <td colspan="4" class="text-wrap text-break">Rs 500</td>
+                                                </tr>
+                                                <tr>
+                                                <tr>
+                                                    <td>
+                                                        <br>
+                                                    </td>
+                                                </tr>
+                                                <td colspan="0"><strong>Total</strong></td>
+                                                <td colspan="1"><strong></strong></td>
+                                                <td class="text-wrap text-break"><strong>Rs 550</strong></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <hr style="color:black">
+                                        <div class="text-center mt-5 d-flex justify-content-center align-items-center">
+                                            <p>This invoice is computer generated</p>
+                                        </div>
 
-                                <table class="table mt-3">
-                                    <thead>
-                                        <tr>
-                                            <th>Slno</th>
-                                            <th style="width: 50%;">Summary</th>
-                                            <th colspan="4">Amount</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td class="text-wrap text-break">1</td>
-                                            <td class="text-wrap text-break">
-                                                Lorem ipsum dolor sit amet consec
-                                            </td>
-                                            <td colspan="4" class="text-wrap text-break">Course Fee</td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="4"><strong>Total</strong></td>
-                                            <td class="text-wrap text-break"><strong>$550</strong></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                    </div>
                             </div>
                         </div>
+                        <!-- /table header -->
                     </div>
-                    <div class="text-center mt-4">
-                        <button class="btn btn-primary mt-2" onclick="printInvoice()">Download/Print Invoice</button>
-                        <button class="btn btn-success mt-2" onclick="sendWhatsApp()">Send via WhatsApp</button>
-                    </div>
-
-                    <!-- /table header -->
+                </div>
+                <div class="text-center mt-4">
+                    <button class="btn btn-danger text-white mt-2 mb-2" onclick="sendWhatsApp()">Edit</button>
+                    <button class="btn btn-info text-white mt-2 mb-2" onclick="printInvoice()">Add Form</button>
+                </div>
+                <div class="text-center mt-4">
+                    <button class="btn btn-primary mt-2 mb-2" onclick="printInvoice()"><i class="fa-solid fa-download"></i> Download</button>
+                    <button class="btn btn-success text-white mt-2 mb-2" onclick="sendWhatsApp()"><i class="fa-brands fa-whatsapp"></i> Send via WhatsApp</button>
                 </div>
                 <!-- content-wrapper ends -->
                 <!-- partial:partials/_footer.php -->

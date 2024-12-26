@@ -122,9 +122,10 @@ $message_type = $_GET['type'] ?? ''; // 'success' or 'error'
                                         <label for="confirm_password">Confirm Password</label>
                                         <input type="password" name="confirm_password" class="form-control" id="confirm_password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                                             title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" placeholder="Confirm Password" required>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary me-2">Submit</button>
-                                    <button type="reset" class="btn btn-dark text-light">Reset</button>
+                                        <div class="form-group text-center mt-4">
+                                            <button type="submit" class="btn btn-primary me-2">Submit</button>
+                                            <button type="reset" class="btn btn-dark text-light">Reset</button>
+                                        </div>
                                 </form>
 
 
@@ -136,48 +137,50 @@ $message_type = $_GET['type'] ?? ''; // 'success' or 'error'
                     <!-- /main form section -->
                 </div>
                 <!-- content-wrapper ends -->
-                <!-- partial:partials/_footer.php -->
-                <?php include "footer.php"  ?>
-                <!-- partial -->
             </div>
-            <!-- page-body-wrapper ends -->
+            <!-- partial:partials/_footer.php -->
+            <?php include "footer.php"  ?>
+            <!-- partial -->
         </div>
-        <!-- container-scroller -->
-        <script>
-            // Password confirmation validation
-            document.querySelector("form").addEventListener("submit", function(event) {
-                var password = document.getElementById("password").value;
-                var confirmPassword = document.getElementById("confirm_password").value;
+        <!-- page-body-wrapper ends -->
+    </div>
+    </div>
+    <!-- container-scroller -->
+    <script>
+        // Password confirmation validation
+        document.querySelector("form").addEventListener("submit", function(event) {
+            var password = document.getElementById("password").value;
+            var confirmPassword = document.getElementById("confirm_password").value;
 
-                if (password !== confirmPassword) {
-                    alert("Passwords do not match. Please try again.");
-                    event.preventDefault(); // Prevent form submission
-                }
-            });
-        </script>
-        <!-- custom js -->
-        <script src="assets/js/script.js"></script>
-        <!-- plugins:js -->
-        <script src="assets/vendors/js/vendor.bundle.base.js"></script>
-        <!-- endinject -->
-        <!-- Plugin js for this page -->
-        <script src="assets/vendors/chart.js/chart.umd.js"></script>
-        <script src="assets/vendors/datatables.net/jquery.dataTables.js"></script>
-        <!-- <script src="assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script> -->
-        <script src="assets/vendors/datatables.net-bs5/dataTables.bootstrap5.js"></script>
-        <script src="assets/js/dataTables.select.min.js"></script>
-        <!-- End plugin js for this page -->
-        <!-- inject:js -->
-        <script src="assets/js/off-canvas.js"></script>
-        <script src="assets/js/template.js"></script>
-        <script src="assets/js/settings.js"></script>
-        <script src="assets/js/todolist.js"></script>
-        <!-- endinject -->
-        <!-- Custom js for this page-->
-        <script src="assets/js/jquery.cookie.js" type="text/javascript"></script>
-        <script src="assets/js/dashboard.js"></script>
-        <!-- <script src="assets/js/Chart.roundedBarCharts.js"></script> -->
-        <!-- End custom js for this page-->
+            if (password !== confirmPassword) {
+                alert("Passwords do not match. Please try again.");
+                event.preventDefault(); // Prevent form submission
+            }
+        });
+    </script>
+    <!-- custom js -->
+    <script src="assets/js/script.js"></script>
+    <!-- plugins:js -->
+    <script src="assets/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="assets/vendors/chart.js/chart.umd.js"></script>
+    <script src="assets/vendors/datatables.net/jquery.dataTables.js"></script>
+    <!-- <script src="assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script> -->
+    <script src="assets/vendors/datatables.net-bs5/dataTables.bootstrap5.js"></script>
+    <script src="assets/js/dataTables.select.min.js"></script>
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="assets/js/off-canvas.js"></script>
+    <script src="assets/js/template.js"></script>
+    <script src="assets/js/settings.js"></script>
+    <script src="assets/js/todolist.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page-->
+    <script src="assets/js/jquery.cookie.js" type="text/javascript"></script>
+    <script src="assets/js/dashboard.js"></script>
+    <!-- <script src="assets/js/Chart.roundedBarCharts.js"></script> -->
+    <!-- End custom js for this page-->
 </body>
 
 </html>

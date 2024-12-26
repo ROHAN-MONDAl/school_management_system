@@ -93,71 +93,73 @@ $result = $conn->query($query);
 
           <!-- table header -->
           <div class="row mt-2">
-  <div class="col-md-12 grid-margin stretch-card">
-    <div class="card">
-      <div class="card-body">
-        <div class="card-title col-12 col-md-12 col-lg-12 d-flex justify-content-between align-items-center">
-          <span class="col-lg-6 fs-6 text-info">Data</span>
+            <div class="col-md-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <div class="card-title col-12 col-md-12 col-lg-12 d-flex justify-content-between align-items-center">
+                    <span class="col-lg-6 fs-6 text-info">Data</span>
 
-          <a href="student_addmission_frm.php">
-            <button class="btn btn-success btn-sm text-white font-weight-bold me-4">Add Students</button>
-          </a>
-        </div>
-        <div class="row mt-3">
-          <div class="col-12">
-            <div class="table-responsive">
-              <table id="dataTable" class="display expandable-table col-lg-12">
-                <thead class="text-center text-wrap">
-                  <tr>
-                    <th>Slno</th>
-                    <th>Photo</th>
-                    <th>Name</th>
-                    <th>Class</th>
-                    <th>Roll no</th>
-                    <th>Phone no</th>
-                    <th>Whatsapp</th>
-                    <th>Admission Date</th>
-                    <th>Password</th>
-                    <th>View</th>
-                  </tr>
-                </thead>
-                <tbody class="text-center text-wrap">
-                  <?php if ($result->num_rows > 0): ?>
-                    <?php
-                    $slno = 1;
-                    while ($row = $result->fetch_assoc()):
-                    ?>
-                      <tr>
-                        <td><?php echo $slno++; ?></td>
-                        <td><img src="<?php echo $row['img_path']; ?>" alt="Student Image" style="width: 50px; height: 50px; object-fit: cover;"></td>
-                        <td><?php echo $row['name']; ?></td>
-                        <td><?php echo $row['class']; ?></td>
-                        <td><?php echo $row['roll_no']; ?></td>
-                        <td><?php echo $row['phone_no']; ?></td>
-                        <td><?php echo $row['whatsapp']; ?></td>
-                        <td><?php echo $row['admission_date']; ?></td>
-                        <td>******</td> <!-- Masked password -->
-                        <td>
-                          <a href="views_payments.php?roll_no=<?php echo $row['roll_no']; ?>" target="_blank" rel="noopener noreferrer">
-                            <button type="button" class="btn btn-success btn-sm text-white fw-bolder">View</button>
-                          </a>
-                        </td>
-                      </tr>
-                    <?php endwhile; ?>
-                  <?php else: ?>
-                    <tr>
-                      <td colspan="10">No data found</td>
-                    </tr>
-                  <?php endif; ?>
-                </tbody>
-              </table>
+                    <a href="student_addmission_frm.php">
+                      <button class="btn btn-success btn-sm text-white font-weight-bold me-4">Add Students</button>
+                    </a>
+                  </div>
+                  <div class="row mt-3">
+                    <div class="col-12">
+                      <div class="table-responsive">
+                        <table id="dataTable" class="display expandable-table col-lg-12">
+                          <thead class="text-center text-wrap">
+                            <tr>
+                              <th>Slno</th>
+                              <th>Photo</th>
+                              <th>Name</th>
+                              <th>Class</th>
+                              <th>Roll no</th>
+                              <th>Phone no</th>
+                              <th>Whatsapp</th>
+                              <th>City</th>
+                              <th>Admission Date</th>
+                              <th>Password</th>
+                              <th>View</th>
+                            </tr>
+                          </thead>
+                          <tbody class="text-center text-wrap">
+                            <?php if ($result->num_rows > 0): ?>
+                              <?php
+                              $slno = 1;
+                              while ($row = $result->fetch_assoc()):
+                              ?>
+                                <tr>
+                                  <td><?php echo $slno++; ?></td>
+                                  <td><img src="<?php echo $row['img_path']; ?>" alt="Student Image" style="width: 50px; height: 50px; object-fit: cover;"></td>
+                                  <td><?php echo $row['name']; ?></td>
+                                  <td><?php echo $row['class']; ?></td>
+                                  <td><?php echo $row['roll_no']; ?></td>
+                                  <td><?php echo $row['phone_no']; ?></td>
+                                  <td><?php echo $row['whatsapp']; ?></td>
+                                  <td class="text-wrap"><?php echo $row['city']; ?></td>
+                                  <td class="text-wrap"><?php echo $row['admission_date']; ?></td>
+                                  <td>******</td> <!-- Masked password -->
+                                  <td>
+                                    <a href="views_payments.php?id=<?php echo $row['id']; ?>" target="_blank" rel="noopener noreferrer">
+                                      <button type="button" class="btn btn-success btn-sm text-white fw-bolder">View</button>
+                                    </a>
+                                  </td>
+                                </tr>
+                              <?php endwhile; ?>
+                            <?php else: ?>
+                              <tr>
+                                <td colspan="10">No data found</td>
+                              </tr>
+                            <?php endif; ?>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
 
           <?php $conn->close(); ?>

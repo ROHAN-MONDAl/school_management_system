@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !$attendance_done) {
             <?php include 'navbar.php' ?>
             <div class="main-panel">
                 <div class="content-wrapper">
-                    <div class="row mt-2">
+                    <div class="row">
                         <div class="col-lg-12 col-md-12 grid-margin stretch-card">
                             <div class="card">
                                 <div class="card-body">
@@ -107,27 +107,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !$attendance_done) {
                                                     </div>
                                                 <?php else: ?>
                                                     <form action="" method="POST">
-                                                        <table class="table">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Name</th>
-                                                                    <th>Roll No</th>
-                                                                    <th>Present</th>
-                                                                    <th>Absent</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <?php while ($row = $result_students->fetch_assoc()): ?>
+                                                        <table class="table display expandable-table col-lg-12 mt-4">
+                                                            <div class="table-responsive">
+                                                                <thead class="text-center text-wrap">
                                                                     <tr>
-                                                                        <td><?php echo $row['name']; ?></td>
-                                                                        <td><?php echo $row['roll_no']; ?></td>
-                                                                        <td><input type="radio" name="status[<?php echo $row['id']; ?>]" value="Present" required></td>
-                                                                        <td><input type="radio" name="status[<?php echo $row['id']; ?>]" value="Absent" required></td>
+                                                                        <th>Slno</th>
+                                                                        <th>Name</th>
+                                                                        <th>Roll No</th>
+                                                                        <th>Present</th>
+                                                                        <th>Absent</th>
                                                                     </tr>
-                                                                <?php endwhile; ?>
-                                                            </tbody>
+                                                                </thead>
+                                                                <tbody  class="text-center text-wrap">
+                                                                    <?php 
+                                                                    $slno = 1;
+                                                                    while ($row = $result_students->fetch_assoc()): ?>
+                                                                        <tr>
+                                                                            <td><?php echo $slno++; ?></td>
+                                                                            <td><?php echo $row['name']; ?></td>
+                                                                            <td><?php echo $row['roll_no']; ?></td>
+                                                                            <td><input type="radio" name="status[<?php echo $row['id']; ?>]" value="Present" required></td>
+                                                                            <td><input type="radio" name="status[<?php echo $row['id']; ?>]" value="Absent" required></td>
+                                                                        </tr>
+                                                                      
+                                                                    <?php endwhile;
+                                                                     
+                                                                    ?>
+                                                                </tbody>
+
+                                                            </div>
+
                                                         </table>
-                                                        <button type="submit" class="btn btn-success mt-5 text-white fw-bolder">Submit Attendance</button>
+                                                        <div class="form-group text-center mt-4">
+                                                            <button type="submit" class="btn btn-success mt-5 text-white fw-bolder">Submit Attendance</button>
+                                                        </div>
                                                     </form>
                                                 <?php endif; ?>
                                             </div>
