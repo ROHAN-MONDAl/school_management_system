@@ -106,6 +106,10 @@ $message_type = $_GET['type'] ?? ''; // 'success' or 'error'
                                         <input type="tel" name="whatsapp" class="form-control" id="whatsapp" pattern="^(\+91[\-\s]?)?[0]?(91)?[6789]\d{9}$" placeholder="Please enter whatsapp number" required>
                                     </div>
                                     <div class="form-group">
+                                        <label for="branch">Branch</label>
+                                        <input type="text" name="branch" class="form-control" id="branch" autocapitalize="words" autocomplete="on" placeholder="Location" required>
+                                    </div>
+                                    <div class="form-group">
                                         <label for="city">City</label>
                                         <input type="text" name="city" class="form-control" id="city" placeholder="Location" required>
                                     </div>

@@ -117,6 +117,7 @@ $result = $conn->query($query);
                               <th>Phone no</th>
                               <th>Whatsapp</th>
                               <th>City</th>
+                              <th>Branch</th>
                               <th>Admission Date</th>
                               <th>Password</th>
                               <th>View</th>
@@ -137,6 +138,7 @@ $result = $conn->query($query);
                                   <td><?php echo $row['phone_no']; ?></td>
                                   <td><?php echo $row['whatsapp']; ?></td>
                                   <td class="text-wrap"><?php echo $row['city']; ?></td>
+                                  <td class="text-wrap"><?php echo $row['branch']; ?></td>
                                   <td class="text-wrap"><?php echo $row['admission_date']; ?></td>
                                   <td>******</td> <!-- Masked password -->
                                   <td>

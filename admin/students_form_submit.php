@@ -10,6 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $phone_no = $_POST['phone_no'] ?? '';
     $whatsapp = $_POST['whatsapp'] ?? '';
     $city = $_POST['city'] ?? '';
+    $branch = $_POST['branch'] ?? '';
     $admission_date = $_POST['admission_date'] ?? '';
     $today_date = date('Y-m-d');
     $password = !empty($_POST['password']) ? password_hash($_POST['password'], PASSWORD_DEFAULT) : null;
@@ -34,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     // Validate required fields
-    if ($name && $gender && $class && $roll_no && $phone_no && $whatsapp && $city && $admission_date && $password) {
+    if ($name && $gender && $class && $roll_no && $phone_no && $whatsapp && $city && $branch && $admission_date && $password) {
         // Check for duplicate roll_no
         $check_roll_no_query = "SELECT roll_no FROM students WHERE roll_no = ?";
         $check_roll_no_stmt = $conn->prepare($check_roll_no_query);
@@ -84,13 +85,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $check_whatsapp_stmt->close();
 
         // Insert query
-        $sql = "INSERT INTO students (name, gender, class, roll_no, phone_no, whatsapp, city, admission_date, today_date, password, img_path) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO students (name, gender, class, roll_no, phone_no, whatsapp, city, branch, admission_date, today_date, password, img_path) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $conn->prepare($sql);
 
         if ($stmt) {
-            $stmt->bind_param("sssssssssss", $name, $gender, $class, $roll_no, $phone_no, $whatsapp, $city, $admission_date, $today_date, $password, $img_path);
+            $stmt->bind_param("ssssssssssss", $name, $gender, $class, $roll_no, $phone_no, $whatsapp, $city, $branch, $admission_date, $today_date, $password, $img_path);
 
             if ($stmt->execute()) {
                 // Redirect with success message
