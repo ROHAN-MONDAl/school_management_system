@@ -99,6 +99,12 @@ $student = $result->fetch_assoc();  // Assuming only one student is fetched
                                             <p class="text-secondary">Students payments form</p>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-12 col-xl-8 mb-4 mb-xl-0">
+                                            <a href="students_payment_history.php?id=<?php echo $id; ?>"><button class="btn btn-success text-white fw-bolder btn-sm mt-2 mb-2">Student history</button></a>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
