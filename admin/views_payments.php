@@ -114,7 +114,6 @@ $student = $result->fetch_assoc();  // Assuming only one student is fetched
                     <div class="col-12 col-lg-12 col-md-12 rounded mt-5" id="invoice">
                         <h3 class="text-center mb-4 text-primary d-flex justify-content-center align-items-center">
                             <img src="assets/images/favicon.png" style="width: 4rem;  object-fit: cover;"><b>Daffodils School</b>
-
                         </h3>
                         <div class="text-center mb-4 d-flex justify-content-center align-items-center" style="margin-top:-30px">
                             <p class="mt-3 text-info">Address: 63MG+G5J, 237, Kuchkuchia Rd, Bankura, West Bengal 722101, <br> Phone number: 094348 60435, </p>
@@ -207,9 +206,9 @@ $student = $result->fetch_assoc();  // Assuming only one student is fetched
 
 
                     </div>
-                    <div class="text-center mt-4">
-                        <a href="http://"><button class="btn btn-primary bg-danger border-0 fw-bolder mt-2 mb-2">Edit</button></a>
-                        <a href="add_payment_form.php?id=<?php echo $id; ?>"><button class="btn btn-success text-white fw-bolder mt-2 mb-2">Add form</button></a>
+                    <div class="text-center mt-4 me-4">
+                        <a href="http://"><button class="btn btn-primary bg-danger border-0 fw-bolder mt-2 mb-2"><i class="fa-solid fa-pen-to-square"></i> Edit</button></a>
+                        <a href="add_payment_form.php?id=<?php echo $id; ?>"><button class="btn btn-success text-white fw-bolder mt-2 mb-2"><i class="fa-solid fa-file-circle-plus"></i> Add form</button></a>
                     </div>
 
                     <div class="text-center mt-4">
@@ -220,24 +219,6 @@ $student = $result->fetch_assoc();  // Assuming only one student is fetched
                 <?php include "footer.php"  ?>
 
             </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
             <script>
@@ -258,9 +239,10 @@ $student = $result->fetch_assoc();  // Assuming only one student is fetched
 
                 // Function to send the invoice via WhatsApp
                 function sendWhatsApp() {
-                    const phoneNumber = prompt("Enter the recipient's WhatsApp number:");
+                    const phoneNumber = prompt("Enter the recipient's WhatsApp number (with country code, e.g., 11234567890):");
                     if (phoneNumber) {
-                        const message = encodeURIComponent(`Hello,\n\nPlease find your invoice below:\n\nStudent Name: John Doe\nInvoice #: <?php echo "heloo" ?>\n\nYour due amount: $200\nTotal Amount: $550`);
+                        const link = encodeURIComponent("https://example.com/your-link-here"); // Replace with your actual link
+                        const message = encodeURIComponent(`Hello,\n\nPlease check the following link:\n\n${link}`);
                         const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
                         window.open(whatsappUrl, '_blank');
                     }

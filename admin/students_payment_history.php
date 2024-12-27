@@ -49,8 +49,8 @@ ORDER BY school_attendance.date DESC
                                 <div class="col-md-12">
                                     <div class="row">
                                         <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                                            <h2 class="font-weight-bold text-primary fw-bolder">History</h2>
-                                            <p class="text-secondary">Students Attendance history</p>
+                                            <h2 class="font-weight-bold text-primary fw-bolder">Student History</h2>
+                                            <p class="text-secondary">Students payments history</p>
                                         </div>
                                     </div>
 

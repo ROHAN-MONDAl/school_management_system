@@ -54,32 +54,32 @@
                     </div>
                   </div>
                   <div class="row justify-content-center p-1">
-                    <div class="col-md-12 me-5">
-                      <div class="search-container align-items-center me-2">
-                        <div class="search-container col-lg-12  align-items-center">
-                          <input type="text" class="form-control search-input" id="search" placeholder="Search..." onkeyup="filterTable()">
-                        </div>
-                        <p class="mx-3 mt-2 text-danger" style="cursor:pointer" data-toggle="modal" data-target="#exampleModalCenter">
-                          <i style="font-size:24px;" class="fa text-danger">&#xf0b0;</i><b>Filter</b>
-                        </p>
-                      </div>
+                                        <div class="col-md-12 me-5">
+                                            <div class="search-container align-items-center me-2">
+                                                <div class="search-container col-lg-12  align-items-center">
+                                                    <input type="text" class="form-control search-input" id="search" placeholder="Search..." onkeyup="filterTable()">
+                                                </div>
+                                                <p class="mx-3 mt-2 text-danger" style="cursor:pointer" data-toggle="modal" data-target="#exampleModalCenter">
+                                                    <i style="font-size:24px;" class="fa text-danger">&#xf0b0;</i><b>Filter</b>
+                                                </p>
+                                            </div>
 
-                      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                          <div class="modal-content">
-                            <form id="dateFilterForm" method="post" class="forms-sample bg-secondary p-5 text-center rounded">
-                              <h3 class="text-white fx-bolder">Filter</h3>
-                              <label for="startDate" class="text-black">Start Date:</label>
-                              <input type="date" id="startDate" class="form-control" name="start_date" required>
-                              <label for="endDate" class="text-black mt-2">End Date:</label>
-                              <input type="date" id="endDate" class="form-control" name="end_date" required>
-                              <button type="button" class="btn btn-primary mt-3" onclick="filterByDate()">Filter</button>
-                            </form>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                                            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <form id="dateFilterForm" method="post" class="forms-sample bg-white p-5 text-start rounded">
+                                                            <h3 class="text-center text-primary fx-bolder">Filter</h3>
+                                                            <label for="startDate" class="text-black">Start Date:</label>
+                                                            <input type="date" id="startDate" class="form-control" name="start_date" required>
+                                                            <label for="endDate" class="text-black mt-2">End Date:</label>
+                                                            <input type="date" id="endDate" class="form-control" name="end_date" required>
+                                                            <button type="button" class="btn btn-primary col-md-12 mt-3" onclick="filterByDate()">Filter</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                 </div>
               </div>
             </div>
