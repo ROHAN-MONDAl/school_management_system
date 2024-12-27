@@ -113,6 +113,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="col-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
+                                <a href="http://">Back to </a>
                                 <h4 class="card-title">Form</h4>
                                 <p class="card-description text-danger"><b>Warning: Be carefull while fill details</b></p>
 
