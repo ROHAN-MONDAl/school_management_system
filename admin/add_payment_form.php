@@ -9,20 +9,21 @@ if (!$id) {
     exit;
 }
 
+// Generate a random 6-digit invoice number
+$randomInvoiceNumber = mt_rand(100000, 999999);
+
 // Initialize response message
 $responseMessage = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $student_id = $id;
     $date = date('Y-m-d');
-    $invo_no = filter_input(INPUT_POST, 'invo_no', FILTER_SANITIZE_NUMBER_INT);
+    $invo_no = $randomInvoiceNumber; // Use the generated random invoice number
     $amount = filter_input(INPUT_POST, 'amount', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
     $summary = filter_input(INPUT_POST, 'summary', FILTER_SANITIZE_STRING);
 
     // Validate inputs
-    if (empty($invo_no)) {
-        $responseMessage = "<p class='text-danger'>Invoice number is required.</p>";
-    } elseif (empty($amount) || $amount <= 0) {
+    if (empty($amount) || $amount <= 0) {
         $responseMessage = "<p class='text-danger'>Amount must be a positive number.</p>";
     } elseif (empty($summary)) {
         $responseMessage = "<p class='text-danger'>Summary is required.</p>";
@@ -35,10 +36,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $check_stmt->store_result();
 
         if ($check_stmt->num_rows > 0) {
-            $responseMessage = "<p class='text-danger'>Invoice number already exists.</p>";
+            $responseMessage = "<p class='text-danger'>Invoice number already exists. Please try again.</p>";
         } else {
             // Insert new payment record
-            $sql = "INSERT INTO payments (student_id, invo_no, amount, summary,date) VALUES (?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO payments (student_id, invo_no, amount, summary, date) VALUES (?, ?, ?, ?, ?)";
             $stmt = $conn->prepare($sql);
             if ($stmt) {
                 $stmt->bind_param("sidss", $student_id, $invo_no, $amount, $summary, $date);
@@ -55,8 +56,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $check_stmt->close();
     }
 }
-
 ?>
+
 
 
 <!DOCTYPE php>
@@ -113,16 +114,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="col-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
-                                <a href="http://">Back to </a>
-                                <h4 class="card-title">Form</h4>
+                                <a href="views_payments.php?id=<?php echo $id; ?>" class="btn btn-warning text-white fw-bolder">Back</a>
+                                <h4 class="card-title mt-5">Form</h4>
                                 <p class="card-description text-danger"><b>Warning: Be carefull while fill details</b></p>
 
                                 <!-- Form -->
                                 <div id="response-message"><?= $responseMessage ?></div>
                                 <form id="paymentForm" method="post" enctype="multipart/form-data" class="forms-sample text-dark">
                                     <div class="form-group">
-                                        <label for="invo_no"><b>Invoice Number</b></label>
-                                        <input type="number" name="invo_no" class="form-control" id="invo_no" placeholder="Enter invoice number" required>
+                                        <label for="invo_no" class="text-info"> Invoice Number: * The Invoice number generate automatically *</label>
+                                        <input type="text" id="invo_no" class="form-control" name="invo_no" value="<?php echo $randomInvoiceNumber; ?>" readonly disabled>
                                     </div>
 
                                     <div class="form-group">
@@ -136,8 +137,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     </div>
 
                                     <div class="form-group text-center mt-4">
-                                        <button type="reset" class="btn btn-dark">Reset</button>
-                                        <button type="submit" class="btn btn-success">Submit</button>
+                                        <button type="reset" class="btn btn-dark fw-bolder">Reset</button>
+                                        <button type="submit" class="btn btn-success text-white fw-bolder">Submit</button>
                                     </div>
                                 </form>
                             </div>

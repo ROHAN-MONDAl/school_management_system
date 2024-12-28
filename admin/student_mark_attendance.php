@@ -2,54 +2,53 @@
 include '../server_database.php';
 
 // Check if class is passed via URL
-if (!isset($_GET['class']) || empty($_GET['class'])) {
+if (empty($_GET['class'])) {
     die('No class selected.');
 }
 
-// Get the selected class from the URL
-$class = $_GET['class'];
+$class = $conn->real_escape_string($_GET['class']); // Sanitize input
+$date_today = date('Y-m-d');
 
 // Fetch students from the selected class
 $query_students = "SELECT * FROM students WHERE class = '$class'";
 $result_students = $conn->query($query_students);
-
 if (!$result_students) {
     die("Error fetching students: " . $conn->error);
 }
 
-// Get today's date for attendance entry
-$date_today = date('Y-m-d');
+// Fetch the total number of students
+$total_students = $result_students->num_rows;
 
-// Check if attendance has already been marked for today for this class
-$query_check_attendance = "SELECT * FROM school_attendance WHERE class = '$class' AND date = '$date_today'";
-$result_check_attendance = $conn->query($query_check_attendance);
-$attendance_done = $result_check_attendance->num_rows > 0;
+// Check if attendance has already been partially or fully marked
+$query_get_marked_students = "SELECT student_id FROM school_attendance WHERE class = ? AND date = ?";
+$stmt = $conn->prepare($query_get_marked_students);
+$stmt->bind_param('ss', $class, $date_today);
+$stmt->execute();
+$result_marked_students = $stmt->get_result();
 
-// Handle form submission for attendance marking
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && !$attendance_done) {
-    // Debug: Print incoming data
-    echo "<pre>";
-    print_r($_POST['status']);
-    echo "</pre>";
+$marked_student_ids = [];
+while ($row = $result_marked_students->fetch_assoc()) {
+    $marked_student_ids[] = $row['student_id'];
+}
+$stmt->close();
 
-    // Insert attendance records
+$attendance_done = (count($marked_student_ids) === $total_students); // Check if attendance is fully done
+
+// Handle form submission
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     foreach ($_POST['status'] as $student_id => $status) {
-        if (empty($status)) {
-            echo "Error: Status for student ID $student_id is not selected.";
-            exit();
-        }
+        $student_id = $conn->real_escape_string($student_id); // Sanitize input
+        $status = $conn->real_escape_string($status); // Sanitize input
 
-        // Insert query
-        $query_insert = "INSERT INTO school_attendance (student_id, class, status, date) VALUES ('$student_id', '$class', '$status', '$date_today')";
-
-        // Check if query executes successfully
-        if ($conn->query($query_insert) !== TRUE) {
-            echo "Error: " . $query_insert . "<br>" . $conn->error;
+        // Insert attendance for the student
+        $query_insert = "INSERT INTO school_attendance (student_id, class, status, date) 
+                         VALUES ('$student_id', '$class', '$status', '$date_today')";
+        if (!$conn->query($query_insert)) {
+            die("Error inserting attendance: " . $conn->error);
         }
     }
 
-    // Success message
-    echo "<script>alert('Attendance successfully marked for today.');</script>";
+    // Redirect to refresh the attendance status
     header("Location: students_Attendences.php?class=$class");
     exit();
 }
@@ -99,11 +98,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !$attendance_done) {
                                     <div class="row mt-3">
                                         <div class="col-12">
                                             <div class="table-responsive col-lg-12 col-md-12">
-                                                <h3>Mark Attendance for Class: <?php echo $class; ?></h3>
-
+                                                <h3>Mark Attendance for Class: <?php echo htmlspecialchars($class); ?></h3>
                                                 <?php if ($attendance_done): ?>
                                                     <div class="alert alert-warning mt-5">
-                                                        Attendance for today has already been marked for this class.
+                                                        Attendance for today has already been fully marked for this class.
                                                     </div>
                                                 <?php else: ?>
                                                     <form action="" method="POST">
@@ -118,29 +116,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !$attendance_done) {
                                                                         <th>Absent</th>
                                                                     </tr>
                                                                 </thead>
-                                                                <tbody  class="text-center text-wrap">
-                                                                    <?php 
+                                                                <tbody class="text-center text-wrap">
+                                                                    <?php
                                                                     $slno = 1;
-                                                                    while ($row = $result_students->fetch_assoc()): ?>
-                                                                        <tr>
-                                                                            <td><?php echo $slno++; ?></td>
-                                                                            <td><?php echo $row['name']; ?></td>
-                                                                            <td><?php echo $row['roll_no']; ?></td>
-                                                                            <td><input type="radio" name="status[<?php echo $row['id']; ?>]" value="Present" required></td>
-                                                                            <td><input type="radio" name="status[<?php echo $row['id']; ?>]" value="Absent" required></td>
-                                                                        </tr>
-                                                                      
-                                                                    <?php endwhile;
-                                                                     
+                                                                    $result_students->data_seek(0); // Reset the result pointer
+                                                                    while ($row = $result_students->fetch_assoc()):
+                                                                        if (!in_array($row['id'], $marked_student_ids)): // Only show unmarked students
                                                                     ?>
+                                                                            <tr>
+                                                                                <td><?php echo $slno++; ?></td>
+                                                                                <td><?php echo htmlspecialchars($row['name']); ?></td>
+                                                                                <td><?php echo htmlspecialchars($row['roll_no']); ?></td>
+                                                                                <td>
+                                                                                    <input type="radio" name="status[<?php echo $row['id']; ?>]" value="Present">
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input type="radio" name="status[<?php echo $row['id']; ?>]" value="Absent">
+                                                                                </td>
+                                                                            </tr>
+                                                                    <?php
+                                                                        endif;
+                                                                    endwhile; ?>
                                                                 </tbody>
-
                                                             </div>
-
                                                         </table>
                                                         <div class="form-group text-center mt-4">
-                                                            <button type="submit" class="btn btn-success mt-5 text-white fw-bolder">Submit Attendance</button>
+                                                            <button type="submit" class="btn btn-primary fw-bolder">Submit Attendance</button>
                                                         </div>
+
                                                     </form>
                                                 <?php endif; ?>
                                             </div>

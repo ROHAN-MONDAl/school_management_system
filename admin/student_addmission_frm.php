@@ -57,6 +57,7 @@ $message_type = $_GET['type'] ?? ''; // 'success' or 'error'
                     <div class="col-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
+                                <p><a href="students.php"><button type="button" class="btn btn-warning text-white fw-bolder">Back</button></a></p>
                                 <h4 class="card-title">Admission Form</h4>
                                 <p class="card-description">Add students details</p>
                                 <?php
@@ -107,7 +108,12 @@ $message_type = $_GET['type'] ?? ''; // 'success' or 'error'
                                     </div>
                                     <div class="form-group">
                                         <label for="branch">Branch</label>
-                                        <input type="text" name="branch" class="form-control" id="branch" autocapitalize="words" autocomplete="on" placeholder="Location" required>
+                                        <select class="form-control" name="branch" id="branch" required>
+                                            <option value="">--Select a branch--</option>
+                                            <option value="Class 1">Branch A</option>
+                                            <option value="Class 2">Branch B</option>
+                                            <option value="Class 3">Branch C</option>
+                                        </select>
                                     </div>
                                     <div class="form-group">
                                         <label for="city">City</label>
@@ -127,8 +133,8 @@ $message_type = $_GET['type'] ?? ''; // 'success' or 'error'
                                         <input type="password" name="confirm_password" class="form-control" id="confirm_password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                                             title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" placeholder="Confirm Password" required>
                                         <div class="form-group text-center mt-4">
-                                            <button type="submit" class="btn btn-primary me-2">Submit</button>
                                             <button type="reset" class="btn btn-dark text-light">Reset</button>
+                                            <button type="submit" class="btn btn-primary me-2">Submit</button>
                                         </div>
                                 </form>
 

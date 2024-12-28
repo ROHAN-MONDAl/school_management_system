@@ -1,14 +1,7 @@
 <?php include '../server_database.php';
-
-$query = "SELECT * FROM students";
+$id = $_GET['id'];
+$query = "SELECT * FROM payments where 	student_id = '$id'";
 $result = $conn->query($query);
-// Fetch attendance records
-$result = $conn->query("
-SELECT students.roll_no, students.class, students.name, school_attendance.date, school_attendance.status
-FROM school_attendance
-JOIN students ON school_attendance.student_id = students.id
-ORDER BY school_attendance.date DESC
-");
 
 ?>
 <!DOCTYPE php>
@@ -49,7 +42,7 @@ ORDER BY school_attendance.date DESC
                                 <div class="col-md-12">
                                     <div class="row">
                                         <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                                            <h2 class="font-weight-bold text-primary fw-bolder">Student History</h2>
+                                            <h2 class="font-weight-bold text-primary fw-bolder">Payments History</h2>
                                             <p class="text-secondary">Students payments history</p>
                                         </div>
                                     </div>
@@ -96,11 +89,11 @@ ORDER BY school_attendance.date DESC
                                                 <table id="dataTable" class=" table display expandable-table col-lg-12">
                                                     <thead class="text-center text-wrap">
                                                         <th>Slno</th>
-                                                        <th>Name</th>
-                                                        <th>Class</th>
-                                                        <th>Roll no</th>
-                                                        <th>Date</th>
-                                                        <th>Attendance</th>
+                                                        <th>Payment Id</th>
+                                                        <th>Invoice No</th>
+                                                        <th>Amount</th>
+                                                        <th>Summary</th>
+                                                        <th>Payment Date</th>
                                                     </thead>
                                                     <tbody class="text-center text-wrap">
                                                         <tr>
@@ -109,11 +102,11 @@ ORDER BY school_attendance.date DESC
                                                                 $i = 1;
                                                                 while ($row = $result->fetch_assoc()): ?>
                                                                     <td><?php echo $i; ?></td>
-                                                                    <td><?php echo $row['name']; ?></td>
-                                                                    <td><?php echo $row['class']; ?></td>
-                                                                    <td><?php echo $row['roll_no']; ?></td>
+                                                                    <td><?php echo $row['payment_id']; ?></td>
+                                                                    <td><?php echo $row['invo_no']; ?></td>
+                                                                    <td><?php echo $row['amount']; ?></td>
+                                                                    <td><?php echo $row['summary']; ?></td>
                                                                     <td><?php echo $row['date']; ?></td>
-                                                                    <td><?php echo $row['status']; ?></td>
                                                         </tr>
                                                     <?php
                                                                     $i++;
@@ -146,20 +139,21 @@ ORDER BY school_attendance.date DESC
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-     $(document).ready(function() {
-      // Function to filter rows based on search input
-      $('#search').on('keyup', function() {
-        var searchTerm = $(this).val().toLowerCase();
-        $('#dataTable tbody tr').each(function() {
-          var row = $(this);
-          var rowText = row.text().toLowerCase();
-          if (rowText.includes(searchTerm)) {
-            row.show();
-          } else {
-            row.hide();
-          }
+        $(document).ready(function() {
+            // Function to filter rows based on search input
+            $('#search').on('keyup', function() {
+                var searchTerm = $(this).val().toLowerCase();
+                $('#dataTable tbody tr').each(function() {
+                    var row = $(this);
+                    var rowText = row.text().toLowerCase();
+                    if (rowText.includes(searchTerm)) {
+                        row.show();
+                    } else {
+                        row.hide();
+                    }
+                });
+            })
         });
-      })});
 
         function filterByDate() {
             var startDate = $('#startDate').val();
@@ -167,7 +161,7 @@ ORDER BY school_attendance.date DESC
 
             $('#dataTable tbody tr').each(function() {
                 var row = $(this);
-                var rowDate = new Date(row.find('td:eq(3)').text()); // Get date from the 4th column (index 3)
+                var rowDate = new Date(row.find('td:eq(5)').text()); // Get date from the 4th column (index 3)
 
                 if (startDate && rowDate < new Date(startDate) || endDate && rowDate > new Date(endDate)) {
                     row.hide();

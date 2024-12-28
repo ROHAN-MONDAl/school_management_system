@@ -114,10 +114,10 @@ $result = $conn->query("SELECT * FROM students");
                                                                     </td>
                                                                     <td class="text-wrap text-break w-25"><?php echo $row['roll_no']; ?></td>
                                                                     <td>
-                                                                        <input type="radio" class="form-check-input btn btn-danger" name="status[<?php echo $row['id']; ?>]" value="Present" required> Present
+                                                                        <input type="radio" class="form-check-input btn btn-danger" name="status[<?php echo $row['id']; ?>]" value="Present"> Present
                                                                     </td>
                                                                     <td>
-                                                                        <input type="radio" class="form-check-input btn btn-danger" name="status[<?php echo $row['id']; ?>]" value="Absent" required> Absent
+                                                                        <input type="radio" class="form-check-input btn btn-danger" name="status[<?php echo $row['id']; ?>]" value="Absent"> Absent
                                                                     </td>
                                                                 </tr>
 

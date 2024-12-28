@@ -34,7 +34,7 @@ $result = $query->get_result();  // Get the result of the query
 $totalAmount = 0;  // Initialize the total amount variable
 
 // If no payments are found, display a message
-if ($result->num_rows == 0) {
+if ($result->num_rows == 0 ) {
     exit("<p class='text-danger'>No payments found for this student.</p>");
 }
 
@@ -116,7 +116,7 @@ $student = $result->fetch_assoc();  // Assuming only one student is fetched
                             <img src="assets/images/favicon.png" style="width: 4rem;  object-fit: cover;"><b>Daffodils School</b>
                         </h3>
                         <div class="text-center mb-4 d-flex justify-content-center align-items-center" style="margin-top:-30px">
-                            <p class="mt-3 text-info">Address: 63MG+G5J, 237, Kuchkuchia Rd, Bankura, West Bengal 722101, <br> Phone number: 094348 60435, </p>
+                            <p class="mt-3 text-info">Address: Kuchkuchia Rd, Bankura, West Bengal 722101, <br> Phone number: 094348 60435, </p>
                             </p>
 
                         </div>

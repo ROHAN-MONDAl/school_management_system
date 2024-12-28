@@ -52,8 +52,8 @@
                 <div class="col-md-12">
                   <div class="row">
                     <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                      <h2 class="font-weight-bold text-primary fw-bolder">Students</h2>
-                      <p class="text-secondary">Students Admision and Attendence</p>
+                      <h2 class="font-weight-bold text-primary fw-bolder">Dashboard</h2>
+                      <p class="text-secondary">Overview all atendance</p>
                     </div>
                   </div>
                   <div class="container">
