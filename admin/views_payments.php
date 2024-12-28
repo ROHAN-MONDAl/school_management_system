@@ -34,7 +34,7 @@ $result = $query->get_result();  // Get the result of the query
 $totalAmount = 0;  // Initialize the total amount variable
 
 // If no payments are found, display a message
-if ($result->num_rows == 0 ) {
+if ($result->num_rows == 0) {
     exit("<p class='text-danger'>No payments found for this student.</p>");
 }
 
@@ -131,19 +131,27 @@ $student = $result->fetch_assoc();  // Assuming only one student is fetched
                             <div class="col-6 col-md-6 mb-5 text-end">
                                 <p><strong>Date:</strong> <?php echo date('d-m-Y'); ?></p>
                                 <?php
-                                // Reset the result pointer and loop through all rows
-                                $lastRow = null;  // Initialize the variable to hold the last row
+                                // Check if there are any rows in the result
+                                if ($result->num_rows > 0) {
+                                    // Get the first row
+                                    $firstRow = $result->fetch_assoc();
+                                    // Reset the result pointer to the first row
+                                    $result->data_seek(0); // This resets the pointer back to the first row
 
-                                // Loop through the result to get the last row
-                                while ($row = $result->fetch_assoc()) {
-                                    $lastRow = $row;  // Store the last row's data
-                                } // Display the invoice number of the last row after the loop
+                                    // Initialize a variable to hold the last row
+                                    $lastRow = null;
 
-                                // Display the invoice number of the last row after the loop
-                                if ($lastRow) {
-                                    echo "<p><strong>Invoice no:</strong> {$lastRow['invo_no']} / " . date('Y') . "</p>";
-                                } else {
-                                    echo "<p>No invoice records found.</p>";
+                                    // Loop through the result to get the last row
+                                    while ($row = $result->fetch_assoc()) {
+                                        $lastRow = $row;  // Store the last row's data
+                                    }
+
+                                    // Display the last row invoice number
+                                    if ($lastRow) {
+                                        echo "<p><strong>Invoice no:</strong> DLS {$lastRow['invo_no']} / " . date('Y') . "</p>";
+                                    } else {
+                                        echo "<p>No invoice records found.</p>";
+                                    }
                                 }
                                 ?>
                             </div>
