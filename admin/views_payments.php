@@ -113,7 +113,7 @@ $student = $result->fetch_assoc();  // Assuming only one student is fetched
                     <!-- table header -->
                     <div class="col-12 col-lg-12 col-md-12 rounded mt-5" id="invoice">
                         <h3 class="text-center mb-4 text-primary d-flex justify-content-center align-items-center">
-                            <img src="assets/images/favicon.png" style="width: 4rem;  object-fit: cover;"><b>Daffodils School</b>
+                            <img src="assets/images/logo_.svg" style="width: 4rem;  object-fit: cover;"><b>Daffodils School</b>
                         </h3>
                         <div class="text-center mb-4 d-flex justify-content-center align-items-center" style="margin-top:-30px">
                             <p class="mt-3 text-info">Address: Kuchkuchia Rd, Bankura, West Bengal 722101, <br> Phone number: 094348 60435, </p>
@@ -230,20 +230,20 @@ $student = $result->fetch_assoc();  // Assuming only one student is fetched
 
 
             <script>
-                // Function to download the invoice as a PDF
-                function printInvoice() {
-                    const originalContent = document.body.innerHTML;
-                    const invoiceContent = document.getElementById('invoice').outerHTML;
+                    // Function to download the invoice as a PDF
+                    function printInvoice() {
+                        const originalContent = document.body.innerHTML;
+                        const invoiceContent = document.getElementById('invoice').outerHTML;
 
-                    // Temporarily replace body content with the invoice
-                    document.body.innerHTML = invoiceContent;
+                        // Temporarily replace body content with the invoice
+                        document.body.innerHTML = invoiceContent;
 
-                    // Trigger print
-                    window.print();
+                        // Trigger print
+                        window.print();
 
-                    // Restore the original body content
-                    document.body.innerHTML = originalContent;
-                }
+                        // Restore the original body content
+                        document.body.innerHTML = originalContent;
+                    }
 
                 // Function to send the invoice via WhatsApp
                 function sendWhatsApp() {

@@ -134,7 +134,7 @@ $result = $conn->query($query);
                                   <td class="text-wrap"><?php echo $row['admission_date']; ?></td>
                                   <td>******</td> <!-- Masked password -->
                                   <td>
-                                    <a href="views_payments.php?id=<?php echo $row['id']; ?>" target="_blank" rel="noopener noreferrer">
+                                    <a href="views_payments.php?id=<?php echo $row['id']; ?>" rel="noopener noreferrer">
                                       <button type="button" class="btn btn-success btn-sm text-white fw-bolder">View</button>
                                     </a>
                                   </td>
