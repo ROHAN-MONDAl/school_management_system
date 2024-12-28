@@ -48,32 +48,35 @@ $result = $conn->query($query);
                                     </div>
 
                                     <div class="row justify-content-center p-1">
-                                        <div class="col-md-12 me-5">
-                                            <div class="search-container align-items-center me-2">
-                                                <div class="search-container col-lg-12  align-items-center">
+                                        <div class="col-12 col-md-10 col-lg-8">
+                                            <!-- Search Container -->
+                                            <div class="search-container d-flex flex-column flex-md-row align-items-center">
+                                                <div class="col-12 col-md-10 mb-2 mb-md-0">
                                                     <input type="text" class="form-control search-input" id="search" placeholder="Search..." onkeyup="filterTable()">
                                                 </div>
-                                                <p class="mx-3 mt-2 text-danger" style="cursor:pointer" data-toggle="modal" data-target="#exampleModalCenter">
-                                                    <i style="font-size:24px;" class="fa text-danger">&#xf0b0;</i><b>Filter</b>
+                                                <p class="mx-md-3 mt-2 mt-md-0 text-danger" style="cursor:pointer" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
+                                                    <i class="fa text-danger" style="font-size:24px;">&#xf0b0;</i> <b>Filter</b>
                                                 </p>
                                             </div>
 
+                                            <!-- Modal -->
                                             <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                                     <div class="modal-content">
-                                                        <form id="dateFilterForm" method="post" class="forms-sample bg-white p-5 text-start rounded">
-                                                            <h3 class="text-center text-primary fx-bolder">Filter</h3>
+                                                        <form id="dateFilterForm" method="post" class="forms-sample bg-white p-3 p-md-5 text-start rounded">
+                                                            <h3 class="text-center text-primary fw-bold">Filter</h3>
                                                             <label for="startDate" class="text-black">Start Date:</label>
                                                             <input type="date" id="startDate" class="form-control" name="start_date" required>
                                                             <label for="endDate" class="text-black mt-2">End Date:</label>
                                                             <input type="date" id="endDate" class="form-control" name="end_date" required>
-                                                            <button type="button" class="btn btn-primary col-md-12 mt-3" onclick="filterByDate()">Filter</button>
+                                                            <button type="button" class="btn btn-primary w-100 mt-3" onclick="filterByDate()">Filter</button>
                                                         </form>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -94,6 +97,7 @@ $result = $conn->query($query);
                                                         <th>Amount</th>
                                                         <th>Summary</th>
                                                         <th>Payment Date</th>
+                                                        <th>Action</th>
                                                     </thead>
                                                     <tbody class="text-center text-wrap">
                                                         <tr>
@@ -101,12 +105,18 @@ $result = $conn->query($query);
                                                                 <?php
                                                                 $i = 1;
                                                                 while ($row = $result->fetch_assoc()): ?>
-                                                                    <td><?php echo $i; ?></td>
-                                                                    <td><?php echo $row['payment_id']; ?></td>
-                                                                    <td><?php echo $row['invo_no']; ?></td>
-                                                                    <td><?php echo $row['amount']; ?></td>
-                                                                    <td><?php echo $row['summary']; ?></td>
-                                                                    <td><?php echo $row['date']; ?></td>
+                                                        <tr>
+                                                            <td><?php echo $i; ?></td>
+                                                            <td><?php echo $row['payment_id']; ?></td>
+                                                            <td><?php echo $row['invo_no']; ?></td>
+                                                            <td><?php echo $row['amount']; ?></td>
+                                                            <td><?php echo $row['summary']; ?></td>
+                                                            <td><?php echo $row['date']; ?></td>
+                                                            <td>
+                                                                <a href="javascript:void(0);" onclick="confirmDelete('<?php echo $row['payment_id']; ?>')">
+                                                                    <button type="button" class="btn btn-danger text-white fw-bold">Delete</button>
+                                                                </a>
+                                                            </td>
                                                         </tr>
                                                     <?php
                                                                     $i++;
@@ -116,6 +126,7 @@ $result = $conn->query($query);
                                                         <td colspan="10">No data found</td>
                                                     </tr>
                                                 <?php endif; ?>
+
                                                 </tr>
 
                                                     </tbody>
@@ -155,6 +166,7 @@ $result = $conn->query($query);
             })
         });
 
+        //date filter
         function filterByDate() {
             var startDate = $('#startDate').val();
             var endDate = $('#endDate').val();
@@ -170,6 +182,15 @@ $result = $conn->query($query);
                 }
             });
         }
+
+        // confirmation window
+        function confirmDelete(paymentId) {
+            if (confirm("Are you sure you want to delete this record?")) {
+                window.location.href = "delete_payments_hst.php?payment_id=" + paymentId;
+            }
+        }
+    </script>
+
     </script>
 
     <script src="assets/js/script.js"></script>

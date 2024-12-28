@@ -41,16 +41,13 @@ $result_classes = $conn->query($query_classes);
                         <div class="col-lg-12 col-md-12 grid-margin stretch-card">
                             <div class="card">
                                 <div class="card-body">
-                                    <div class="card-title col-12 col-md-12 col-lg-12 d-flex justify-content-between align-items-start">
-                                        <span class="col-lg-8 me-5 fs-6 text-info" id="date"></span>
-                                        <a href="student_att_history.php">
-                                            <button class="btn btn-success btn-sm text-white font-weight-bold me-4">Check history</button>
-                                        </a>
+                                    <div class="card-title col-12 d-flex flex-column flex-md-row justify-content-between align-items-start">
+                                        <span class="col-12 col-lg-8 fs-6 text-info mb-2 mb-md-0" id="date"></span>
                                     </div>
+
                                     <div class="row mt-3">
                                         <div class="col-12">
-
-                                            <div class="table-responsive col-lg-12 col-md-12">
+                                            <div class="table-responsive">
                                                 <h3><b>Attendance</b></h3>
                                                 <form action="student_mark_attendance.php" method="GET">
                                                     <div class="form-group">
@@ -62,14 +59,19 @@ $result_classes = $conn->query($query_classes);
                                                             <?php endwhile; ?>
                                                         </select>
                                                     </div>
-                                                    <div class="form-group text-center">
-                                                        <button type="submit" class="btn btn-primary">Proceed</button>
+                                                    <div class="form-group text-center float-end col-12 col-lg-6 d-flex flex-column flex-lg-row justify-content-center">
+                                                        <a class="mb-2 mb-lg-0 col-12 col-lg-6">
+                                                            <button type="submit" class="btn btn-primary col-12 text-white fw-bold">Proceed</button>
+                                                        </a>
+                                                        <a href="student_att_history.php" class="mb-2 mb-lg-0 col-12 col-lg-6">
+                                                            <button type="button" class="btn btn-success col-12 text-white fw-bold">Check history</button>
+                                                        </a>
                                                     </div>
-                                                    
                                                 </form>
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>

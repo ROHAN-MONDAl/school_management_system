@@ -19,7 +19,9 @@ $query = $conn->prepare("
         students.whatsapp, 
         students.branch, 
         students.city, 
+        students.dob, 
         students.admission_date,
+        students.admission_package,
         payments.invo_no, 
         payments.amount, 
         payments.summary 
@@ -160,12 +162,15 @@ $student = $result->fetch_assoc();  // Assuming only one student is fetched
                         <div class="row mb-5">
                             <div class="col-12 col-md-6">
                                 <p><strong>Student Name:</strong> &nbsp; &nbsp; <?php echo $student['name']; ?></p>
+                                <p><strong>Gender:</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; <?php echo $student['gender']; ?></p>
                                 <p><strong>Class:</strong> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <?php echo $student['class']; ?></p>
                                 <p><strong>Student Roll no:</strong> &nbsp;<?php echo $student['roll_no']; ?></p>
                                 <p><strong>Phone no:</strong> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <?php echo $student['phone_no']; ?></p>
                                 <p><strong>Whatsapp no:</strong> &nbsp; &nbsp; <?php echo $student['whatsapp']; ?></p>
                                 <p><strong>City:</strong> &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; <?php echo $student['city']; ?></p>
+                                <p><strong>Date of birth:</strong> &nbsp; &nbsp;&nbsp; &nbsp;<?php echo $student['dob']; ?></p>
                                 <p><strong>Admission date:</strong> &nbsp;<?php echo $student['admission_date']; ?></p>
+                                <p><strong class="text-wrap">Admission Package:</strong> &nbsp; Rs <?php echo $student['admission_package']; ?></p>
                             </div>
                         </div>
 
@@ -185,18 +190,25 @@ $student = $result->fetch_assoc();  // Assuming only one student is fetched
                                     <?php
                                     $i = 1;
                                     $lastRow = null;
+                                    $totalAmount = 0; // Initialize total amount
+
+                                    // Set the initial admission package and scaling factor
+                                    $baseAdmissionPackage = $student['admission_package']; // Starting admission package
+                                    $scalingFactor = 1; // Amount to deduct per payment (adjust as needed)
+
                                     // Reset the result pointer and loop through all rows
                                     $result->data_seek(0); // Reset the pointer to the first row
                                     while ($row = $result->fetch_assoc()) {
-                                        $lastRow = $row;
-                                        $totalAmount += $row['amount'];  // Accumulate the total amount
+                                        $lastRow = $row; // Keep track of the last row
+                                        $totalAmount += $row['amount']; // Accumulate the total paid amount
                                     ?>
                                         <tr>
                                             <td><?php echo $i++; ?></td>
-                                            <td class="text-wrap text-break"><?php echo $row['summary']; ?></td>
-                                            <td class="text-wrap text-break">Rs <?php echo $row['amount']; ?></td>
+                                            <td class="text-wrap text-break"><?php echo htmlspecialchars($row['summary']); ?></td>
+                                            <td class="text-wrap text-break">Rs <?php echo number_format($row['amount'], 2); ?></td>
                                         </tr>
                                     <?php } ?>
+
                                     <tr>
                                         <td colspan="2" class="text-start"><strong>Total</strong></td>
                                         <td class="text-wrap text-break"><strong>Rs <?php echo number_format($totalAmount, 2); ?></strong></td>
@@ -204,16 +216,31 @@ $student = $result->fetch_assoc();  // Assuming only one student is fetched
                                 </tbody>
                             </table>
                         </div>
-                        <?php
-                        ?>
+
                         <hr style="color:black">
 
+
+                        <?php
+                        // Calculate the admission package dynamically
+                        $admissionAmount = max($baseAdmissionPackage - $totalAmount, 0);
+
+                        // Display the last row as today's paid amount
+                        if ($lastRow) {
+                            $todayPaidAmount = $lastRow['amount'];
+                            echo '<div class="text-center mt-3">';
+                            echo '<p class="fw-bold">Today\'s Paid Amount: Rs ' . number_format($todayPaidAmount, 2) . '</p>';
+                            echo '</div>';
+                        }
+                        ?>
                         <div class="text-center mt-5 d-flex justify-content-center align-items-center">
                             <p class="fw-bolder"><b>This invoice is computer generated</b></p>
                         </div>
 
-
                     </div>
+                    <div class="text-center mt-4 me-4">
+                        <div class="fw-bolder text-wrap">Due Amounte: Rs <?php echo number_format($admissionAmount, 2); ?> </div>
+                    </div>
+
                     <div class="text-center mt-4 me-4">
                         <a href="http://"><button class="btn btn-primary bg-danger border-0 fw-bolder mt-2 mb-2"><i class="fa-solid fa-pen-to-square"></i> Edit</button></a>
                         <a href="add_payment_form.php?id=<?php echo $id; ?>"><button class="btn btn-success text-white fw-bolder mt-2 mb-2"><i class="fa-solid fa-file-circle-plus"></i> Add form</button></a>
@@ -246,30 +273,41 @@ $student = $result->fetch_assoc();  // Assuming only one student is fetched
                     // Restore the original body content
                     document.body.innerHTML = originalContent;
                 }
-                // Get the student's phone number (preferably the WhatsApp number)
+
                 function sendwhatsapp() {
                     // Get the student's WhatsApp number and other details from PHP
-                    var whatsappNumber = "";
+                    var whatsappNumber = "<?php echo htmlspecialchars($student['whatsapp']); ?>";
                     var studentName = "<?php echo htmlspecialchars($student['name']); ?>";
                     var studentClass = "<?php echo htmlspecialchars($student['class']); ?>";
+                    var branch = "<?php echo htmlspecialchars($student['branch']); ?>";
                     var rollNo = "<?php echo htmlspecialchars($student['roll_no']); ?>";
+                    var dueAmount = "<?php echo number_format($admissionAmount, 2); ?>";
                     var totalAmount = "<?php echo number_format($totalAmount, 2); ?>";
+                    var todayPaidAmount = "<?php echo number_format($todayPaidAmount, 2); ?>";
                     var currentDate = "<?php echo date('d-m-Y'); ?>";
 
-                    // Prepare the message content
-                    var invoiceDetails = "Invoice Details:\n";
-                    invoiceDetails += "Daffodils School\n";
-                    invoiceDetails += "Student Name: " + studentName + "\n";
-                    invoiceDetails += "Class: " + studentClass + "\n";
-                    invoiceDetails += "Roll No: " + rollNo + "\n";
-                    invoiceDetails += "Total Amount: Rs " + totalAmount + "\n";
-                    invoiceDetails += "Date: " + currentDate + "\n";
+                    // Ensure the number is numeric and includes country code
+                    var formattedNumber = whatsappNumber.replace(/[^0-9]/g, ""); // Remove non-numeric characters
+                    if (!formattedNumber.startsWith("91")) {
+                        formattedNumber = "91" + formattedNumber; // Add country code if missing
+                    }
 
-                    // URL-encode the message
-                    var message = encodeURIComponent(invoiceDetails);
+                    // Prepare the message content
+                    var message = encodeURIComponent(
+                        "Invoice Details:\n" +
+                        "Daffodils School\n" +
+                        "Student Name: " + studentName + "\n" +
+                        "Branch Name: " + branch + "\n" +
+                        "Class: " + studentClass + "\n" +
+                        "Roll No: " + rollNo + "\n" +
+                        "Due Amount: Rs " + dueAmount + "\n" +
+                        "Total Amount: Rs " + totalAmount + "\n" +
+                        "Today paid Amount: Rs " + todayPaidAmount + "\n" +
+                        "Date: " + currentDate
+                    );
 
                     // Construct the WhatsApp URL
-                    var whatsappUrl = "https://wa.me/" + whatsappNumber + "?text=" + message;
+                    var whatsappUrl = "https://wa.me/" + formattedNumber + "?text=" + message;
 
                     // Open the WhatsApp link in a new tab
                     window.open(whatsappUrl, "_blank");

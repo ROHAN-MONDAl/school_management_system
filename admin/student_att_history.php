@@ -4,7 +4,7 @@ $query = "SELECT * FROM students";
 $result = $conn->query($query);
 // Fetch attendance records
 $result = $conn->query("
-SELECT students.roll_no, students.class, students.name, school_attendance.date, school_attendance.status
+SELECT students.roll_no, students.class, students.name, students.branch, school_attendance.date, school_attendance.status
 FROM school_attendance
 JOIN students ON school_attendance.student_id = students.id
 ORDER BY school_attendance.date DESC
@@ -53,34 +53,36 @@ ORDER BY school_attendance.date DESC
                                             <p class="text-secondary">Students Attendance history</p>
                                         </div>
                                     </div>
-
                                     <div class="row justify-content-center p-1">
-                                        <div class="col-md-12 me-5">
-                                            <div class="search-container align-items-center me-2">
-                                                <div class="search-container col-lg-12  align-items-center">
+                                        <div class="col-12 col-md-10 col-lg-8">
+                                            <!-- Search Container -->
+                                            <div class="search-container d-flex flex-column flex-md-row align-items-center">
+                                                <div class="col-12 col-md-10 mb-2 mb-md-0">
                                                     <input type="text" class="form-control search-input" id="search" placeholder="Search..." onkeyup="filterTable()">
                                                 </div>
-                                                <p class="mx-3 mt-2 text-danger" style="cursor:pointer" data-toggle="modal" data-target="#exampleModalCenter">
-                                                    <i style="font-size:24px;" class="fa text-danger">&#xf0b0;</i><b>Filter</b>
+                                                <p class="mx-md-3 mt-2 mt-md-0 text-danger" style="cursor:pointer" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
+                                                    <i class="fa text-danger" style="font-size:24px;">&#xf0b0;</i> <b>Filter</b>
                                                 </p>
                                             </div>
 
+                                            <!-- Modal -->
                                             <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                                     <div class="modal-content">
-                                                        <form id="dateFilterForm" method="post" class="forms-sample bg-white p-5 text-start rounded">
-                                                            <h3 class="text-center text-primary fx-bolder">Filter</h3>
+                                                        <form id="dateFilterForm" method="post" class="forms-sample bg-white p-3 p-md-5 text-start rounded">
+                                                            <h3 class="text-center text-primary fw-bold">Filter</h3>
                                                             <label for="startDate" class="text-black">Start Date:</label>
                                                             <input type="date" id="startDate" class="form-control" name="start_date" required>
                                                             <label for="endDate" class="text-black mt-2">End Date:</label>
                                                             <input type="date" id="endDate" class="form-control" name="end_date" required>
-                                                            <button type="button" class="btn btn-primary col-md-12 mt-3" onclick="filterByDate()">Filter</button>
+                                                            <button type="button" class="btn btn-primary w-100 mt-3" onclick="filterByDate()">Filter</button>
                                                         </form>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -95,7 +97,7 @@ ORDER BY school_attendance.date DESC
                                             <div class="table-responsive">
                                                 <table id="dataTable" class=" table display expandable-table col-lg-12">
                                                     <thead class="text-center text-wrap">
-                                                        <th>Slno</th>
+                                                        <th>Branch</th>
                                                         <th>Name</th>
                                                         <th>Class</th>
                                                         <th>Roll no</th>
@@ -106,9 +108,8 @@ ORDER BY school_attendance.date DESC
                                                         <tr>
                                                             <?php if ($result->num_rows > 0): ?>
                                                                 <?php
-                                                                $i = 1;
                                                                 while ($row = $result->fetch_assoc()): ?>
-                                                                    <td><?php echo $i; ?></td>
+                                                                    <td><?php echo $row['branch']; ?></td>
                                                                     <td><?php echo $row['name']; ?></td>
                                                                     <td><?php echo $row['class']; ?></td>
                                                                     <td><?php echo $row['roll_no']; ?></td>
@@ -116,7 +117,6 @@ ORDER BY school_attendance.date DESC
                                                                     <td><?php echo $row['status']; ?></td>
                                                         </tr>
                                                     <?php
-                                                                    $i++;
                                                                 endwhile; ?>
                                                 <?php else: ?>
                                                     <tr>
@@ -146,20 +146,21 @@ ORDER BY school_attendance.date DESC
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-     $(document).ready(function() {
-      // Function to filter rows based on search input
-      $('#search').on('keyup', function() {
-        var searchTerm = $(this).val().toLowerCase();
-        $('#dataTable tbody tr').each(function() {
-          var row = $(this);
-          var rowText = row.text().toLowerCase();
-          if (rowText.includes(searchTerm)) {
-            row.show();
-          } else {
-            row.hide();
-          }
+        $(document).ready(function() {
+            // Function to filter rows based on search input
+            $('#search').on('keyup', function() {
+                var searchTerm = $(this).val().toLowerCase();
+                $('#dataTable tbody tr').each(function() {
+                    var row = $(this);
+                    var rowText = row.text().toLowerCase();
+                    if (rowText.includes(searchTerm)) {
+                        row.show();
+                    } else {
+                        row.hide();
+                    }
+                });
+            })
         });
-      })});
 
         function filterByDate() {
             var startDate = $('#startDate').val();

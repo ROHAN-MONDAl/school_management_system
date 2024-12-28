@@ -15,7 +15,7 @@ $randomInvoiceNumber = mt_rand(100000, 999999);
 // Initialize response message
 $responseMessage = "";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $student_id = $id;
     $date = date('Y-m-d');
     $invo_no = $randomInvoiceNumber; // Use the generated random invoice number
@@ -45,6 +45,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $stmt->bind_param("sidss", $student_id, $invo_no, $amount, $summary, $date);
                 if ($stmt->execute()) {
                     $responseMessage = "<p class='text-success'>Data inserted successfully!</p>";
+                    header("Location: views_payments.php?id=" . urlencode($id));
+                    exit; // Ensure the script stops after the redirect
                 } else {
                     $responseMessage = "<p class='text-danger'>Error: {$stmt->error}</p>";
                 }
@@ -57,6 +59,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
+
+
+
 
 
 
@@ -119,7 +124,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <p class="card-description text-danger"><b>Warning: Be carefull while fill details</b></p>
 
                                 <!-- Form -->
-                                <div id="response-message"><?= $responseMessage ?></div>
+                                <!-- Display the response message -->
+                                <?php if (!empty($responseMessage)) echo $responseMessage; ?>
                                 <form id="paymentForm" method="post" enctype="multipart/form-data" class="forms-sample text-dark">
                                     <div class="form-group">
                                         <label for="invo_no" class="text-info"> Invoice Number: * The Invoice number generate automatically *</label>

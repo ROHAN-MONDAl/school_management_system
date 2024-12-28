@@ -107,12 +107,16 @@ $message_type = $_GET['type'] ?? ''; // 'success' or 'error'
                                         <input type="tel" name="whatsapp" class="form-control" id="whatsapp" pattern="^(\+91[\-\s]?)?[0]?(91)?[6789]\d{9}$" placeholder="Please enter whatsapp number" required>
                                     </div>
                                     <div class="form-group">
+                                        <label for="optional_phone">Optional number</label>
+                                        <input type="number" name="optional_phone" class="form-control" id="optional_phone" placeholder="Please enter optional number">
+                                    </div>
+                                    <div class="form-group">
                                         <label for="branch">Branch</label>
                                         <select class="form-control" name="branch" id="branch" required>
                                             <option value="">--Select a branch--</option>
-                                            <option value="Class 1">Branch A</option>
-                                            <option value="Class 2">Branch B</option>
-                                            <option value="Class 3">Branch C</option>
+                                            <option value="Branch A">Branch A</option>
+                                            <option value="Branch B">Branch B</option>
+                                            <option value="Branch C">Branch C</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
@@ -120,9 +124,17 @@ $message_type = $_GET['type'] ?? ''; // 'success' or 'error'
                                         <input type="text" name="city" class="form-control" id="city" placeholder="Location" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="admission_date">Date of Admission</label>
-                                        <input type="date" name="admission_date" class="form-control" id="admission_date" required>
+                                        <label for="dob">Date of birth</label>
+                                        <input type="date" name="dob" class="form-control text-primary fw-bolder" placeholder="d-m-y" id="dob" required>
                                     </div>
+                                    <div class="form-group">
+                                        <label for="admission_date">Date of Admission</label>
+                                        <input type="date" name="admission_date" class="form-control text-primary fw-bolder" placeholder="d-m-y" id="admission_date" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="admission_package">Admission Package</label>
+                                        <input type="number" name="admission_package" class="form-control text-primary fw-bolder" placeholder="Enter your amount" id="admission_package" required>
+                                    </div>                   
                                     <div class="form-group">
                                         <label for="password">Password</label>
                                         <input type="password" name="password" class="form-control" id="password" placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
