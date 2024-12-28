@@ -149,9 +149,9 @@
                   </thead>
                   <tbody class="text-center text-wrap">
                     <tr>
-                      <td class="text-wrap text-break w-25">John Doe</td>
-                      <td class="text-wrap text-break w-25">30</td>
-                      <td class="text-wrap text-break w-25">2024-01-15</td>
+                      <td class="text-wrap">John Doe</td>
+                      <td class="text-wrap">30</td>
+                      <td class="text-wrap">2024-01-15</td>
                     </tr>
                   </tbody>
                 </table>
@@ -172,9 +172,9 @@
                   </thead>
                   <tbody class="text-center text-wrap">
                     <tr>
-                      <td class="text-wrap text-break w-25">John sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssDoe</td>
-                      <td class="text-wrap text-break w-25">30</td>
-                      <td class="text-wrap text-break w-25">2024-01-15</td>
+                      <td class="text-wrap">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nulla vitae voluptatibus, provident natus maxime, quaerat ratione iusto reprehenderit vero porro aut reiciendis sapiente ex. Ratione distinctio nihil unde molestiae et magni dolore placeat dolorem optio rem, temporibus fugiat fugit mollitia omnis nulla. Quaerat id dicta similique commodi deserunt debitis, animi dignissimos consequuntur, culpa non maxime! Provident reprehenderit velit cupiditate sunt officiis. Delectus expedita quis dolor autem. Similique non earum cupiditate neque, nisi quasi architecto aliquid, nobis deleniti dolore asperiores odit eius! Laboriosam consequuntur architecto consequatur soluta, provident nihil quia dolore itaque delectus natus, aspernatur ipsum tempora quae in, odit cumque.</td>
+                      <td class="text-wrap">30</td>
+                      <td class="text-wrap">2024-01-15</td>
                     </tr>
                   </tbody>
                 </table>

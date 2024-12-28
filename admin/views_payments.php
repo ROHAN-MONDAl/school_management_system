@@ -221,7 +221,9 @@ $student = $result->fetch_assoc();  // Assuming only one student is fetched
 
                     <div class="text-center mt-4">
                         <button class="btn btn-primary fw-bolder mt-2 mb-2" onclick="printInvoice()"><i class="fa-solid fa-download"></i> Download</button>
-                        <button class="btn btn-success fw-bolder text-white mt-2 mb-2" onclick="sendWhatsApp()"><i class="fa-brands fa-whatsapp"></i> Send via WhatsApp</button>
+                        <button class="btn btn-success fw-bolder text-white mt-2 mb-2" onclick="sendwhatsapp()">
+                            <i class="fa-brands fa-whatsapp"></i> Send via WhatsApp
+                        </button>
                     </div>
                 </div>
                 <?php include "footer.php"  ?>
@@ -230,30 +232,47 @@ $student = $result->fetch_assoc();  // Assuming only one student is fetched
 
 
             <script>
-                    // Function to download the invoice as a PDF
-                    function printInvoice() {
-                        const originalContent = document.body.innerHTML;
-                        const invoiceContent = document.getElementById('invoice').outerHTML;
+                // Function to download the invoice as a PDF
+                function printInvoice() {
+                    const originalContent = document.body.innerHTML;
+                    const invoiceContent = document.getElementById('invoice').outerHTML;
 
-                        // Temporarily replace body content with the invoice
-                        document.body.innerHTML = invoiceContent;
+                    // Temporarily replace body content with the invoice
+                    document.body.innerHTML = invoiceContent;
 
-                        // Trigger print
-                        window.print();
+                    // Trigger print
+                    window.print();
 
-                        // Restore the original body content
-                        document.body.innerHTML = originalContent;
-                    }
+                    // Restore the original body content
+                    document.body.innerHTML = originalContent;
+                }
+                // Get the student's phone number (preferably the WhatsApp number)
+                function sendwhatsapp() {
+                    // Get the student's WhatsApp number and other details from PHP
+                    var whatsappNumber = "";
+                    var studentName = "<?php echo htmlspecialchars($student['name']); ?>";
+                    var studentClass = "<?php echo htmlspecialchars($student['class']); ?>";
+                    var rollNo = "<?php echo htmlspecialchars($student['roll_no']); ?>";
+                    var totalAmount = "<?php echo number_format($totalAmount, 2); ?>";
+                    var currentDate = "<?php echo date('d-m-Y'); ?>";
 
-                // Function to send the invoice via WhatsApp
-                function sendWhatsApp() {
-                    const phoneNumber = prompt("Enter the recipient's WhatsApp number (with country code, e.g., 11234567890):");
-                    if (phoneNumber) {
-                        const link = encodeURIComponent("https://example.com/your-link-here"); // Replace with your actual link
-                        const message = encodeURIComponent(`Hello,\n\nPlease check the following link:\n\n${link}`);
-                        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
-                        window.open(whatsappUrl, '_blank');
-                    }
+                    // Prepare the message content
+                    var invoiceDetails = "Invoice Details:\n";
+                    invoiceDetails += "Daffodils School\n";
+                    invoiceDetails += "Student Name: " + studentName + "\n";
+                    invoiceDetails += "Class: " + studentClass + "\n";
+                    invoiceDetails += "Roll No: " + rollNo + "\n";
+                    invoiceDetails += "Total Amount: Rs " + totalAmount + "\n";
+                    invoiceDetails += "Date: " + currentDate + "\n";
+
+                    // URL-encode the message
+                    var message = encodeURIComponent(invoiceDetails);
+
+                    // Construct the WhatsApp URL
+                    var whatsappUrl = "https://wa.me/" + whatsappNumber + "?text=" + message;
+
+                    // Open the WhatsApp link in a new tab
+                    window.open(whatsappUrl, "_blank");
                 }
             </script>
             <!-- custom js -->
