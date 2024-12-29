@@ -44,7 +44,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             if ($stmt) {
                 $stmt->bind_param("sidss", $student_id, $invo_no, $amount, $summary, $date);
                 if ($stmt->execute()) {
-                    $responseMessage = "<p class='text-success'>Data inserted successfully!</p>";
                     header("Location: views_payments.php?id=" . urlencode($id));
                     exit; // Ensure the script stops after the redirect
                 } else {

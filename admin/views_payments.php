@@ -1,7 +1,7 @@
 <?php
 include '../server_database.php';
 
-// Get the student ID, or exit if it's missing
+// Check if the 'id' parameter exists in the GET request
 $id = $_GET['id'] ?? null;
 if (!$id) {
     exit("<p class='text-danger'>Invalid student ID.</p>");
@@ -77,18 +77,72 @@ $student = $result->fetch_assoc();  // Assuming only one student is fetched
     <link rel="stylesheet" href="assets/css/custom.css">
     <!-- endinject -->
     <link rel="shortcut icon" href="assets/images/favicon.png" />
+    <style>
+        @media print {
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+            }
+
+            #invoice {
+                background: #fff;
+                border: none;
+                padding: 15px;
+            }
+
+            .student-image {
+                width: 100px;
+                height: 130px;
+                object-fit: cover;
+            }
+
+            p,
+            table {
+                font-size: 12px;
+            }
+
+            .table-responsive {
+                overflow-x: auto;
+                margin-bottom: 20px;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .table-responsive {
+                overflow-x: auto;
+            }
+
+            .table {
+                width: 100%;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+
+            .invoice-header {
+                text-align: center;
+            }
+
+            .student-details {
+                font-size: 14px;
+            }
+        }
+    </style>
 </head>
 
 <body>
     <div class="container-scroller">
-        <!-- partial:partials/_navbar.php -->
+       
         <?php include 'header.php'   ?>
-        <!-- partial -->
+        
         <div class="container-fluid page-body-wrapper">
-            <!-- partial:partials/_sidebar.php -->
+           
             <?php include 'navbar.php' ?>
-            <!-- Main Dashboard Panel -->
-            <!-- partial -->
+           
             <div class="main-panel">
                 <div class="content-wrapper">
                     <div class="row">
@@ -131,7 +185,9 @@ $student = $result->fetch_assoc();  // Assuming only one student is fetched
                                 <img src="<?php echo $student['img_path']; ?>" class="rounded" alt="Student Image" style="width: 100px; height: 130px; object-fit: cover;">
                             </div>
                             <div class="col-6 col-md-6 mb-5 text-end">
-                                <p><strong>Date:</strong> <?php echo date('d-m-Y'); ?></p>
+                                <p><strong>Date:</strong> <?php
+                                date_default_timezone_set('Asia/kolkata');
+                                echo date('d-m-Y'); ?></p>
                                 <?php
                                 // Check if there are any rows in the result
                                 if ($result->num_rows > 0) {
@@ -164,13 +220,14 @@ $student = $result->fetch_assoc();  // Assuming only one student is fetched
                                 <p><strong>Student Name:</strong> &nbsp; &nbsp; <?php echo $student['name']; ?></p>
                                 <p><strong>Gender:</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; <?php echo $student['gender']; ?></p>
                                 <p><strong>Class:</strong> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <?php echo $student['class']; ?></p>
-                                <p><strong>Student Roll no:</strong> &nbsp;<?php echo $student['roll_no']; ?></p>
+                                <p><strong>Roll no:</strong> &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; <?php echo $student['roll_no']; ?></p>
                                 <p><strong>Phone no:</strong> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <?php echo $student['phone_no']; ?></p>
                                 <p><strong>Whatsapp no:</strong> &nbsp; &nbsp; <?php echo $student['whatsapp']; ?></p>
                                 <p><strong>City:</strong> &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; <?php echo $student['city']; ?></p>
                                 <p><strong>Date of birth:</strong> &nbsp; &nbsp;&nbsp; &nbsp;<?php echo $student['dob']; ?></p>
                                 <p><strong>Admission date:</strong> &nbsp;<?php echo $student['admission_date']; ?></p>
-                                <p><strong class="text-wrap">Admission Package:</strong> &nbsp; Rs <?php echo $student['admission_package']; ?></p>
+                                <strong class="text-wrap">Admission 
+                                   <p>Package:</strong> &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; Rs <?php echo $student['admission_package']; ?></p> 
                             </div>
                         </div>
 
@@ -238,11 +295,11 @@ $student = $result->fetch_assoc();  // Assuming only one student is fetched
 
                     </div>
                     <div class="text-center mt-4 me-4">
-                        <div class="fw-bolder text-wrap">Due Amounte: Rs <?php echo number_format($admissionAmount, 2); ?> </div>
+                        <div class="fw-bolder text-wrap">Due Amount: Rs <?php echo number_format($admissionAmount, 2); ?> </div>
                     </div>
 
                     <div class="text-center mt-4 me-4">
-                        <a href="http://"><button class="btn btn-primary bg-danger border-0 fw-bolder mt-2 mb-2"><i class="fa-solid fa-pen-to-square"></i> Edit</button></a>
+                    <a href="update_payments.php?id=<?php echo urlencode($id);?>"><button class="btn btn-primary bg-danger border-0 fw-bolder mt-2 mb-2"><i class="fa-solid fa-pen-to-square"></i> Edit</button></a>
                         <a href="add_payment_form.php?id=<?php echo $id; ?>"><button class="btn btn-success text-white fw-bolder mt-2 mb-2"><i class="fa-solid fa-file-circle-plus"></i> Add form</button></a>
                     </div>
 

@@ -1,5 +1,4 @@
 <?php include '../server_database.php';
-
 // Query to fetch student data from the database
 $query = "SELECT * FROM students";
 $result = $conn->query($query);
@@ -68,7 +67,7 @@ $result = $conn->query($query);
                         <div class="modal-dialog modal-dialog-centered" role="document">
                           <div class="modal-content">
                             <form id="dateFilterForm" method="post" class="forms-sample bg-white p-3 p-md-5 text-start rounded">
-                              <h3 class="text-center text-primary fw-bold">Filter</h3>
+                              <h3 class="text-center text-primary fw-bold">Admission date</h3>
                               <label for="startDate" class="text-black">Start Date:</label>
                               <input type="date" id="startDate" class="form-control" name="start_date" required>
                               <label for="endDate" class="text-black mt-2">End Date:</label>
@@ -119,7 +118,7 @@ $result = $conn->query($query);
                                 <th>Admission Date</th>
                                 <th>Admission Package</th>
                                 <th>Optinal Phone</th>
-                                <th>Password</th>
+                                <th>Edit</th>
                                 <th>Action</th>
                                 <th>View</th>
                               </tr>
@@ -133,19 +132,23 @@ $result = $conn->query($query);
                                   <tr>
                                     <td><?php echo $slno++; ?></td>
                                     <td><img src="<?php echo $row['img_path']; ?>" alt="Student Image" style="width: 50px; height: 50px; object-fit: cover;"></td>
-                                    <td><?php echo $row['name']; ?></td>
+                                    <td  class="text-wrap"><?php echo $row['name']; ?></td>
                                     <td><?php echo $row['class']; ?></td>
                                     <td><?php echo $row['gender']; ?></td>
                                     <td><?php echo $row['roll_no']; ?></td>
                                     <td><?php echo $row['phone_no']; ?></td>
                                     <td><?php echo $row['whatsapp']; ?></td>
-                                    <td class="text-wrap"><?php echo $row['city']; ?></td>
-                                    <td class="text-wrap"><?php echo $row['dob']; ?></td>
-                                    <td class="text-wrap"><?php echo $row['branch']; ?></td>
-                                    <td class="text-wrap"><?php echo $row['admission_date']; ?></td>
-                                    <td class="text-wrap"><?php echo $row['admission_package']; ?></td>
-                                    <td class="text-wrap"><?php echo $row['optional_phone']; ?></td>
-                                    <td>******</td> <!-- Masked password -->
+                                    <td><?php echo $row['city']; ?></td>
+                                    <td><?php echo $row['dob']; ?></td>
+                                    <td><?php echo $row['branch']; ?></td>
+                                    <td><?php echo $row['admission_date']; ?></td>
+                                    <td>Rs <?php echo $row['admission_package']; ?></td>
+                                    <td><?php echo $row['optional_phone']; ?></td>
+                                    <td>
+                                      <a href="javascript:void(0);" onclick="confirmUpadte(<?php echo $row['id']; ?>)">
+                                        <button type="button" class="btn btn-info text-white fw-bold">Update</button>
+                                      </a>
+                                    </td>
                                     <td>
                                       <a href="javascript:void(0);" onclick="confirmDelete(<?php echo $row['id']; ?>)">
                                         <button type="button" class="btn btn-danger text-white fw-bold">Delete</button>
@@ -217,7 +220,7 @@ $result = $conn->query($query);
 
       $('#dataTable tbody tr').each(function() {
         var row = $(this);
-        var rowDateText = row.find('td:eq(9)').text(); // Get text from the 10th column (index 9)
+        var rowDateText = row.find('td:eq(11)').text(); // Get text from the 10th column (index 9)
         var rowDate = new Date(rowDateText); // Convert the text to a Date object
 
         if ((startDate && rowDate < startDate) || (endDate && rowDate > endDate)) {
@@ -228,7 +231,16 @@ $result = $conn->query($query);
       });
     }
 
+    // students update feature
+    function confirmUpadte(studentId) {
+      // Show a confirmation dialog to the user
+      if (confirm("Are you sure you want to update this student?")) {
+        // If the user confirms, redirect to the delete PHP script with the student ID
+        window.location.href = "update_students_info.php?id=" + studentId;
+      }
+    }
 
+// students delete feature
     function confirmDelete(studentId) {
       // Show a confirmation dialog to the user
       if (confirm("Are you sure you want to delete this student? This action cannot be undone.")) {
