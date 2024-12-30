@@ -7,6 +7,7 @@ if (empty($_GET['class'])) {
 }
 
 $class = $conn->real_escape_string($_GET['class']); // Sanitize input
+date_default_timezone_set('Asia/kolkata');
 $date_today = date('Y-m-d');
 
 // Fetch students from the selected class

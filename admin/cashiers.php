@@ -1,6 +1,7 @@
 <?php include '../server_database.php';
+
 // Query to fetch student data from the database
-$query = "SELECT * FROM students";
+$query = "SELECT * FROM cashiers";
 $result = $conn->query($query);
 ?>
 <!DOCTYPE php>
@@ -46,8 +47,8 @@ $result = $conn->query($query);
                 <div class="col-md-12">
                   <div class="row">
                     <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                      <h2 class="font-weight-bold text-primary fw-bolder">Students</h2>
-                      <p class="text-secondary">Students Admision and Attendence</p>
+                      <h2 class="font-weight-bold text-primary fw-bolder">Cashiers</h2>
+                      <p class="text-secondary">Add cashiers to manage expenses</p>
                     </div>
                   </div>
                   <div class="row justify-content-center p-1">
@@ -67,7 +68,7 @@ $result = $conn->query($query);
                         <div class="modal-dialog modal-dialog-centered" role="document">
                           <div class="modal-content">
                             <form id="dateFilterForm" method="post" class="forms-sample bg-white p-3 p-md-5 text-start rounded">
-                              <h3 class="text-center text-primary fw-bold">Admission date</h3>
+                              <h3 class="text-center text-primary fw-bold">Filter</h3>
                               <label for="startDate" class="text-black">Start Date:</label>
                               <input type="date" id="startDate" class="form-control" name="start_date" required>
                               <label for="endDate" class="text-black mt-2">End Date:</label>
@@ -94,7 +95,7 @@ $result = $conn->query($query);
                     <span class="col-lg-6 fs-6 text-info">Data</span>
 
                     <a href="student_addmission_frm.php">
-                      <button class="btn btn-success btn-sm text-white font-weight-bold me-4">Add Students</button>
+                    <a href="add_cashier_frm.php"><button class="btn btn-success btn-sm text-white font-weight-bold me-4">Add cashier</button></a>  
                     </a>
                   </div>
                   <div class="row mt-3">
@@ -105,22 +106,12 @@ $result = $conn->query($query);
                             <thead class="text-center text-wrap">
                               <tr>
                                 <th>Slno</th>
-                                <th>Photo</th>
+                                <th>Date</th>
                                 <th>Name</th>
-                                <th>Class</th>
-                                <th>Gender</th>
-                                <th>Roll no</th>
+                                <th>Gmail</th>
                                 <th>Phone no</th>
-                                <th>Whatsapp</th>
-                                <th>City</th>
-                                <th>DOB</th>
-                                <th>Branch</th>
-                                <th>Admission Date</th>
-                                <th>Admission Package</th>
-                                <th>Optinal Phone</th>
-                                <th>Edit</th>
+                                <th>Password</th>
                                 <th>Action</th>
-                                <th>View</th>
                               </tr>
                             </thead>
                             <tbody class="text-center text-wrap">
@@ -131,32 +122,19 @@ $result = $conn->query($query);
                                 ?>
                                   <tr>
                                     <td><?php echo $slno++; ?></td>
-                                    <td><img src="<?php echo $row['img_path']; ?>" alt="Student Image" style="width: 50px; height: 50px; object-fit: cover;"></td>
-                                    <td  class="text-wrap"><?php echo $row['name']; ?></td>
-                                    <td><?php echo $row['class']; ?></td>
-                                    <td><?php echo $row['gender']; ?></td>
-                                    <td><?php echo $row['roll_no']; ?></td>
-                                    <td><?php echo $row['phone_no']; ?></td>
-                                    <td><?php echo $row['whatsapp']; ?></td>
-                                    <td><?php echo $row['city']; ?></td>
-                                    <td><?php echo $row['dob']; ?></td>
-                                    <td><?php echo $row['branch']; ?></td>
-                                    <td><?php echo $row['admission_date']; ?></td>
-                                    <td>Rs <?php echo $row['admission_package']; ?></td>
-                                    <td><?php echo $row['optional_phone']; ?></td>
+                                    <td><strong>Date:</strong> <?php
+                                        echo date('d-m-Y'); ?></td>
+                                    <td><?php echo $row['name']; ?></td>
+                                    <td><?php echo $row['gmail']; ?></td>
+                                    <td><?php echo $row['phone']; ?></td>
                                     <td>
-                                      <a href="javascript:void(0);" onclick="confirmUpadte(<?php echo $row['id']; ?>)">
+                                      <a href="update_cash.php?cid=<?php echo $row['cid']; ?>">
                                         <button type="button" class="btn btn-info btn-sm text-white fw-bold">Update</button>
                                       </a>
                                     </td>
                                     <td>
-                                      <a href="javascript:void(0);" onclick="confirmDelete(<?php echo $row['id']; ?>)">
+                                      <a href="javascript:void(0);" onclick="confirmDelete(<?php echo $row['cid']; ?>)">
                                         <button type="button" class="btn btn-danger btn-sm text-white fw-bold">Delete</button>
-                                      </a>
-                                    </td>
-                                    <td>
-                                      <a href="views_payments.php?id=<?php echo $row['id']; ?>" rel="noopener noreferrer">
-                                        <button type="button" class="btn btn-success btn-sm text-white fw-bolder">View</button>
                                       </a>
                                     </td>
                                   </tr>
@@ -220,7 +198,7 @@ $result = $conn->query($query);
 
       $('#dataTable tbody tr').each(function() {
         var row = $(this);
-        var rowDateText = row.find('td:eq(1)').text(); // Get text from the 10th column (index 9)
+        var rowDateText = row.find('td:eq(9)').text(); // Get text from the 10th column (index 9)
         var rowDate = new Date(rowDateText); // Convert the text to a Date object
 
         if ((startDate && rowDate < startDate) || (endDate && rowDate > endDate)) {
@@ -231,21 +209,12 @@ $result = $conn->query($query);
       });
     }
 
-    // students update feature
-    function confirmUpadte(studentId) {
+    // cashiers delete feature
+    function confirmDelete(cid) {
       // Show a confirmation dialog to the user
-      if (confirm("Are you sure you want to update this student?")) {
+      if (confirm("Are you sure you want to delete this cashier? This action cannot be undone.")) {
         // If the user confirms, redirect to the delete PHP script with the student ID
-        window.location.href = "update_students_info.php?id=" + studentId;
-      }
-    }
-
-// students delete feature
-    function confirmDelete(studentId) {
-      // Show a confirmation dialog to the user
-      if (confirm("Are you sure you want to delete this student? This action cannot be undone.")) {
-        // If the user confirms, redirect to the delete PHP script with the student ID
-        window.location.href = "delete_students.php?id=" + studentId;
+        window.location.href = "delete_cashiers.php?cid=" + cid;
       }
     }
   </script>

@@ -17,7 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $dob = $_POST['dob'];
     $admission_date = $_POST['admission_date'];
     $admission_package = $_POST['admission_package'];
-    $old_password = $_POST['old_password'];  // Old password
     $password = $_POST['password'];  // New password
     $confirm_password = $_POST['confirm_password'];  // Confirm new password
 
@@ -27,9 +26,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit;
     }
 
-    // Fetch the current password hash from the database
+    // Fetch the current student data (excluding the old password)
     if ($student_id) {
-        $query = "SELECT password FROM students WHERE id = ?";
+        $query = "SELECT * FROM students WHERE id = ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param('i', $student_id);
         $stmt->execute();
@@ -39,12 +38,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Check if student exists
         if (!$student) {
             echo "Student not found!";
-            exit;
-        }
-
-        // Check if the old password entered matches the one in the database
-        if (!password_verify($old_password, $student['password'])) {
-            header('Location: update_students_info.php?id=' . $student_id . '&message=The entered old password is incorrect&message_type=error');
             exit;
         }
 
@@ -70,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Check if the update was successful
     if ($stmt->affected_rows > 0) {
-        header('Location: update_students_info.php?id=' . $student_id . '&message=Password updated successfully&message_type=success');
+        header('Location: update_students_info.php?id=' . $student_id . '&message= Update successfully&message_type=success');
         exit();
     } else {
         header('Location: update_students_info.php?id=' . $student_id . '&message=No changes were made or an error occurred&message_type=error');

@@ -165,10 +165,7 @@ if ($student_id) {
                                         <input type="number" name="admission_package" class="form-control text-primary fw-bolder" id="admission_package" value="<?php echo htmlspecialchars($student['admission_package'] ?? ''); ?>" required>
                                     </div>
 
-                                    <div class="form-group">
-                                        <label for="old_password">Old Password</label>
-                                        <input type="password" name="old_password" class="form-control" id="old_password" placeholder="Enter your old password" required>
-                                    </div>
+                                    <!-- Removed old_password field here -->
 
                                     <div class="form-group">
                                         <label for="password">Password</label>
@@ -179,15 +176,12 @@ if ($student_id) {
                                         <label for="confirm_password">Confirm Password</label>
                                         <input type="password" name="confirm_password" class="form-control" id="confirm_password" placeholder="Confirm Password" required>
                                     </div>
-                                    <div class="form-group text-center mt-4">
 
+                                    <div class="form-group text-center mt-4">
                                         <button type="reset" class="btn btn-dark text-light">Reset</button>
                                         <button type="submit" class="btn btn-primary me-2">Submit</button>
                                     </div>
                                 </form>
-
-
-
 
                             </div>
                         </div>

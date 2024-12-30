@@ -168,7 +168,7 @@ ORDER BY school_attendance.date DESC
 
             $('#dataTable tbody tr').each(function() {
                 var row = $(this);
-                var rowDate = new Date(row.find('td:eq(3)').text()); // Get date from the 4th column (index 3)
+                var rowDate = new Date(row.find('td:eq(4)').text()); // Get date from the 4th column (index 3)
 
                 if (startDate && rowDate < new Date(startDate) || endDate && rowDate > new Date(endDate)) {
                     row.hide();

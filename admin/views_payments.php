@@ -78,71 +78,25 @@ $student = $result->fetch_assoc();  // Assuming only one student is fetched
     <!-- endinject -->
     <link rel="shortcut icon" href="assets/images/favicon.png" />
     <style>
-        @media print {
-            body {
-                font-family: Arial, sans-serif;
-                margin: 0;
-                padding: 0;
-            }
-
-            #invoice {
-                background: #fff;
-                border: none;
-                padding: 15px;
-            }
-
-            .student-image {
-                width: 100px;
-                height: 130px;
-                object-fit: cover;
-            }
-
-            p,
-            table {
-                font-size: 12px;
-            }
-
-            .table-responsive {
-                overflow-x: auto;
-                margin-bottom: 20px;
-            }
-        }
-
-        @media screen and (max-width: 768px) {
-            .table-responsive {
-                overflow-x: auto;
-            }
-
-            .table {
-                width: 100%;
-            }
-        }
-
-        @media screen and (max-width: 480px) {
-            .container {
-                padding: 10px;
-            }
-
-            .invoice-header {
-                text-align: center;
-            }
-
-            .student-details {
-                font-size: 14px;
-            }
+        /* Optional styling for the invoice */
+        #invoice {
+            background-color: white;
+            width: 100%;
+            padding: 20px;
+            border: 1px solid #ccc;
         }
     </style>
 </head>
 
 <body>
     <div class="container-scroller">
-       
+
         <?php include 'header.php'   ?>
-        
+
         <div class="container-fluid page-body-wrapper">
-           
+
             <?php include 'navbar.php' ?>
-           
+
             <div class="main-panel">
                 <div class="content-wrapper">
                     <div class="row">
@@ -186,8 +140,8 @@ $student = $result->fetch_assoc();  // Assuming only one student is fetched
                             </div>
                             <div class="col-6 col-md-6 mb-5 text-end">
                                 <p><strong>Date:</strong> <?php
-                                date_default_timezone_set('Asia/kolkata');
-                                echo date('d-m-Y'); ?></p>
+                                                            date_default_timezone_set('Asia/kolkata');
+                                                            echo date('d-m-Y'); ?></p>
                                 <?php
                                 // Check if there are any rows in the result
                                 if ($result->num_rows > 0) {
@@ -220,14 +174,15 @@ $student = $result->fetch_assoc();  // Assuming only one student is fetched
                                 <p><strong>Student Name:</strong> &nbsp; &nbsp; <?php echo $student['name']; ?></p>
                                 <p><strong>Gender:</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; <?php echo $student['gender']; ?></p>
                                 <p><strong>Class:</strong> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <?php echo $student['class']; ?></p>
-                                <p><strong>Roll no:</strong> &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; <?php echo $student['roll_no']; ?></p>
+                                <p><strong>Roll no:</strong> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <?php echo $student['roll_no']; ?></p>
                                 <p><strong>Phone no:</strong> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <?php echo $student['phone_no']; ?></p>
                                 <p><strong>Whatsapp no:</strong> &nbsp; &nbsp; <?php echo $student['whatsapp']; ?></p>
                                 <p><strong>City:</strong> &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; <?php echo $student['city']; ?></p>
                                 <p><strong>Date of birth:</strong> &nbsp; &nbsp;&nbsp; &nbsp;<?php echo $student['dob']; ?></p>
                                 <p><strong>Admission date:</strong> &nbsp;<?php echo $student['admission_date']; ?></p>
-                                <strong class="text-wrap">Admission 
-                                   <p>Package:</strong> &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; Rs <?php echo $student['admission_package']; ?></p> 
+                                <strong class="text-wrap">Admission
+                                    <p>Package:
+                                </strong> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Rs <?php echo $student['admission_package']; ?></p>
                             </div>
                         </div>
 
@@ -299,7 +254,7 @@ $student = $result->fetch_assoc();  // Assuming only one student is fetched
                     </div>
 
                     <div class="text-center mt-4 me-4">
-                    <a href="update_payments.php?id=<?php echo urlencode($id);?>"><button class="btn btn-primary bg-danger border-0 fw-bolder mt-2 mb-2"><i class="fa-solid fa-pen-to-square"></i> Edit</button></a>
+                        <a href="update_payments.php?id=<?php echo urlencode($id); ?>"><button class="btn btn-primary bg-danger border-0 fw-bolder mt-2 mb-2"><i class="fa-solid fa-pen-to-square"></i> Edit</button></a>
                         <a href="add_payment_form.php?id=<?php echo $id; ?>"><button class="btn btn-success text-white fw-bolder mt-2 mb-2"><i class="fa-solid fa-file-circle-plus"></i> Add form</button></a>
                     </div>
 
@@ -324,7 +279,7 @@ $student = $result->fetch_assoc();  // Assuming only one student is fetched
                     // Temporarily replace body content with the invoice
                     document.body.innerHTML = invoiceContent;
 
-                    // Trigger print
+                    // Trigger the print dialog
                     window.print();
 
                     // Restore the original body content

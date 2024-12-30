@@ -55,8 +55,8 @@
       </a>
       <div class="collapse" id="e">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"> <a class="nav-link" href="expenses.php"> Expenses </a></li>
-          <li class="nav-item"> <a class="nav-link" href="expense_Users.php"> View users </a></li>
+          <li class="nav-item"> <a class="nav-link" href="expenses.php"> Expense Data </a></li>
+          <li class="nav-item"> <a class="nav-link" href="cashiers.php"> Cashiers </a></li>
         </ul>
       </div>
     </li>
