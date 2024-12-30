@@ -122,8 +122,7 @@ $result = $conn->query($query);
                                 ?>
                                   <tr>
                                     <td><?php echo $slno++; ?></td>
-                                    <td><strong>Date:</strong> <?php
-                                        echo date('d-m-Y'); ?></td>
+                                    <td><?php echo $row['date']; ?></td>
                                     <td><?php echo $row['name']; ?></td>
                                     <td><?php echo $row['gmail']; ?></td>
                                     <td><?php echo $row['phone']; ?></td>

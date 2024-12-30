@@ -50,13 +50,14 @@
     <li class="nav-item">
       <a class="nav-link" data-bs-toggle="collapse" href="#e" aria-expanded="false" aria-controls="e">
         <i class="icon-ban menu-icon"></i>
-        <span class="menu-title">Finance</span>
+        <span class="menu-title">Funds Management</span>&nbsp;
         <i class="menu-arrow"></i>
       </a>
       <div class="collapse" id="e">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"> <a class="nav-link" href="expenses.php"> Expense Data </a></li>
+          <li class="nav-item"> <a class="nav-link" href="school_funds.php"> Funds </a></li>
           <li class="nav-item"> <a class="nav-link" href="cashiers.php"> Cashiers </a></li>
+          <li class="nav-item"> <a class="nav-link" href="expenses.php"> Expenses </a></li>
         </ul>
       </div>
     </li>

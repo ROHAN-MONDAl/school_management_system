@@ -135,140 +135,136 @@
           <div class="row mt-3">
             <div class="col-12">
               <div class="table-responsive">
-
-                <div class="table-responsive">
-                  <table id="dataTable" class="table table-striped table-bordered col-lg-12">
-                    <thead class="text-center text-wrap">
-                      <tr>
-                        <th>Slno</th>
-                        <th>Photo</th>
-                        <th>Name</th>
-                        <th>Class</th>
-                        <th>Gender</th>
-                        <th>Roll no</th>
-                        <th>Phone no</th>
-                        <th>Whatsapp</th>
-                        <th>City</th>
-                        <th>DOB</th>
-                        <th>Branch</th>
-                        <th>Admission Date</th>
-                        <th>Admission Package</th>
-                        <th>Optinal Phone</th>
-                        <th>Password</th>
-                        <th>Action</th>
-                        <th>View</th>
-                      </tr>
-                    </thead>
-                    <tbody class="text-center text-wrap">
-                      <?php if ($result->num_rows > 0): ?>
-                        <?php
-                        $slno = 1;
-                        while ($row = $result->fetch_assoc()):
-                        ?>
-                          <tr>
-                            <td><?php echo $slno++; ?></td>
-                            <td><img src="<?php echo $row['img_path']; ?>" alt="Student Image" style="width: 50px; height: 50px; object-fit: cover;"></td>
-                            <td><?php echo $row['name']; ?></td>
-                            <td><?php echo $row['class']; ?></td>
-                            <td><?php echo $row['gender']; ?></td>
-                            <td><?php echo $row['roll_no']; ?></td>
-                            <td><?php echo $row['phone_no']; ?></td>
-                            <td><?php echo $row['whatsapp']; ?></td>
-                            <td class="text-wrap"><?php echo $row['city']; ?></td>
-                            <td class="text-wrap"><?php echo $row['dob']; ?></td>
-                            <td class="text-wrap"><?php echo $row['branch']; ?></td>
-                            <td class="text-wrap"><?php echo $row['admission_date']; ?></td>
-                            <td class="text-wrap"><?php echo $row['admission_package']; ?></td>
-                            <td class="text-wrap"><?php echo $row['optional_phone']; ?></td>
-                            <td>******</td> <!-- Masked password -->
-                            <td>
-                              <a href="javascript:void(0);" onclick="confirmDelete(<?php echo $row['id']; ?>)">
-                                <button type="button" class="btn btn-danger text-white fw-bold">Delete</button>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="views_payments.php?id=<?php echo $row['id']; ?>" rel="noopener noreferrer">
-                                <button type="button" class="btn btn-success btn-sm text-white fw-bolder">View</button>
-                              </a>
-                            </td>
-                          </tr>
-                        <?php endwhile; ?>
-                      <?php else: ?>
+                <table id="dataTable" class="table table-striped table-bordered col-lg-12">
+                  <thead class="text-center text-wrap">
+                    <tr>
+                      <th>Slno</th>
+                      <th>Photo</th>
+                      <th>Name</th>
+                      <th>Class</th>
+                      <th>Gender</th>
+                      <th>Roll no</th>
+                      <th>Phone no</th>
+                      <th>Whatsapp</th>
+                      <th>City</th>
+                      <th>DOB</th>
+                      <th>Branch</th>
+                      <th>Admission Date</th>
+                      <th>Admission Package</th>
+                      <th>Optinal Phone</th>
+                      <th>Password</th>
+                      <th>Action</th>
+                      <th>View</th>
+                    </tr>
+                  </thead>
+                  <tbody class="text-center text-wrap">
+                    <?php if ($result->num_rows > 0): ?>
+                      <?php
+                      $slno = 1;
+                      while ($row = $result->fetch_assoc()):
+                      ?>
                         <tr>
-                          <td colspan="10">No data found</td>
+                          <td><?php echo $slno++; ?></td>
+                          <td><img src="<?php echo $row['img_path']; ?>" alt="Student Image" style="width: 50px; height: 50px; object-fit: cover;"></td>
+                          <td><?php echo $row['name']; ?></td>
+                          <td><?php echo $row['class']; ?></td>
+                          <td><?php echo $row['gender']; ?></td>
+                          <td><?php echo $row['roll_no']; ?></td>
+                          <td><?php echo $row['phone_no']; ?></td>
+                          <td><?php echo $row['whatsapp']; ?></td>
+                          <td class="text-wrap"><?php echo $row['city']; ?></td>
+                          <td class="text-wrap"><?php echo $row['dob']; ?></td>
+                          <td class="text-wrap"><?php echo $row['branch']; ?></td>
+                          <td class="text-wrap"><?php echo $row['admission_date']; ?></td>
+                          <td class="text-wrap"><?php echo $row['admission_package']; ?></td>
+                          <td class="text-wrap"><?php echo $row['optional_phone']; ?></td>
+                          <td>******</td> <!-- Masked password -->
+                          <td>
+                            <a href="javascript:void(0);" onclick="confirmDelete(<?php echo $row['id']; ?>)">
+                              <button type="button" class="btn btn-danger text-white fw-bold">Delete</button>
+                            </a>
+                          </td>
+                          <td>
+                            <a href="views_payments.php?id=<?php echo $row['id']; ?>" rel="noopener noreferrer">
+                              <button type="button" class="btn btn-success btn-sm text-white fw-bolder">View</button>
+                            </a>
+                          </td>
                         </tr>
-                      <?php endif; ?>
-                    </tbody>
-                  </table>
-                </div>
-
-
-                <div class="table-responsive">
-                  <table id="dataTable" class="table table-striped table-bordered col-lg-12">
-                    <thead class="text-center text-wrap">
+                      <?php endwhile; ?>
+                    <?php else: ?>
                       <tr>
-                        <th>Slno</th>
-                        <th>Photo</th>
-                        <th>Name</th>
-                        <th>Class</th>
-                        <th>Gender</th>
-                        <th>Roll no</th>
-                        <th>Phone no</th>
-                        <th>Whatsapp</th>
-                        <th>City</th>
-                        <th>DOB</th>
-                        <th>Branch</th>
-                        <th>Admission Date</th>
-                        <th>Admission Package</th>
-                        <th>Optinal Phone</th>
-                        <th>Password</th>
-                        <th>Action</th>
-                        <th>View</th>
+                        <td colspan="10">No data found</td>
                       </tr>
-                    </thead>
-                    <tbody class="text-center text-wrap">
-                      <?php if ($result->num_rows > 0): ?>
-                        <?php
-                        $slno = 1;
-                        while ($row = $result->fetch_assoc()):
-                        ?>
-                          <tr>
-                            <td><?php echo $slno++; ?></td>
-                            <td><img src="<?php echo $row['img_path']; ?>" alt="Student Image" style="width: 50px; height: 50px; object-fit: cover;"></td>
-                            <td><?php echo $row['name']; ?></td>
-                            <td><?php echo $row['class']; ?></td>
-                            <td><?php echo $row['gender']; ?></td>
-                            <td><?php echo $row['roll_no']; ?></td>
-                            <td><?php echo $row['phone_no']; ?></td>
-                            <td><?php echo $row['whatsapp']; ?></td>
-                            <td class="text-wrap"><?php echo $row['city']; ?></td>
-                            <td class="text-wrap"><?php echo $row['dob']; ?></td>
-                            <td class="text-wrap"><?php echo $row['branch']; ?></td>
-                            <td class="text-wrap"><?php echo $row['admission_date']; ?></td>
-                            <td class="text-wrap"><?php echo $row['admission_package']; ?></td>
-                            <td class="text-wrap"><?php echo $row['optional_phone']; ?></td>
-                            <td>******</td> <!-- Masked password -->
-                            <td>
-                              <a href="javascript:void(0);" onclick="confirmDelete(<?php echo $row['id']; ?>)">
-                                <button type="button" class="btn btn-danger text-white fw-bold">Delete</button>
-                              </a>
-                            </td>
-                            <td>
-                              <a href="views_payments.php?id=<?php echo $row['id']; ?>" rel="noopener noreferrer">
-                                <button type="button" class="btn btn-success btn-sm text-white fw-bolder">View</button>
-                              </a>
-                            </td>
-                          </tr>
-                        <?php endwhile; ?>
-                      <?php else: ?>
-                        <tr>
-                          <td colspan="10">No data found</td>
-                        </tr>
-                      <?php endif; ?>
-                    </tbody>
-                  </table>
-                </div>
+                    <?php endif; ?>
+                  </tbody>
+                </table>
+              </div>
 
+
+              <div class="table-responsive">
+                <table id="dataTable" class="table table-striped table-bordered col-lg-12">
+                  <thead class="text-center text-wrap">
+                    <tr>
+                      <th>Slno</th>
+                      <th>Photo</th>
+                      <th>Name</th>
+                      <th>Class</th>
+                      <th>Gender</th>
+                      <th>Roll no</th>
+                      <th>Phone no</th>
+                      <th>Whatsapp</th>
+                      <th>City</th>
+                      <th>DOB</th>
+                      <th>Branch</th>
+                      <th>Admission Date</th>
+                      <th>Admission Package</th>
+                      <th>Optinal Phone</th>
+                      <th>Password</th>
+                      <th>Action</th>
+                      <th>View</th>
+                    </tr>
+                  </thead>
+                  <tbody class="text-center text-wrap">
+                    <?php if ($result->num_rows > 0): ?>
+                      <?php
+                      $slno = 1;
+                      while ($row = $result->fetch_assoc()):
+                      ?>
+                        <tr>
+                          <td><?php echo $slno++; ?></td>
+                          <td><img src="<?php echo $row['img_path']; ?>" alt="Student Image" style="width: 50px; height: 50px; object-fit: cover;"></td>
+                          <td><?php echo $row['name']; ?></td>
+                          <td><?php echo $row['class']; ?></td>
+                          <td><?php echo $row['gender']; ?></td>
+                          <td><?php echo $row['roll_no']; ?></td>
+                          <td><?php echo $row['phone_no']; ?></td>
+                          <td><?php echo $row['whatsapp']; ?></td>
+                          <td class="text-wrap"><?php echo $row['city']; ?></td>
+                          <td class="text-wrap"><?php echo $row['dob']; ?></td>
+                          <td class="text-wrap"><?php echo $row['branch']; ?></td>
+                          <td class="text-wrap"><?php echo $row['admission_date']; ?></td>
+                          <td class="text-wrap"><?php echo $row['admission_package']; ?></td>
+                          <td class="text-wrap"><?php echo $row['optional_phone']; ?></td>
+                          <td>******</td> <!-- Masked password -->
+                          <td>
+                            <a href="javascript:void(0);" onclick="confirmDelete(<?php echo $row['id']; ?>)">
+                              <button type="button" class="btn btn-danger text-white fw-bold">Delete</button>
+                            </a>
+                          </td>
+                          <td>
+                            <a href="views_payments.php?id=<?php echo $row['id']; ?>" rel="noopener noreferrer">
+                              <button type="button" class="btn btn-success btn-sm text-white fw-bolder">View</button>
+                            </a>
+                          </td>
+                        </tr>
+                      <?php endwhile; ?>
+                    <?php else: ?>
+                      <tr>
+                        <td colspan="10">No data found</td>
+                      </tr>
+                    <?php endif; ?>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>

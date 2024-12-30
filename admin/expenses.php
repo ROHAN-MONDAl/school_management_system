@@ -1,6 +1,42 @@
-<?php include '../server_database.php';
+<?php
+include '../server_database.php';
 
+// Fetch total amount from the payments table
+$sql_total_payments = "SELECT SUM(amount) AS total_amount FROM payments";
+$result_total_payments = mysqli_query($conn, $sql_total_payments);
+
+$totalAmount = 0;
+if ($result_total_payments) {
+    $row_total_payments = mysqli_fetch_assoc($result_total_payments);
+    $totalAmount = $row_total_payments['total_amount'];
+}
+
+// Fetch total transaction amounts (expenses)
+$sql_total_expenses = "SELECT SUM(price) AS total_expenses FROM transactions";
+$result_total_expenses = mysqli_query($conn, $sql_total_expenses);
+
+$totalExpenses = 0;
+if ($result_total_expenses) {
+    $row_total_expenses = mysqli_fetch_assoc($result_total_expenses);
+    $totalExpenses = $row_total_expenses['total_expenses'];
+}
+
+// Calculate the current balance
+$currentBalance = $totalAmount - $totalExpenses;
+
+// Fetch all transactions
+$sql_transactions = "SELECT * FROM transactions ORDER BY date DESC";
+$result_transactions = mysqli_query($conn, $sql_transactions);
+
+if (!$result_transactions) {
+    die("Error fetching transactions: " . mysqli_error($conn));
+}
+
+// Close connection if not needed further
+mysqli_close($conn);
 ?>
+
+
 <!DOCTYPE php>
 <html lang="en">
 
@@ -49,14 +85,22 @@
                       <!-- Balance Overview Section -->
                       <section class="mb-2">
                         <h2 class="text-center">Account Summary</h2>
-                        <div class="card mx-auto" style="max-width: 400px;">
-                          <div class="card-body text-center">
-                            <h4 class="card-title">Current Balance</h4>
-                            <p class="display-4 text-success">$2,450.00</p>
-                            <p class="text-muted">Last updated: Dec 29, 2024</p>
+                        <div class="container">
+                          <div class="row justify-content-center">
+                            <!-- Card 1 -->
+                            <div class="col-12 col-sm-6 mb-3">
+                              <div class="card mx-auto" style="max-width: 400px;">
+                                <div class="card-body text-center">
+                                  <h4 class="card-title">Current Balance</h4>
+                                  <p class="display-4 text-success">Rs <?= number_format($currentBalance, 2) ?></p>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </section>
+
+
                       <section class="mb-5">
                         <div class="row justify-content-center p-1">
                           <div class="col-12 col-md-10 col-lg-8">
@@ -90,74 +134,52 @@
                       </section>
                       <!-- Recent Transactions Section -->
                       <section class="mb-5">
-                        <div class="table-responsive">
-                          <h2 class="text-center">Recent Transactions</h2>
-                          <div class="table-responsive">
-                            <table id="dataTable" class="table table-striped table-bordered col-lg-12">
-                              <thead class="text-center text-wrap">
-                                <tr>
-                                  <th>Slno</th>
-                                  <th>Photo</th>
-                                  <th>Name</th>
-                                  <th>Class</th>
-                                  <th>Gender</th>
-                                  <th>Roll no</th>
-                                  <th>Phone no</th>
-                                  <th>Whatsapp</th>
-                                  <th>City</th>
-                                  <th>DOB</th>
-                                  <th>Branch</th>
-                                  <th>Admission Date</th>
-                                  <th>Admission Package</th>
-                                  <th>Optinal Phone</th>
-                                  <th>Password</th>
-                                  <th>Action</th>
-                                  <th>View</th>
-                                </tr>
-                              </thead>
-                              <tbody class="text-center text-wrap">
-                                <?php if ($result->num_rows > 0): ?>
-                                  <?php
-                                  $slno = 1;
-                                  while ($row = $result->fetch_assoc()):
-                                  ?>
-                                    <tr>
-                                      <td><?php echo $slno++; ?></td>
-                                      <td><img src="<?php echo $row['img_path']; ?>" alt="Student Image" style="width: 50px; height: 50px; object-fit: cover;"></td>
-                                      <td><?php echo $row['name']; ?></td>
-                                      <td><?php echo $row['class']; ?></td>
-                                      <td><?php echo $row['gender']; ?></td>
-                                      <td><?php echo $row['roll_no']; ?></td>
-                                      <td><?php echo $row['phone_no']; ?></td>
-                                      <td><?php echo $row['whatsapp']; ?></td>
-                                      <td class="text-wrap"><?php echo $row['city']; ?></td>
-                                      <td class="text-wrap"><?php echo $row['dob']; ?></td>
-                                      <td class="text-wrap"><?php echo $row['branch']; ?></td>
-                                      <td class="text-wrap"><?php echo $row['admission_date']; ?></td>
-                                      <td class="text-wrap"><?php echo $row['admission_package']; ?></td>
-                                      <td class="text-wrap"><?php echo $row['optional_phone']; ?></td>
-                                      <td>******</td> <!-- Masked password -->
-                                      <td>
-                                        <a href="javascript:void(0);" onclick="confirmDelete(<?php echo $row['id']; ?>)">
-                                          <button type="button" class="btn btn-danger text-white fw-bold">Delete</button>
-                                        </a>
-                                      </td>
-                                      <td>
-                                        <a href="views_payments.php?id=<?php echo $row['id']; ?>" rel="noopener noreferrer">
-                                          <button type="button" class="btn btn-success btn-sm text-white fw-bolder">View</button>
-                                        </a>
-                                      </td>
-                                    </tr>
-                                  <?php endwhile; ?>
-                                <?php else: ?>
-                                  <tr>
-                                    <td colspan="10">No data found</td>
-                                  </tr>
-                                <?php endif; ?>
-                              </tbody>
-                            </table>
-                          </div>
+                        <div class="card-title col-12 col-md-12 col-lg-12 d-flex justify-content-between align-items-center">
+                          <span class="col-lg-6 fs-6 text-info">Transaction</span>
 
+                          <a href="add_transaction.php">
+                            <button class="btn btn-success btn-sm text-white font-weight-bold me-4">Add expense</button>
+                          </a>
+                        </div>
+                        <div class="table-responsive">
+                          <table id="dataTable" class="table table-striped table-bordered col-lg-12">
+                          <thead class="text-center text-wrap">
+        <tr>
+            <th>slno</th>
+            <th>Date</th>
+            <th>Users</th>
+            <th>Particular</th>
+            <th>Price</th>
+            <th>Remark</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody class="text-center">
+        <?php
+        if ($result_transactions && mysqli_num_rows($result_transactions) > 0) {
+            $slno = 1;
+            while ($row = mysqli_fetch_assoc($result_transactions)) {
+                echo "<tr>";
+                echo "<td>" . $slno++ . "</td>";
+                echo "<td>" . htmlspecialchars($row['date']) . "</td>";
+                echo "<td>" . htmlspecialchars($row['user']) . "</td>";
+                echo "<td>" . htmlspecialchars($row['particular']) . "</td>";
+                echo "<td>" . htmlspecialchars($row['price']) . "</td>";
+                echo "<td>" . htmlspecialchars($row['remark']) . "</td>";
+                echo "<td>
+                    <a href='javascript:void(0);' onclick='confirmDelete(" . $row['tid'] . ")'>
+                        <button type='button' class='btn btn-danger btn-sm text-white fw-bold'>Delete</button>
+                    </a>
+                </td>";
+                echo "</tr>";
+            }
+        } else {
+            echo "<tr><td colspan='7'>No transactions found</td></tr>";
+        }
+        ?>
+    </tbody>
+                          </table>
+                        </div>
                       </section>
                     </div>
                   </div>
@@ -165,7 +187,6 @@
               </div>
             </div>
           </div>
-          <?php $conn->close(); ?>
           <!-- /table header -->
         </div>
         <!-- content-wrapper ends -->
@@ -207,7 +228,7 @@
 
       $('#dataTable tbody tr').each(function() {
         var row = $(this);
-        var rowDateText = row.find('td:eq(0)').text(); // Get text from the 10th column (index 9)
+        var rowDateText = row.find('td:eq(1)').text(); // Get text from the 10th column (index 9)
         var rowDate = new Date(rowDateText); // Convert the text to a Date object
 
         if ((startDate && rowDate < startDate) || (endDate && rowDate > endDate)) {
@@ -216,6 +237,13 @@
           row.show(); // Show rows within the range
         }
       });
+    }
+
+    // Function to confirm deletion
+    function confirmDelete(tid) {
+      if (confirm("Are you sure you want to delete this transaction?")) {
+        window.location.href = "delete_transaction.php?tid=" + tid;
+      }
     }
   </script>
   <script src="assets/js/script.js"></script>

@@ -99,7 +99,6 @@ $result = $conn->query($query);
                   </div>
                   <div class="row mt-3">
                     <div class="col-12">
-                      <div class="table-responsive">
                         <div class="table-responsive">
                           <table id="dataTable" class="table table-striped table-bordered col-lg-12">
                             <thead class="text-center text-wrap">
