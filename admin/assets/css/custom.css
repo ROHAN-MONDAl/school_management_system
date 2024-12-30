@@ -4,11 +4,6 @@
     padding: 0;
 }
 
-
-::-webkit-scrollbar {
-    display: none;
-}
-
 /* dashboard search-bar */
 .search-container {
     display: flex;
