@@ -117,46 +117,47 @@ $result = $conn->query($sql);
                             </tr>
                           </thead>
                           <tbody class="text-center text-wrap">
-                            <?php
-                            $slno = 1;
-                            while ($row = $result->fetch_assoc()) {
-                              // Use isset() to check if the key exists before accessing it
-                              $photo = isset($row['photo']) ? htmlspecialchars($row['photo'], ENT_QUOTES, 'UTF-8') : '';
-                              $name = isset($row['name']) ? htmlspecialchars($row['name'], ENT_QUOTES, 'UTF-8') : '';
-                              $phone = isset($row['phone']) ? htmlspecialchars($row['phone'], ENT_QUOTES, 'UTF-8') : '';
-                              $email = isset($row['email']) ? htmlspecialchars($row['email'], ENT_QUOTES, 'UTF-8') : '';
-                              $designation = isset($row['designation']) ? htmlspecialchars($row['designation'], ENT_QUOTES, 'UTF-8') : '';
-                              $joining_date = isset($row['joining_date']) ? htmlspecialchars($row['joining_date'], ENT_QUOTES, 'UTF-8') : '';
-                              $branch = isset($row['branch']) ? htmlspecialchars($row['branch'], ENT_QUOTES, 'UTF-8') : '';
-                              $salary = isset($row['salary']) ? htmlspecialchars($row['salary'], ENT_QUOTES, 'UTF-8') : '';
-                              $tid = isset($row['tid']) ? $row['tid'] : '';
+                          <?php
+$slno = 1;
+while ($row = $result->fetch_assoc()) {
+    // Use isset() to check if the key exists before accessing it
+    $photo = isset($row['photo']) ? htmlspecialchars($row['photo'], ENT_QUOTES, 'UTF-8') : '';
+    $name = isset($row['name']) ? htmlspecialchars($row['name'], ENT_QUOTES, 'UTF-8') : '';
+    $phone = isset($row['phone']) ? htmlspecialchars($row['phone'], ENT_QUOTES, 'UTF-8') : '';
+    $email = isset($row['email']) ? htmlspecialchars($row['email'], ENT_QUOTES, 'UTF-8') : '';
+    $designation = isset($row['designation']) ? htmlspecialchars($row['designation'], ENT_QUOTES, 'UTF-8') : '';
+    $joining_date = isset($row['joining_date']) ? htmlspecialchars($row['joining_date'], ENT_QUOTES, 'UTF-8') : '';
+    $branch = isset($row['branch']) ? htmlspecialchars($row['branch'], ENT_QUOTES, 'UTF-8') : '';
+    $salary = isset($row['salary']) ? htmlspecialchars($row['salary'], ENT_QUOTES, 'UTF-8') : '';
+    $tid = isset($row['tid']) ? $row['tid'] : '';
 
-                              // Format the salary as INR
-                              $formatted_salary = "₹" . number_format($salary, 2);
+    // Format the salary as INR
+    $formatted_salary = "₹" . number_format($salary, 2);
 
-                              echo "<tr>
-                                  <td>" . $slno++ . "</td>
-                                  <td><img src='" . $photo . "' alt='Photo' width='50'></td>
-                                  <td>" . $name . "</td>
-                                  <td>" . $phone . "</td>
-                                  <td>" . $email . "</td>
-                                  <td>" . $designation . "</td>
-                                  <td>" . $joining_date . "</td>
-                                  <td>" . $branch . "</td>
-                                  <td>" . $formatted_salary . "</td>
-                                  <td>
-                                      <a href=\"javascript:void(0);\" onclick=\"confirmUpdate(" . $tid . ")\">
-                                          <button type='button' class='btn btn-info btn-sm text-white fw-bold'>Update</button>
-                                      </a>
-                                  </td>
-                                  <td>
-                                      <a href=\"javascript:void(0);\" onclick=\"confirmDelete(" . $tid . ")\">
-                                          <button type='button' class='btn btn-danger btn-sm text-white fw-bold'>Delete</button>
-                                      </a>
-                                  </td>
-                              </tr>";
-                            }
-                            ?>
+    // Output the table row
+    echo "<tr>
+        <td>" . $slno++ . "</td>
+        <td><img src='" . $photo . "' alt='Photo' width='50'></td>
+        <td>" . $name . "</td>
+        <td>" . $phone . "</td>
+        <td>" . $email . "</td>
+        <td>" . $designation . "</td>
+        <td>" . $joining_date . "</td>
+        <td>" . $branch . "</td>
+        <td>" . $formatted_salary . "</td>
+        <td>
+            <a href=\"javascript:void(0);\" onclick=\"confirmUpdate(" . $tid . ")\">
+                <button type='button' class='btn btn-info btn-sm text-white fw-bold'>Update</button>
+            </a>
+        </td>
+        <td>
+            <a href=\"javascript:void(0);\" onclick=\"confirmDelete(" . $tid . ")\">
+                <button type='button' class='btn btn-danger btn-sm text-white fw-bold'>Delete</button>
+            </a>
+        </td>
+    </tr>";
+}
+?>
                           </tbody>
                         </table>
                       </div>
@@ -218,16 +219,22 @@ $result = $conn->query($sql);
       });
     }
 
-    // delete teachers
-    function confirmDelete(tid) {
-      if (confirm("Are you sure you want to delete this item?")) {
-        window.location.href = "delete_teachers.php?tid=" + tid;
-      }
+   // JavaScript function to confirm update action
+   function confirmUpdate(tid) {
+        // Show confirmation dialog before proceeding
+        if (confirm("Are you sure you want to update this record?")) {
+            // Redirect to the update page with the record ID (tid)
+            window.location.href = "update_teacher.php?tid=" + tid;
+        }
     }
 
-    function confirmUpdate(tid) {
-      // Add your update logic here if needed
-      alert("Update functionality for ID: " + tid);
+    // JavaScript function to confirm delete action
+    function confirmDelete(tid) {
+        // Show confirmation dialog before proceeding
+        if (confirm("Are you sure you want to delete this record?")) {
+            // Redirect to the delete handler page with the record ID (tid)
+            window.location.href = "delete_record.php?tid=" + tid;
+        }
     }
   </script>
   <script src="assets/js/script.js"></script>

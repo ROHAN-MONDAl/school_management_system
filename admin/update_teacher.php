@@ -5,25 +5,26 @@ include '../server_database.php';
 $message = $_GET['message'] ?? '';
 $message_type = $_GET['type'] ?? ''; // 'success' or 'error'
 
-$cashiers_id = $_GET['cid'] ?? null;
-if (!$cashiers_id) {
-    header("Location: update_cash.php?message=Invalid User ID&type=error");
+// Get Teacher ID from GET parameters
+$teachers_id = $_GET['tid'] ?? null;
+if (!$teachers_id) {
+    header("Location: update_teacher.php?message=Invalid User ID&type=error");
     exit;
 }
 
 // Fetch Old Password from Database
-$query = "SELECT password FROM cashiers WHERE cid = ?";
+$query = "SELECT password FROM teachers WHERE tid = ?";
 $stmt = $conn->prepare($query);
 if (!$stmt) {
     die("Database error: Unable to prepare statement");
 }
-$stmt->bind_param('i', $cashiers_id);
+$stmt->bind_param('i', $teachers_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 
 if (!$user) {
-    header("Location: update_cash.php?message=User Not Found&type=error");
+    header("Location: update_teacher.php?message=User Not Found&type=error");
     exit;
 }
 
@@ -31,62 +32,69 @@ $old_password_hash = $user['password'];
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $old_password = $_POST['old_password'];
-    $new_password = $_POST['password'];
-    $confirm_password = $_POST['confirm_password'];
+    $old_password = $_POST['old_password'] ?? '';
+    $new_password = $_POST['password'] ?? '';
+    $confirm_password = $_POST['confirm_password'] ?? '';
 
     // Verify Old Password
-    if (!password_verify($old_password, $old_password_hash)) {
-        header("Location: update_cash.php?cid=$cashiers_id&message=Old Password is Incorrect&type=error");
+    if (empty($old_password) || !password_verify($old_password, $old_password_hash)) {
+        header("Location: update_teacher.php?tid=$teachers_id&message=Old Password is Incorrect&type=error");
         exit;
     }
 
     // Check if New Password Matches Confirm Password
     if ($new_password !== $confirm_password) {
-        header("Location: update_cash.php?cid=$cashiers_id&message=Passwords Do Not Match&type=error");
+        header("Location: update_teacher.php?tid=$teachers_id&message=Passwords Do Not Match&type=error");
+        exit;
+    }
+
+    // Ensure the new password meets a minimum length requirement (optional security measure)
+    if (strlen($new_password) < 8) {
+        header("Location: update_teacher.php?tid=$teachers_id&message=Password Must Be At Least 8 Characters&type=error");
         exit;
     }
 
     // Hash New Password and Update
     $new_password_hash = password_hash($new_password, PASSWORD_DEFAULT);
-    $update_query = "UPDATE cashiers SET password = ? WHERE cid = ?";
+    $update_query = "UPDATE teachers SET password = ? WHERE tid = ?";
     $update_stmt = $conn->prepare($update_query);
     if (!$update_stmt) {
         die("Database error: Unable to prepare update statement");
     }
-    $update_stmt->bind_param('si', $new_password_hash, $cashiers_id);
+    $update_stmt->bind_param('si', $new_password_hash, $teachers_id);
 
     if ($update_stmt->execute()) {
-        header("Location: update_cash.php?cid=$cashiers_id&message=Password Updated Successfully&type=success");
+        header("Location: update_teacher.php?tid=$teachers_id&message=Password Updated Successfully&type=success");
         exit;
     } else {
-        header("Location: update_cash.php?cid=$cashiers_id&message=Failed to Update Password&type=error");
+        header("Location: update_teacher.php?tid=$teachers_id&message=Failed to Update Password&type=error");
+        exit;
     }
-    exit;
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-<meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Daffodils School</title>
-  <link rel="stylesheet" href="assets/vendors/feather/feather.css">
-  <link rel="stylesheet" href="assets/vendors/ti-icons/css/themify-icons.css">
-  <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
-  <link rel="stylesheet" href="assets/vendors/font-awesome/css/font-awesome.min.css">
-  <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
-  <link rel="stylesheet" href="assets/vendors/datatables.net-bs5/dataTables.bootstrap5.css">
-  <link rel="stylesheet" href="assets/vendors/ti-icons/css/themify-icons.css">
-  <link rel="stylesheet" type="text/css" href="assets/js/select.dataTables.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="stylesheet" href="assets/css/customs.css">
-  <link rel="shortcut icon" href="assets/images/favicon.png" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Daffodils School</title>
+    <link rel="stylesheet" href="assets/vendors/feather/feather.css">
+    <link rel="stylesheet" href="assets/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="assets/vendors/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="assets/vendors/datatables.net-bs5/dataTables.bootstrap5.css">
+    <link rel="stylesheet" href="assets/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" type="text/css" href="assets/js/select.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/customs.css">
+    <link rel="shortcut icon" href="assets/images/favicon.png" />
 </head>
 
 <body>
@@ -99,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="col-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
-                                <p><a href="cashiers.php"><button type="button" class="btn btn-warning text-white fw-bolder">Back</button></a></p>
+                                <p><a href="teachers.php"><button type="button" class="btn btn-warning text-white fw-bolder">Back</button></a></p>
                                 <h4 class="card-title">Update Password</h4>
                                 <p class="card-description">Update your old password</p>
                                 <?php if ($message): ?>
@@ -108,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     </div>
                                 <?php endif; ?>
 
-                                <form method="POST" action="update_cash.php?cid=<?= $cashiers_id; ?>">
+                                <form method="POST" action="update_teacher.php?tid=<?= $teachers_id; ?>">
                                     <div class="form-group">
                                         <label for="old_password">Old Password</label>
                                         <input type="password" name="old_password" id="old_password" class="form-control" required>
@@ -124,6 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     </div>
                                     <button type="submit" class="btn btn-primary">Update Password</button>
                                 </form>
+
                             </div>
                         </div>
                     </div>
