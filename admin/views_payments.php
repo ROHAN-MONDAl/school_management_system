@@ -74,7 +74,7 @@ $student = $result->fetch_assoc();  // Assuming only one student is fetched
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/custom.css">
+    <link rel="stylesheet" href="assets/css/customs.css">
     <!-- endinject -->
     <link rel="shortcut icon" href="assets/images/favicon.png" />
     <style>
@@ -181,7 +181,7 @@ $student = $result->fetch_assoc();  // Assuming only one student is fetched
                                 <p><strong>Date of birth:</strong> &nbsp; &nbsp;&nbsp; &nbsp;<?php echo $student['dob']; ?></p>
                                 <p><strong>Admission date:</strong> &nbsp;<?php echo $student['admission_date']; ?></p>
                                 <strong class="text-wrap">Admission
-                                    <p>Package:
+                                    <p><strong>Package:</strong>
                                 </strong> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Rs <?php echo $student['admission_package']; ?></p>
                             </div>
                         </div>
@@ -190,15 +190,15 @@ $student = $result->fetch_assoc();  // Assuming only one student is fetched
 
                         <!-- Table to show all payments -->
                         <div class="table-responsive">
-                            <table class="col-lg-12 mt-3 mx-5">
-                                <thead class="text-center text-wrap">
+                            <table class="table border-2 table-striped-columns table-group-divider align-middle border-black col-lg-12 mt-3 mx-auto">
+                                <thead class="text-center border-2 text-uppercase fw-bolder border-black">
                                     <tr>
                                         <th>Slno</th>
                                         <th style="width: 50%;">Summary</th>
                                         <th>Amount</th>
                                     </tr>
                                 </thead>
-                                <tbody class="text-center text-wrap">
+                                <tbody class="text-center">
                                     <?php
                                     $i = 1;
                                     $lastRow = null;
@@ -216,22 +216,22 @@ $student = $result->fetch_assoc();  // Assuming only one student is fetched
                                     ?>
                                         <tr>
                                             <td><?php echo $i++; ?></td>
-                                            <td class="text-wrap text-break"><?php echo htmlspecialchars($row['summary']); ?></td>
-                                            <td class="text-wrap text-break">Rs <?php echo number_format($row['amount'], 2); ?></td>
+                                            <td class="text-wrap"><?php echo htmlspecialchars($row['summary']); ?></td>
+                                            <td class="text-wrap">Rs <?php echo number_format($row['amount'], 2); ?></td>
                                         </tr>
                                     <?php } ?>
+<?php   
 
+?>
                                     <tr>
-                                        <td colspan="2" class="text-start"><strong>Total</strong></td>
-                                        <td class="text-wrap text-break"><strong>Rs <?php echo number_format($totalAmount, 2); ?></strong></td>
+                                        <td colspan="2" class="text-start"><strong>Total Amount</strong></td>
+                                        <td><strong>Rs <?php echo number_format($totalAmount, 2); ?></strong></td>
                                     </tr>
                                 </tbody>
                             </table>
+
                         </div>
-
-                        <hr style="color:black">
-
-
+                        
                         <?php
                         // Calculate the admission package dynamically
                         $admissionAmount = max($baseAdmissionPackage - $totalAmount, 0);

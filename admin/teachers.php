@@ -1,8 +1,8 @@
 <?php include '../server_database.php';
+// Query to fetch teacher data from the database
+$sql = "SELECT tid, photo, name, phone, email, designation, joining_date, branch, salary FROM teachers";
+$result = $conn->query($sql);
 
-// Query to fetch student data from the database
-$query = "SELECT * FROM students";
-$result = $conn->query($query);
 ?>
 <!DOCTYPE php>
 <html lang="en">
@@ -25,7 +25,7 @@ $result = $conn->query($query);
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="stylesheet" href="assets/css/custom.css">
+  <link rel="stylesheet" href="assets/css/customs.css">
   <link rel="shortcut icon" href="assets/images/favicon.png" />
 </head>
 
@@ -47,39 +47,39 @@ $result = $conn->query($query);
                 <div class="col-md-12">
                   <div class="row">
                     <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                      <h2 class="font-weight-bold text-primary fw-bolder">Students</h2>
-                      <p class="text-secondary">Students Admision and Attendence</p>
+                      <h2 class="font-weight-bold text-primary fw-bolder">Educators</h2>
+                      <p class="text-secondary">All educators info</p>
                     </div>
                   </div>
                   <div class="row justify-content-center p-1">
-    <div class="col-12 col-md-10 col-lg-8">
-        <!-- Search Container -->
-        <div class="search-container d-flex flex-column flex-md-row align-items-center">
-            <div class="col-12 col-md-10 mb-2 mb-md-0">
-                <input type="text" class="form-control search-input" id="search" placeholder="Search..." onkeyup="filterTable()">
-            </div>
-            <p class="mx-md-3 mt-2 mt-md-0 text-danger" style="cursor:pointer" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
-                <i class="fa text-danger" style="font-size:24px;">&#xf0b0;</i> <b>Filter</b>
-            </p>
-        </div>
+                    <div class="col-12 col-md-10 col-lg-8">
+                      <!-- Search Container -->
+                      <div class="search-container d-flex flex-column flex-md-row align-items-center">
+                        <div class="col-12 col-md-10 mb-2 mb-md-0">
+                          <input type="text" class="form-control search-input" id="search" placeholder="Search..." onkeyup="filterTable()">
+                        </div>
+                        <p class="mx-md-3 mt-2 mt-md-0 text-danger" style="cursor:pointer" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
+                          <i class="fa text-danger" style="font-size:24px;">&#xf0b0;</i> <b>Filter</b>
+                        </p>
+                      </div>
 
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <form id="dateFilterForm" method="post" class="forms-sample bg-white p-3 p-md-5 text-start rounded">
-                        <h3 class="text-center text-primary fw-bold">Filter</h3>
-                        <label for="startDate" class="text-black">Start Date:</label>
-                        <input type="date" id="startDate" class="form-control" name="start_date" required>
-                        <label for="endDate" class="text-black mt-2">End Date:</label>
-                        <input type="date" id="endDate" class="form-control" name="end_date" required>
-                        <button type="button" class="btn btn-primary w-100 mt-3" onclick="filterByDate()">Filter</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+                      <!-- Modal -->
+                      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                          <div class="modal-content">
+                            <form id="dateFilterForm" method="post" class="forms-sample bg-white p-3 p-md-5 text-start rounded">
+                              <h3 class="text-center text-primary fw-bold">Admission date</h3>
+                              <label for="startDate" class="text-black">Start Date:</label>
+                              <input type="date" id="startDate" class="form-control" name="start_date" required>
+                              <label for="endDate" class="text-black mt-2">End Date:</label>
+                              <input type="date" id="endDate" class="form-control" name="end_date" required>
+                              <button type="button" class="btn btn-primary w-100 mt-3" onclick="filterByDate()">Filter</button>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
                 </div>
               </div>
@@ -93,80 +93,72 @@ $result = $conn->query($query);
                 <div class="card-body">
                   <div class="card-title col-12 col-md-12 col-lg-12 d-flex justify-content-between align-items-center">
                     <span class="col-lg-6 fs-6 text-info">Data</span>
-
-                    <a href="student_addmission_frm.php">
-                      <button class="btn btn-success btn-sm text-white font-weight-bold me-4">Add Students</button>
+                    <a href="add_teacher_frm.php">
+                      <button class="btn btn-success btn-sm text-white font-weight-bold me-4">Add Teachers</button>
                     </a>
                   </div>
                   <div class="row mt-3">
                     <div class="col-12">
                       <div class="table-responsive">
-                      <div class="table-responsive">
-  <table id="dataTable" class="table table-striped table-bordered col-lg-12">
-    <thead class="text-center text-wrap">
-      <tr>
-        <th>Slno</th>
-        <th>Photo</th>
-        <th>Name</th>
-        <th>Class</th>
-        <th>Gender</th>
-        <th>Roll no</th>
-        <th>Phone no</th>
-        <th>Whatsapp</th>
-        <th>City</th>
-        <th>DOB</th>
-        <th>Branch</th>
-        <th>Admission Date</th>
-        <th>Admission Package</th>
-        <th>Optinal Phone</th>
-        <th>Password</th>
-        <th>Action</th>
-        <th>View</th>
-      </tr>
-    </thead>
-    <tbody class="text-center text-wrap">
-      <?php if ($result->num_rows > 0): ?>
-        <?php
-        $slno = 1;
-        while ($row = $result->fetch_assoc()):
-        ?>
-          <tr>
-            <td><?php echo $slno++; ?></td>
-            <td><img src="<?php echo $row['img_path']; ?>" alt="Student Image" style="width: 50px; height: 50px; object-fit: cover;"></td>
-            <td><?php echo $row['name']; ?></td>
-            <td><?php echo $row['class']; ?></td>
-            <td><?php echo $row['gender']; ?></td>
-            <td><?php echo $row['roll_no']; ?></td>
-            <td><?php echo $row['phone_no']; ?></td>
-            <td><?php echo $row['whatsapp']; ?></td>
-            <td class="text-wrap"><?php echo $row['city']; ?></td>
-            <td class="text-wrap"><?php echo $row['dob']; ?></td>
-            <td class="text-wrap"><?php echo $row['branch']; ?></td>
-            <td class="text-wrap"><?php echo $row['admission_date']; ?></td>
-            <td class="text-wrap"><?php echo $row['admission_package']; ?></td>
-            <td class="text-wrap"><?php echo $row['optional_phone']; ?></td>
-            <td>******</td> <!-- Masked password -->
-            <td>
-              <a href="javascript:void(0);" onclick="confirmDelete(<?php echo $row['id']; ?>)">
-                <button type="button" class="btn btn-danger text-white fw-bold">Delete</button>
-              </a>
-            </td>
-            <td>
-              <a href="views_payments.php?id=<?php echo $row['id']; ?>" rel="noopener noreferrer">
-                <button type="button" class="btn btn-success btn-sm text-white fw-bolder">View</button>
-              </a>
-            </td>
-          </tr>
-        <?php endwhile; ?>
-      <?php else: ?>
-        <tr>
-          <td colspan="10">No data found</td>
-        </tr>
-      <?php endif; ?>
-    </tbody>
-  </table>
-</div>
+                        <table id="dataTable" class="table table-striped table-bordered col-lg-12">
+                          <thead class="text-center text-wrap">
+                            <tr>
+                              <th>Slno</th>
+                              <th>Photo</th>
+                              <th>Name</th>
+                              <th>Phone no</th>
+                              <th>Email</th>
+                              <th>Designation</th>
+                              <th>Joining Date</th>
+                              <th>Branch</th>
+                              <th>Salary</th>
+                              <th>Password</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody class="text-center text-wrap">
+                            <?php
+                            $slno = 1;
+                            while ($row = $result->fetch_assoc()) {
+                              // Use isset() to check if the key exists before accessing it
+                              $photo = isset($row['photo']) ? htmlspecialchars($row['photo'], ENT_QUOTES, 'UTF-8') : '';
+                              $name = isset($row['name']) ? htmlspecialchars($row['name'], ENT_QUOTES, 'UTF-8') : '';
+                              $phone = isset($row['phone']) ? htmlspecialchars($row['phone'], ENT_QUOTES, 'UTF-8') : '';
+                              $email = isset($row['email']) ? htmlspecialchars($row['email'], ENT_QUOTES, 'UTF-8') : '';
+                              $designation = isset($row['designation']) ? htmlspecialchars($row['designation'], ENT_QUOTES, 'UTF-8') : '';
+                              $joining_date = isset($row['joining_date']) ? htmlspecialchars($row['joining_date'], ENT_QUOTES, 'UTF-8') : '';
+                              $branch = isset($row['branch']) ? htmlspecialchars($row['branch'], ENT_QUOTES, 'UTF-8') : '';
+                              $salary = isset($row['salary']) ? htmlspecialchars($row['salary'], ENT_QUOTES, 'UTF-8') : '';
+                              $tid = isset($row['tid']) ? $row['tid'] : '';
 
+                              // Format the salary as INR
+                              $formatted_salary = "₹" . number_format($salary, 2);
+
+                              echo "<tr>
+                                  <td>" . $slno++ . "</td>
+                                  <td><img src='" . $photo . "' alt='Photo' width='50'></td>
+                                  <td>" . $name . "</td>
+                                  <td>" . $phone . "</td>
+                                  <td>" . $email . "</td>
+                                  <td>" . $designation . "</td>
+                                  <td>" . $joining_date . "</td>
+                                  <td>" . $branch . "</td>
+                                  <td>" . $formatted_salary . "</td>
+                                  <td>
+                                      <a href=\"javascript:void(0);\" onclick=\"confirmUpdate(" . $tid . ")\">
+                                          <button type='button' class='btn btn-info btn-sm text-white fw-bold'>Update</button>
+                                      </a>
+                                  </td>
+                                  <td>
+                                      <a href=\"javascript:void(0);\" onclick=\"confirmDelete(" . $tid . ")\">
+                                          <button type='button' class='btn btn-danger btn-sm text-white fw-bold'>Delete</button>
+                                      </a>
+                                  </td>
+                              </tr>";
+                            }
+                            ?>
+                          </tbody>
+                        </table>
                       </div>
                     </div>
                   </div>
@@ -174,8 +166,6 @@ $result = $conn->query($query);
               </div>
             </div>
           </div>
-
-
           <?php $conn->close(); ?>
           <!-- /table header -->
         </div>
@@ -210,24 +200,35 @@ $result = $conn->query($query);
       });
     });
 
-    
+
     function filterByDate() {
-  var startDate = new Date($('#startDate').val()); // Convert start date input to Date object
-  var endDate = new Date($('#endDate').val()); // Convert end date input to Date object
+      var startDate = new Date($('#startDate').val()); // Convert start date input to Date object
+      var endDate = new Date($('#endDate').val()); // Convert end date input to Date object
 
-  $('#dataTable tbody tr').each(function() {
-    var row = $(this);
-    var rowDateText = row.find('td:eq(9)').text(); // Get text from the 10th column (index 9)
-    var rowDate = new Date(rowDateText); // Convert the text to a Date object
+      $('#dataTable tbody tr').each(function() {
+        var row = $(this);
+        var rowDateText = row.find('td:eq(1)').text(); // Get text from the 10th column (index 9)
+        var rowDate = new Date(rowDateText); // Convert the text to a Date object
 
-    if ((startDate && rowDate < startDate) || (endDate && rowDate > endDate)) {
-      row.hide(); // Hide rows outside the range
-    } else {
-      row.show(); // Show rows within the range
+        if ((startDate && rowDate < startDate) || (endDate && rowDate > endDate)) {
+          row.hide(); // Hide rows outside the range
+        } else {
+          row.show(); // Show rows within the range
+        }
+      });
     }
-  });
-}
 
+    // delete teachers
+    function confirmDelete(tid) {
+      if (confirm("Are you sure you want to delete this item?")) {
+        window.location.href = "delete_teachers.php?tid=" + tid;
+      }
+    }
+
+    function confirmUpdate(tid) {
+      // Add your update logic here if needed
+      alert("Update functionality for ID: " + tid);
+    }
   </script>
   <script src="assets/js/script.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
