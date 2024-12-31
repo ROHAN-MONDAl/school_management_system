@@ -1,17 +1,23 @@
-<?php include '../server_database.php';
-$id = $_GET['id'];
-$query = "SELECT * FROM payments where 	student_id = '$id'";
-$result = $conn->query($query);
+<?php
+include '../server_database.php';
 
+// Fetch teacher attendance records
+$query = "
+SELECT teachers.name, teachers.designation, teacher_attendance.date, teacher_attendance.status
+FROM teacher_attendance
+JOIN teachers ON teacher_attendance.teacher_id = teachers.tid
+ORDER BY teacher_attendance.date DESC
+";
+$result = $conn->query($query);
 ?>
 <!DOCTYPE php>
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Daffodils School</title>
+    <!-- Include your CSS and JS files -->
     <link rel="stylesheet" href="assets/vendors/feather/feather.css">
     <link rel="stylesheet" href="assets/vendors/ti-icons/css/themify-icons.css">
     <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
@@ -20,10 +26,8 @@ $result = $conn->query($query);
     <link rel="stylesheet" href="assets/vendors/datatables.net-bs5/dataTables.bootstrap5.css">
     <link rel="stylesheet" href="assets/vendors/ti-icons/css/themify-icons.css">
     <link rel="stylesheet" type="text/css" href="assets/js/select.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/customs.css">
     <link rel="shortcut icon" href="assets/images/favicon.png" />
@@ -31,7 +35,7 @@ $result = $conn->query($query);
 
 <body>
     <div class="container-scroller">
-        <?php include 'header.php'   ?>
+        <?php include 'header.php' ?>
         <div class="container-fluid page-body-wrapper">
             <?php include 'navbar.php' ?>
             <div class="main-panel">
@@ -42,11 +46,10 @@ $result = $conn->query($query);
                                 <div class="col-md-12">
                                     <div class="row">
                                         <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                                            <h2 class="font-weight-bold text-primary fw-bolder">Payments History</h2>
-                                            <p class="text-secondary">Students payments history</p>
+                                            <h2 class="font-weight-bold text-primary fw-bolder">History</h2>
+                                            <p class="text-secondary">Attendance history</p>
                                         </div>
                                     </div>
-
                                     <div class="row justify-content-center p-1">
                                         <div class="col-12 col-md-10 col-lg-8">
                                             <!-- Search Container -->
@@ -59,12 +62,12 @@ $result = $conn->query($query);
                                                 </p>
                                             </div>
 
-                                            <!-- Modal -->
+                                            <!-- Modal for Date Filter -->
                                             <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                                     <div class="modal-content">
                                                         <form id="dateFilterForm" method="post" class="forms-sample bg-white p-3 p-md-5 text-start rounded">
-                                                            <h3 class="text-center text-primary fw-bold">Filter</h3>
+                                                            <h3 class="text-center text-primary fw-bold">Filter by Date</h3>
                                                             <label for="startDate" class="text-black">Start Date:</label>
                                                             <input type="date" id="startDate" class="form-control" name="start_date" required>
                                                             <label for="endDate" class="text-black mt-2">End Date:</label>
@@ -76,7 +79,6 @@ $result = $conn->query($query);
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -89,48 +91,38 @@ $result = $conn->query($query);
                                     <div class="row mt-3">
                                         <div class="col-12">
                                             <div class="table-responsive">
-                                                <table id="dataTable" class=" table display expandable-table col-lg-12">
-                                                    <thead class="text-center text-wrap">
-                                                        <th>Slno</th>
-                                                        <th>Payment Id</th>
-                                                        <th>Invoice No</th>
-                                                        <th>Amount</th>
-                                                        <th>Summary</th>
-                                                        <th>Payment Date</th>
-                                                        <th>Action</th>
-                                                    </thead>
-                                                    <tbody class="text-center text-wrap">
-                                                        <tr>
-                                                            <?php if ($result->num_rows > 0): ?>
-                                                                <?php
-                                                                $i = 1;
-                                                                while ($row = $result->fetch_assoc()): ?>
-                                                        <tr>
-                                                            <td><?php echo $i; ?></td>
-                                                            <td><?php echo $row['payment_id']; ?></td>
-                                                            <td><?php echo $row['invo_no']; ?></td>
-                                                            <td><?php echo $row['amount']; ?></td>
-                                                            <td><?php echo $row['summary']; ?></td>
-                                                            <td><?php echo $row['date']; ?></td>
-                                                            <td>
-                                                                <a href="javascript:void(0);" onclick="confirmDelete('<?php echo $row['payment_id']; ?>')">
-                                                                    <button type="button" class="btn btn-danger text-white fw-bold btn-sm">Delete</button>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                    <?php
-                                                                    $i++;
-                                                                endwhile; ?>
-                                                <?php else: ?>
-                                                    <tr>
-                                                        <td colspan="10">No data found</td>
-                                                    </tr>
-                                                <?php endif; ?>
+                                            <table id="dataTable" class="table display expandable-table col-lg-12">
+    <thead class="text-center text-wrap">
+        <tr>
+            <th>Slno</th>
+            <th>Name</th>
+            <th>Designation</th>
+            <th>Date</th>
+            <th>Attendance Status</th>
+        </tr>
+    </thead>
+    <tbody class="text-center text-wrap">
+        <?php if ($result->num_rows > 0): ?>
+            <?php
+                $slno = 1;
+                while ($row = $result->fetch_assoc()): 
+            ?>
+                <tr>
+                    <td><?php echo $slno++; ?></td>
+                    <td><?php echo htmlspecialchars($row['name']); ?></td>
+                    <td><?php echo htmlspecialchars($row['designation']); ?></td>
+                    <td><?php echo htmlspecialchars($row['date']); ?></td>
+                    <td><?php echo htmlspecialchars($row['status']); ?></td>
+                </tr>
+            <?php endwhile; ?>
+        <?php else: ?>
+            <tr>
+                <td colspan="5">No data found</td>
+            </tr>
+        <?php endif; ?>
+    </tbody>
+</table>
 
-                                                </tr>
-
-                                                    </tbody>
-                                                </table>
                                             </div>
                                         </div>
                                     </div>
@@ -139,15 +131,11 @@ $result = $conn->query($query);
                         </div>
                     </div>
                 </div>
-                <?php include "footer.php"  ?>
+                <?php include "footer.php" ?>
             </div>
         </div>
     </div>
-    </div>
 
-    </div>
-    </div>
-    </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
@@ -166,14 +154,13 @@ $result = $conn->query($query);
             })
         });
 
-        //date filter
         function filterByDate() {
             var startDate = $('#startDate').val();
             var endDate = $('#endDate').val();
 
             $('#dataTable tbody tr').each(function() {
                 var row = $(this);
-                var rowDate = new Date(row.find('td:eq(5)').text()); // Get date from the 4th column (index 3)
+                var rowDate = new Date(row.find('td:eq(3)').text()); // Get date from the 3rd column (index 2)
 
                 if (startDate && rowDate < new Date(startDate) || endDate && rowDate > new Date(endDate)) {
                     row.hide();
@@ -182,17 +169,9 @@ $result = $conn->query($query);
                 }
             });
         }
-
-        // confirmation window
-        function confirmDelete(paymentId) {
-            if (confirm("Are you sure you want to delete this record?")) {
-                window.location.href = "delete_payments_hst.php?payment_id=" + paymentId;
-            }
-        }
     </script>
-
-    </script>
-
+    <!-- Include JS and other script files here -->
+     
     <script src="assets/js/script.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

@@ -219,10 +219,8 @@ $student = $result->fetch_assoc();  // Assuming only one student is fetched
                                             <td class="text-wrap"><?php echo htmlspecialchars($row['summary']); ?></td>
                                             <td class="text-wrap">Rs <?php echo number_format($row['amount'], 2); ?></td>
                                         </tr>
-                                    <?php } ?>
-<?php   
 
-?>
+                                    <?php } ?>
                                     <tr>
                                         <td colspan="2" class="text-start"><strong>Total Amount</strong></td>
                                         <td><strong>Rs <?php echo number_format($totalAmount, 2); ?></strong></td>
@@ -231,7 +229,7 @@ $student = $result->fetch_assoc();  // Assuming only one student is fetched
                             </table>
 
                         </div>
-                        
+
                         <?php
                         // Calculate the admission package dynamically
                         $admissionAmount = max($baseAdmissionPackage - $totalAmount, 0);

@@ -92,9 +92,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <div class="card-body">
                                     <div class="card-title col-12 col-md-12 col-lg-12 d-flex justify-content-between align-items-center">
                                         <span class="col-lg-6 fs-6 text-info" id="date"></span>
-                                        <a href="student_att_history.php">
-                                            <button class="btn btn-success btn-sm text-white font-weight-bold me-4">Check history</button>
-                                        </a>
                                     </div>
                                     <div class="row mt-3">
                                         <div class="col-12">

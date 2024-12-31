@@ -1,14 +1,13 @@
 <?php include '../server_database.php';
-// Query to fetch student data from the database
-$query = "SELECT * FROM students";
-$result = $conn->query($query);
+// Query to fetch staff data from the database
+$sql = "SELECT id, photo, name, phone, email, designation, joining_date, branch, salary FROM staffs";
+$result = $conn->query($sql);
 ?>
 <!DOCTYPE php>
 <html lang="en">
 
 <head>
-
-  <meta charset="utf-8">
+<meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Daffodils School</title>
   <link rel="stylesheet" href="assets/vendors/feather/feather.css">
@@ -31,11 +30,11 @@ $result = $conn->query($query);
 <body>
   <div class="container-scroller">
     <!-- partial:partials/_navbar.php -->
-    <?php include 'header.php'   ?>
+    <?php include 'header.php'; ?>
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
       <!-- partial:partials/_sidebar.php -->
-      <?php include 'navbar.php' ?>
+      <?php include 'navbar.php'; ?>
       <!-- Main Dashboard Panel -->
       <!-- partial -->
       <div class="main-panel">
@@ -46,8 +45,8 @@ $result = $conn->query($query);
                 <div class="col-md-12">
                   <div class="row">
                     <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                      <h2 class="font-weight-bold text-primary fw-bolder">Students</h2>
-                      <p class="text-secondary">Students Admision and Attendence</p>
+                      <h2 class="font-weight-bold text-primary fw-bolder">Staffs</h2>
+                      <p class="text-secondary">All Staffs info</p>
                     </div>
                   </div>
                   <div class="row justify-content-center p-1">
@@ -92,9 +91,8 @@ $result = $conn->query($query);
                 <div class="card-body">
                   <div class="card-title col-12 col-md-12 col-lg-12 d-flex justify-content-between align-items-center">
                     <span class="col-lg-6 fs-6 text-info">Data</span>
-
-                    <a href="student_addmission_frm.php">
-                      <button class="btn btn-success btn-sm text-white font-weight-bold me-4">Add Students</button>
+                    <a href="add_staffs_frm.php">
+                      <button class="btn btn-success btn-sm text-white font-weight-bold me-4">Add Staffs</button>
                     </a>
                   </div>
                   <div class="row mt-3">
@@ -107,12 +105,12 @@ $result = $conn->query($query);
                               <th>Photo</th>
                               <th>Name</th>
                               <th>Phone no</th>
-                              <th>email</th>
+                              <th>Email</th>
                               <th>Designation</th>
                               <th>Joining Date</th>
                               <th>Branch</th>
                               <th>Salary</th>
-                              <th>Edit</th>
+                              <th>Password</th>
                               <th>Action</th>
                             </tr>
                           </thead>
@@ -124,70 +122,55 @@ $result = $conn->query($query);
                               ?>
                                 <tr>
                                   <td><?php echo $slno++; ?></td>
-                                  <td><img src="<?php echo $row['img_path']; ?>" alt="Student Image" style="width: 50px; height: 50px; object-fit: cover;"></td>
-                                  <td class="text-wrap"><?php echo $row['name']; ?></td>
-                                  <td><?php echo $row['class']; ?></td>
-                                  <td><?php echo $row['gender']; ?></td>
-                                  <td><?php echo $row['roll_no']; ?></td>
-                                  <td><?php echo $row['phone_no']; ?></td>
-                                  <td><?php echo $row['whatsapp']; ?></td>
-                                  <td><?php echo $row['city']; ?></td>
-                                  <td><?php echo $row['dob']; ?></td>
-                                  <td><?php echo $row['branch']; ?></td>
-                                  <td><?php echo $row['admission_date']; ?></td>
-                                  <td>Rs <?php echo $row['admission_package']; ?></td>
-                                  <td><?php echo $row['optional_phone']; ?></td>
+                                  <td><img src="<?php echo htmlspecialchars($row['photo']); ?>" alt="Staff Photo" style="width: 50px; height: 50px; object-fit: cover;"></td>
+                                  <td class="text-wrap"><?php echo htmlspecialchars($row['name']); ?></td>
+                                  <td><?php echo htmlspecialchars($row['phone']); ?></td>
+                                  <td><?php echo htmlspecialchars($row['email']); ?></td>
+                                  <td><?php echo htmlspecialchars($row['designation']); ?></td>
+                                  <td><?php echo htmlspecialchars($row['joining_date']); ?></td>
+                                  <td><?php echo htmlspecialchars($row['branch']); ?></td>
+                                  <td>₹<?php echo number_format((float)$row['salary'], 2); ?></td>
                                   <td>
-                                    <a href="javascript:void(0);" onclick="confirmUpadte(<?php echo $row['id']; ?>)">
+                                    <a href="javascript:void(0);" onclick="confirmUpdate(<?php echo (int)$row['id']; ?>)">
                                       <button type="button" class="btn btn-info btn-sm text-white fw-bold">Update</button>
                                     </a>
                                   </td>
                                   <td>
-                                    <a href="javascript:void(0);" onclick="confirmDelete(<?php echo $row['id']; ?>)">
+                                    <a href="javascript:void(0);" onclick="confirmDelete(<?php echo (int)$row['id']; ?>)">
                                       <button type="button" class="btn btn-danger btn-sm text-white fw-bold">Delete</button>
-                                    </a>
-                                  </td>
-                                  <td>
-                                    <a href="views_payments.php?id=<?php echo $row['id']; ?>" rel="noopener noreferrer">
-                                      <button type="button" class="btn btn-success btn-sm text-white fw-bolder">View</button>
                                     </a>
                                   </td>
                                 </tr>
                               <?php endwhile; ?>
                             <?php else: ?>
                               <tr>
-                                <td colspan="10">No data found</td>
+                                <td colspan="13">No data found</td>
                               </tr>
                             <?php endif; ?>
                           </tbody>
                         </table>
                       </div>
-
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          <?php $conn->close(); ?>
+          <!-- /table header -->
         </div>
-
-
-        <?php $conn->close(); ?>
-        <!-- /table header -->
+        <!-- content-wrapper ends -->
+        <!-- partial:partials/_footer.php -->
+        <?php include "footer.php"; ?>
+        <!-- partial -->
       </div>
-      <!-- content-wrapper ends -->
-      <!-- partial:partials/_footer.php -->
-      <?php include "footer.php"  ?>
-      <!-- partial -->
+      <!-- main-panel ends -->
     </div>
-    <!-- main-panel ends -->
-  </div>
-  <!-- page-body-wrapper ends -->
+    <!-- page-body-wrapper ends -->
   </div>
   <!-- container-scroller -->
-  <!-- search filter -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
   <script>
     $(document).ready(function() {
@@ -206,7 +189,6 @@ $result = $conn->query($query);
       });
     });
 
-
     function filterByDate() {
       var startDate = new Date($('#startDate').val()); // Convert start date input to Date object
       var endDate = new Date($('#endDate').val()); // Convert end date input to Date object
@@ -224,25 +206,21 @@ $result = $conn->query($query);
       });
     }
 
-    // students update feature
-    function confirmUpadte(studentId) {
-      // Show a confirmation dialog to the user
-      if (confirm("Are you sure you want to update this student?")) {
-        // If the user confirms, redirect to the delete PHP script with the student ID
-        window.location.href = "update_students_info.php?id=" + studentId;
+    // JavaScript function to confirm update action
+    function confirmUpdate(id) {
+      if (confirm("Are you sure you want to update this record?")) {
+        window.location.href = "update_staff.php?id=" + id;
       }
     }
 
-    // students delete feature
-    function confirmDelete(studentId) {
-      // Show a confirmation dialog to the user
-      if (confirm("Are you sure you want to delete this student? This action cannot be undone.")) {
-        // If the user confirms, redirect to the delete PHP script with the student ID
-        window.location.href = "delete_students.php?id=" + studentId;
+    // JavaScript function to confirm delete action
+    function confirmDelete(id) {
+      if (confirm("Are you sure you want to delete this record?")) {
+        window.location.href = "delete_staffs.php?id=" + id;
       }
     }
   </script>
-  <script src="assets/js/script.js"></script>
+    <script src="assets/js/script.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

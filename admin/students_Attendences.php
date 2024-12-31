@@ -92,22 +92,6 @@ $result_classes = $conn->query($query_classes);
         m = n.getMonth() + 1;
         d = n.getDate();
         document.getElementById("date").innerHTML = d + "-" + m + "-" + y;
-
-        // Search function
-        $(document).ready(function() {
-            $('#search').on('keyup', function() {
-                var searchTerm = $(this).val().toLowerCase();
-                $('#dataTable tbody tr').each(function() {
-                    var row = $(this);
-                    var rowText = row.text().toLowerCase();
-                    if (rowText.includes(searchTerm)) {
-                        row.show();
-                    } else {
-                        row.hide();
-                    }
-                });
-            });
-        });
     </script>
 
     <script src="assets/js/script.js"></script>

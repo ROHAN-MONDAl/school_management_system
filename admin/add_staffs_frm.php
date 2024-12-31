@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // Insert into database if there are no errors
         if (!$errorMessage) {
-            $sql = "INSERT INTO teachers (photo, name, phone, email, designation, joining_date, branch, salary, password)
+            $sql = "INSERT INTO staffs (photo, name, phone, email, designation, joining_date, branch, salary, password)
                     VALUES ('$photo', '$name', '$phone', '$email', '" . $_POST['designation'] . "', '" . $_POST['joining_date'] . "', '" . $_POST['branch'] . "', '" . $_POST['salary'] . "', '$passwordHash')";
 
             if ($conn->query($sql)) {
@@ -133,18 +133,18 @@ $conn->close();
                     <div class="col-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
-                                <a href="teachers.php" class="btn btn-warning text-white fw-bolder">Back</a>
+                                <a href="staffs.php" class="btn btn-warning text-white fw-bolder">Back</a>
                                 <h4 class="card-title mt-5">Form</h4>
                                 <p class="card-description text-danger"><b>Warning: Be careful while filling details</b></p>
 
                                 <!-- Display the error message if there is one -->
-                                <?php if ($errorMessage): ?>
+                                <?php if (isset($errorMessage) && $errorMessage): ?>
                                     <div class="alert alert-danger">
-                                        <strong>Error!</strong> <?php echo $errorMessage; ?>
+                                        <strong>Error!</strong> <?php echo htmlspecialchars($errorMessage, ENT_QUOTES, 'UTF-8'); ?>
                                     </div>
-                                <?php elseif ($successMessage): ?>
+                                <?php elseif (isset($successMessage) && $successMessage): ?>
                                     <div class="alert alert-success">
-                                        <strong>Success!</strong> <?php echo $successMessage; ?>
+                                        <strong>Success!</strong> <?php echo htmlspecialchars($successMessage, ENT_QUOTES, 'UTF-8'); ?>
                                     </div>
                                 <?php endif; ?>
 
@@ -158,13 +158,14 @@ $conn->close();
 
                                     <label for="phone">Phone No:</label>
                                     <input type="tel" class="form-control" pattern="^(\+91[\-\s]?)?[0]?(91)?[6789]\d{9}$"
-                                        oninput="if (typeof this.reportValidity === 'function') {this.reportValidity();}" name="phone" id="phone" required><br>
+                                        oninput="if (typeof this.reportValidity === 'function') {this.reportValidity();}"
+                                        name="phone" id="phone" required><br>
 
                                     <label for="email">Email:</label>
                                     <input type="email" class="form-control" name="email" id="email" required><br>
 
                                     <label for="designation">Designation:</label>
-                                    <input type="text" class="form-control" name="designation"  autocomplete="on" autofocus autocapitalize="words" id="designation" required><br>
+                                    <input type="text" class="form-control" name="designation" autocomplete="on" autocapitalize="words" id="designation" required><br>
 
                                     <label for="joining_date">Joining Date:</label>
                                     <input type="date" class="form-control" name="joining_date" id="joining_date" required><br>
@@ -175,21 +176,22 @@ $conn->close();
                                     </select><br>
 
                                     <label for="salary">Salary:</label>
-                                    <input type="number" class="form-control" name="salary" id="salary" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="departmentPassword"
-                                    title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required><br>
+                                    <input type="number" class="form-control" name="salary" id="salary" min="0" step="0.01" required><br>
 
                                     <label for="password">Password:</label>
-                                    <input type="password" class="form-control" name="password" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="departmentPassword"
-                                    title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required><br>
+                                    <input type="password" class="form-control" name="password" id="password"
+                                        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                        title="Must contain at least one number, one uppercase letter, one lowercase letter, and at least 8 or more characters" required><br>
 
                                     <label for="cpassword">Confirm Password:</label>
                                     <input type="password" class="form-control" name="cpassword" id="cpassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                                         title="Must contain at least one number, one uppercase letter, one lowercase letter, and at least 8 or more char" required><br>
 
                                     <div class="text-center mb-3">
-                                    <button type="submit" class="btn btn-primary fs-6 col-4">Submit</button>
+                                        <button type="submit" class="btn btn-primary fs-6 col-4">Submit</button>
                                     </div>
                                 </form>
+
 
                             </div>
                         </div>

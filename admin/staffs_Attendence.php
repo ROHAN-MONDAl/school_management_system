@@ -1,15 +1,14 @@
 <?php
 include '../server_database.php';
 
-// Fetch available classes from the database
-$query_classes = "SELECT DISTINCT class FROM students";
+// Fetch available branches from the staffs table
+$query_classes = "SELECT DISTINCT branch FROM staffs";
 $result_classes = $conn->query($query_classes);
 ?>
 <!DOCTYPE php>
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Daffodils School</title>
@@ -49,13 +48,13 @@ $result_classes = $conn->query($query_classes);
                                         <div class="col-12">
                                             <div class="table-responsive">
                                                 <h3><b>Attendance</b></h3>
-                                                <form action="student_mark_attendance.php" method="GET">
+                                                <form action="staffs_mark_attendance.php" method="GET">
                                                     <div class="form-group">
-                                                        <label for="class">Select class attendance:</label>
+                                                        <label for="class">Select Staff attendance:</label>
                                                         <select name="class" id="class" class="form-control" required>
-                                                            <option value="">Select a class</option>
+                                                            <option value="">Select a branch</option>
                                                             <?php while ($row = $result_classes->fetch_assoc()): ?>
-                                                                <option value="<?php echo $row['class']; ?>"><?php echo $row['class']; ?></option>
+                                                                <option value="<?php echo $row['branch']; ?>"><?php echo $row['branch']; ?></option>
                                                             <?php endwhile; ?>
                                                         </select>
                                                     </div>
@@ -63,7 +62,7 @@ $result_classes = $conn->query($query_classes);
                                                         <a class="mb-2 mb-lg-0 col-12 col-lg-6">
                                                             <button type="submit" class="btn btn-primary col-12 text-white fw-bold">Proceed</button>
                                                         </a>
-                                                        <a href="student_att_history.php" class="mb-2 mb-lg-0 col-12 col-lg-6">
+                                                        <a href="staffs_att_history.php" class="mb-2 mb-lg-0 col-12 col-lg-6">
                                                             <button type="button" class="btn btn-success col-12 text-white fw-bold">Check history</button>
                                                         </a>
                                                     </div>
@@ -92,22 +91,6 @@ $result_classes = $conn->query($query_classes);
         m = n.getMonth() + 1;
         d = n.getDate();
         document.getElementById("date").innerHTML = d + "-" + m + "-" + y;
-
-        // Search function
-        $(document).ready(function() {
-            $('#search').on('keyup', function() {
-                var searchTerm = $(this).val().toLowerCase();
-                $('#dataTable tbody tr').each(function() {
-                    var row = $(this);
-                    var rowText = row.text().toLowerCase();
-                    if (rowText.includes(searchTerm)) {
-                        row.show();
-                    } else {
-                        row.hide();
-                    }
-                });
-            });
-        });
     </script>
 
     <script src="assets/js/script.js"></script>
