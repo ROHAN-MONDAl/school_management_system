@@ -52,9 +52,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // If there are no errors, proceed with database insertion
     if (!$errorMessage) {
-        // Hash the password
-        $passwordHash = password_hash($_POST['password'], PASSWORD_BCRYPT);
-
         // Sanitize and validate other inputs
         $name = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
         $phone = filter_var($_POST['phone'], FILTER_SANITIZE_STRING);
@@ -64,8 +61,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $errorMessage = "Invalid email format.";
         }
 
-        // Insert into database if there are no errors
+        // Check if email already exists in the 'staffs' table
+        $emailCheck = "SELECT * FROM staffs WHERE email = '$email'";
+        $emailResult = $conn->query($emailCheck);
+        if ($emailResult->num_rows > 0) {
+            $errorMessage = "This email is already registered.";
+        }
+
+        // Check if phone number already exists in the 'staffs' table
+        $phoneCheck = "SELECT * FROM staffs WHERE phone = '$phone'";
+        $phoneResult = $conn->query($phoneCheck);
+        if ($phoneResult->num_rows > 0) {
+            $errorMessage = "This phone number is already registered.";
+        }
+
+        // If there are no errors, proceed to insert data into the database
         if (!$errorMessage) {
+            // Hash the password
+            $passwordHash = password_hash($_POST['password'], PASSWORD_BCRYPT);
+
+            // Insert into database if there are no errors
             $sql = "INSERT INTO staffs (photo, name, phone, email, designation, joining_date, branch, salary, password)
                     VALUES ('$photo', '$name', '$phone', '$email', '" . $_POST['designation'] . "', '" . $_POST['joining_date'] . "', '" . $_POST['branch'] . "', '" . $_POST['salary'] . "', '$passwordHash')";
 
@@ -95,6 +110,7 @@ if ($result->num_rows > 0) {
 // Close the database connection
 $conn->close();
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

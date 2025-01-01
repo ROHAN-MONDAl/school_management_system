@@ -27,7 +27,7 @@ $result = $conn->query($query);
     <link rel="stylesheet" href="assets/vendors/ti-icons/css/themify-icons.css">
     <link rel="stylesheet" type="text/css" href="assets/js/select.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/customs.css">
     <link rel="shortcut icon" href="assets/images/favicon.png" />
@@ -91,37 +91,37 @@ $result = $conn->query($query);
                                     <div class="row mt-3">
                                         <div class="col-12">
                                             <div class="table-responsive">
-                                            <table id="dataTable" class="table display expandable-table col-lg-12">
-    <thead class="text-center text-wrap">
-        <tr>
-            <th>Slno</th>
-            <th>Name</th>
-            <th>Designation</th>
-            <th>Date</th>
-            <th>Attendance Status</th>
-        </tr>
-    </thead>
-    <tbody class="text-center text-wrap">
-        <?php if ($result->num_rows > 0): ?>
-            <?php
-                $slno = 1;
-                while ($row = $result->fetch_assoc()): 
-            ?>
-                <tr>
-                    <td><?php echo $slno++; ?></td>
-                    <td><?php echo htmlspecialchars($row['name']); ?></td>
-                    <td><?php echo htmlspecialchars($row['designation']); ?></td>
-                    <td><?php echo htmlspecialchars($row['date']); ?></td>
-                    <td><?php echo htmlspecialchars($row['status']); ?></td>
-                </tr>
-            <?php endwhile; ?>
-        <?php else: ?>
-            <tr>
-                <td colspan="5">No data found</td>
-            </tr>
-        <?php endif; ?>
-    </tbody>
-</table>
+                                                <table id="dataTable" class="table display expandable-table col-lg-12">
+                                                    <thead class="text-center text-wrap">
+                                                        <tr>
+                                                            <th>Slno</th>
+                                                            <th>Name</th>
+                                                            <th>Designation</th>
+                                                            <th>Date</th>
+                                                            <th>Attendance Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="text-center text-wrap">
+                                                        <?php if ($result->num_rows > 0): ?>
+                                                            <?php
+                                                            $slno = 1;
+                                                            while ($row = $result->fetch_assoc()):
+                                                            ?>
+                                                                <tr>
+                                                                    <td><?php echo $slno++; ?></td>
+                                                                    <td><?php echo htmlspecialchars($row['name']); ?></td>
+                                                                    <td><?php echo htmlspecialchars($row['designation']); ?></td>
+                                                                    <td><?php echo htmlspecialchars($row['date']); ?></td>
+                                                                    <td><?php echo htmlspecialchars($row['status']); ?></td>
+                                                                </tr>
+                                                            <?php endwhile; ?>
+                                                        <?php else: ?>
+                                                            <tr>
+                                                                <td colspan="5">No data found</td>
+                                                            </tr>
+                                                        <?php endif; ?>
+                                                    </tbody>
+                                                </table>
 
                                             </div>
                                         </div>
@@ -171,7 +171,7 @@ $result = $conn->query($query);
         }
     </script>
     <!-- Include JS and other script files here -->
-     
+
     <script src="assets/js/script.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

@@ -129,7 +129,7 @@ $result = $conn->query($sql);
                                   <td><?php echo htmlspecialchars($row['designation']); ?></td>
                                   <td><?php echo htmlspecialchars($row['joining_date']); ?></td>
                                   <td><?php echo htmlspecialchars($row['branch']); ?></td>
-                                  <td>₹<?php echo number_format((float)$row['salary'], 2); ?></td>
+                                  <td>₹ <?php echo number_format((float)$row['salary'], 2); ?></td>
                                   <td>
                                     <a href="javascript:void(0);" onclick="confirmUpdate(<?php echo (int)$row['id']; ?>)">
                                       <button type="button" class="btn btn-info btn-sm text-white fw-bold">Update</button>

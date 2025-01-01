@@ -1,4 +1,40 @@
-<?php include '../server_database.php'  ?>
+<?php include '../server_database.php';
+
+// Fetch totals from the database
+$total_teachers = $conn->query("SELECT COUNT(*) as count FROM teachers")->fetch_assoc()['count'];
+$total_students = $conn->query("SELECT COUNT(*) as count FROM students")->fetch_assoc()['count'];
+$total_employers = $conn->query("SELECT COUNT(*) as count FROM employers")->fetch_assoc()['count'];
+$total_staffs = $conn->query("SELECT COUNT(*) as count FROM staffs")->fetch_assoc()['count'];
+
+// Fetch teacher attendance records
+$teacher_query = "
+SELECT teachers.name, teachers.designation, teachers.branch, teacher_attendance.date, teacher_attendance.status
+FROM teacher_attendance
+JOIN teachers ON teacher_attendance.teacher_id = tid
+ORDER BY teacher_attendance.date DESC
+";
+$teacher_result = $conn->query($teacher_query);
+
+// Fetch employer attendance records
+$employer_query = "
+SELECT employers.name, employers.designation, employers.branch,employer_attendance.date, employer_attendance.status
+FROM employer_attendance
+JOIN employers ON employer_attendance.employer_id = employers.id
+ORDER BY employer_attendance.date DESC
+";
+$employer_result = $conn->query($employer_query);
+
+// Fetch staff attendance records
+$staff_query = "
+SELECT staffs.name, staffs.designation, staffs.branch, staff_attendance.date, staff_attendance.status
+FROM staff_attendance
+JOIN staffs ON staff_attendance.staff_id = staffs.id
+ORDER BY staff_attendance.date DESC
+";
+$staff_result = $conn->query($staff_query);
+?>
+
+
 <!DOCTYPE php>
 <html lang="en">
 
@@ -60,35 +96,39 @@
                     <div class="row">
                       <div class="col-lg-12 gy-2 transparent">
                         <div class="row">
+                          <!-- Total Teachers -->
                           <div class="col-lg-3 mb-4 stretch-card transparent">
                             <div class="card bg-dark-subtle">
                               <div class="card-body">
-                                <p class="mb-4 fw-bolder"><i class="fa-regular fa-user"></i> Total teachers</p>
-                                <p class="fs-30 mb-2 fw-bolder">4006</p>
+                                <p class="mb-4 fw-bolder"><i class="fa-regular fa-user"></i> Total Teachers</p>
+                                <p class="fs-30 mb-2 fw-bolder"><?php echo $total_teachers; ?></p>
                               </div>
                             </div>
                           </div>
+                          <!-- Total Students -->
                           <div class="col-lg-3 mb-4 stretch-card transparent">
                             <div class="card bg-info-subtle">
                               <div class="card-body">
                                 <p class="mb-4 fw-bolder"><i class="fa-regular fa-user"></i> Total Students</p>
-                                <p class="fs-30 mb-2 fw-bolder">61344</p>
+                                <p class="fs-30 mb-2 fw-bolder"><?php echo $total_students; ?></p>
                               </div>
                             </div>
                           </div>
+                          <!-- Total Employers -->
                           <div class="col-lg-3 mb-4 stretch-card transparent">
                             <div class="card bg-success">
                               <div class="card-body">
-                                <p class="mb-4 fw-bolder"><i class="fa-regular fa-user  "></i> Total Employers</p>
-                                <p class="fs-30 mb-2 fw-bolder">61344</p>
+                                <p class="mb-4 fw-bolder"><i class="fa-regular fa-user"></i> Total Employers</p>
+                                <p class="fs-30 mb-2 fw-bolder"><?php echo $total_employers; ?></p>
                               </div>
                             </div>
                           </div>
+                          <!-- Total Staffs -->
                           <div class="col-lg-3 mb-4 stretch-card transparent">
-                            <div class="card  bg-warning">
+                            <div class="card bg-warning">
                               <div class="card-body">
-                                <p class="mb-4 fw-bolder"><i class="fa-regular fa-user"></i> Total staffs</p>
-                                <p class="fs-30 mb-2 fw-bolder">61344</p>
+                                <p class="mb-4 fw-bolder"><i class="fa-regular fa-user"></i> Total Staffs</p>
+                                <p class="fs-30 mb-2 fw-bolder"><?php echo $total_staffs; ?></p>
                               </div>
                             </div>
                           </div>
@@ -96,36 +136,6 @@
                       </div>
                     </div>
                   </div>
-                  <div class="row justify-content-center p-1">
-                    <div class="col-12 col-md-10 col-lg-8">
-                      <!-- Search Container -->
-                      <div class="search-container d-flex flex-column flex-md-row align-items-center">
-                        <div class="col-12 col-md-10 mb-2 mb-md-0">
-                          <input type="text" class="form-control search-input" id="search" placeholder="Search..." onkeyup="filterTable()">
-                        </div>
-                        <p class="mx-md-3 mt-2 mt-md-0 text-danger" style="cursor:pointer" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
-                          <i class="fa text-danger" style="font-size:24px;">&#xf0b0;</i> <b>Filter</b>
-                        </p>
-                      </div>
-
-                      <!-- Modal -->
-                      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                          <div class="modal-content">
-                            <form id="dateFilterForm" method="post" class="forms-sample bg-white p-3 p-md-5 text-start rounded">
-                              <h3 class="text-center text-primary fw-bold">Filter</h3>
-                              <label for="startDate" class="text-black">Start Date:</label>
-                              <input type="date" id="startDate" class="form-control" name="start_date" required>
-                              <label for="endDate" class="text-black mt-2">End Date:</label>
-                              <input type="date" id="endDate" class="form-control" name="end_date" required>
-                              <button type="button" class="btn btn-primary w-100 mt-3" onclick="filterByDate()">Filter</button>
-                            </form>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
                 </div>
               </div>
             </div>
@@ -133,134 +143,119 @@
 
           <!-- table header -->
           <div class="row mt-3">
+            <!-- Teachers Table -->
             <div class="col-12">
+              <h4 class="text-start">Teacher Attendance</h4>
               <div class="table-responsive">
-                <table id="dataTable" class="table table-striped table-bordered col-lg-12">
+                <table id="teacherTable" class="table display expandable-table col-lg-12">
                   <thead class="text-center text-wrap">
                     <tr>
                       <th>Slno</th>
-                      <th>Photo</th>
                       <th>Name</th>
-                      <th>Class</th>
-                      <th>Gender</th>
-                      <th>Roll no</th>
-                      <th>Phone no</th>
-                      <th>Whatsapp</th>
-                      <th>City</th>
-                      <th>DOB</th>
-                      <th>Branch</th>
-                      <th>Admission Date</th>
-                      <th>Admission Package</th>
-                      <th>Optinal Phone</th>
-                      <th>Password</th>
-                      <th>Action</th>
-                      <th>View</th>
+                      <th>Designation</th>
+                      <th>branch</th>
+                      <th>Date</th>
+                      <th>Attendance Status</th>
                     </tr>
                   </thead>
                   <tbody class="text-center text-wrap">
-                    <?php if ($result->num_rows > 0): ?>
+                    <?php if ($teacher_result->num_rows > 0): ?>
                       <?php
                       $slno = 1;
-                      while ($row = $result->fetch_assoc()):
+                      while ($row = $teacher_result->fetch_assoc()):
                       ?>
                         <tr>
                           <td><?php echo $slno++; ?></td>
-                          <td><img src="<?php echo $row['img_path']; ?>" alt="Student Image" style="width: 50px; height: 50px; object-fit: cover;"></td>
-                          <td><?php echo $row['name']; ?></td>
-                          <td><?php echo $row['class']; ?></td>
-                          <td><?php echo $row['gender']; ?></td>
-                          <td><?php echo $row['roll_no']; ?></td>
-                          <td><?php echo $row['phone_no']; ?></td>
-                          <td><?php echo $row['whatsapp']; ?></td>
-                          <td class="text-wrap"><?php echo $row['city']; ?></td>
-                          <td class="text-wrap"><?php echo $row['dob']; ?></td>
-                          <td class="text-wrap"><?php echo $row['branch']; ?></td>
-                          <td class="text-wrap"><?php echo $row['admission_date']; ?></td>
-                          <td class="text-wrap"><?php echo $row['admission_package']; ?></td>
-                          <td class="text-wrap"><?php echo $row['optional_phone']; ?></td>
-                          <td>******</td> <!-- Masked password -->
-                          <td>
-                            <a href="javascript:void(0);" onclick="confirmDelete(<?php echo $row['id']; ?>)">
-                              <button type="button" class="btn btn-danger text-white fw-bold">Delete</button>
-                            </a>
-                          </td>
-                          <td>
-                            <a href="views_payments.php?id=<?php echo $row['id']; ?>" rel="noopener noreferrer">
-                              <button type="button" class="btn btn-success btn-sm text-white fw-bolder">View</button>
-                            </a>
-                          </td>
+                          <td><?php echo htmlspecialchars($row['name']); ?></td>
+                          <td><?php echo htmlspecialchars($row['designation']); ?></td>
+                          <td><?php echo htmlspecialchars($row['branch']); ?></td>
+                          <td><?php echo htmlspecialchars($row['date']); ?></td>
+                          <td><?php echo htmlspecialchars($row['status']); ?></td>
                         </tr>
                       <?php endwhile; ?>
                     <?php else: ?>
                       <tr>
-                        <td colspan="10">No data found</td>
+                        <td colspan="5">No data found</td>
                       </tr>
                     <?php endif; ?>
                   </tbody>
                 </table>
               </div>
+            </div>
 
-
+            <!-- Employers Table -->
+            <div class="col-12 mt-4">
+              <h4 class="text-start">Employer Attendance</h4>
               <div class="table-responsive">
-                <table id="dataTable" class="table table-striped table-bordered col-lg-12">
+                <table id="employerTable" class="table display expandable-table col-lg-12">
                   <thead class="text-center text-wrap">
                     <tr>
                       <th>Slno</th>
-                      <th>Photo</th>
                       <th>Name</th>
-                      <th>Class</th>
-                      <th>Gender</th>
-                      <th>Roll no</th>
-                      <th>Phone no</th>
-                      <th>Whatsapp</th>
-                      <th>City</th>
-                      <th>DOB</th>
+                      <th>Designation</th>
                       <th>Branch</th>
-                      <th>Admission Date</th>
-                      <th>Admission Package</th>
-                      <th>Optinal Phone</th>
-                      <th>Password</th>
-                      <th>Action</th>
-                      <th>View</th>
+                      <th>Date</th>
+                      <th>Attendance Status</th>
                     </tr>
                   </thead>
                   <tbody class="text-center text-wrap">
-                    <?php if ($result->num_rows > 0): ?>
+                    <?php if ($employer_result->num_rows > 0): ?>
                       <?php
                       $slno = 1;
-                      while ($row = $result->fetch_assoc()):
+                      while ($row = $employer_result->fetch_assoc()):
                       ?>
                         <tr>
                           <td><?php echo $slno++; ?></td>
-                          <td><img src="<?php echo $row['img_path']; ?>" alt="Student Image" style="width: 50px; height: 50px; object-fit: cover;"></td>
-                          <td><?php echo $row['name']; ?></td>
-                          <td><?php echo $row['class']; ?></td>
-                          <td><?php echo $row['gender']; ?></td>
-                          <td><?php echo $row['roll_no']; ?></td>
-                          <td><?php echo $row['phone_no']; ?></td>
-                          <td><?php echo $row['whatsapp']; ?></td>
-                          <td class="text-wrap"><?php echo $row['city']; ?></td>
-                          <td class="text-wrap"><?php echo $row['dob']; ?></td>
-                          <td class="text-wrap"><?php echo $row['branch']; ?></td>
-                          <td class="text-wrap"><?php echo $row['admission_date']; ?></td>
-                          <td class="text-wrap"><?php echo $row['admission_package']; ?></td>
-                          <td class="text-wrap"><?php echo $row['optional_phone']; ?></td>
-                          <td>******</td> <!-- Masked password -->
-                          <td>
-                            <a href="javascript:void(0);" onclick="confirmDelete(<?php echo $row['id']; ?>)">
-                              <button type="button" class="btn btn-danger text-white fw-bold">Delete</button>
-                            </a>
-                          </td>
-                          <td>
-                            <a href="views_payments.php?id=<?php echo $row['id']; ?>" rel="noopener noreferrer">
-                              <button type="button" class="btn btn-success btn-sm text-white fw-bolder">View</button>
-                            </a>
-                          </td>
+                          <td><?php echo htmlspecialchars($row['name']); ?></td>
+                          <td><?php echo htmlspecialchars($row['designation']); ?></td>
+                          <td><?php echo htmlspecialchars($row['branch']); ?></td>
+                          <td><?php echo htmlspecialchars($row['date']); ?></td>
+                          <td><?php echo htmlspecialchars($row['status']); ?></td>
                         </tr>
                       <?php endwhile; ?>
                     <?php else: ?>
                       <tr>
-                        <td colspan="10">No data found</td>
+                        <td colspan="5">No data found</td>
+                      </tr>
+                    <?php endif; ?>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Staff Table -->
+            <div class="col-12 mt-4">
+              <h4 class="text-start">Staff Attendance</h4>
+              <div class="table-responsive">
+                <table id="staffTable" class="table display expandable-table col-lg-12">
+                  <thead class="text-center text-wrap">
+                    <tr>
+                      <th>Slno</th>
+                      <th>Name</th>
+                      <th>Designation</th>
+                      <th>Branch</th>
+                      <th>Date</th>
+                      <th>Attendance Status</th>
+                    </tr>
+                  </thead>
+                  <tbody class="text-center text-wrap">
+                    <?php if ($staff_result->num_rows > 0): ?>
+                      <?php
+                      $slno = 1;
+                      while ($row = $staff_result->fetch_assoc()):
+                      ?>
+                        <tr>
+                          <td><?php echo $slno++; ?></td>
+                          <td><?php echo htmlspecialchars($row['name']); ?></td>
+                          <td><?php echo htmlspecialchars($row['designation']); ?></td>
+                          <td><?php echo htmlspecialchars($row['branch']); ?></td>
+                          <td><?php echo htmlspecialchars($row['date']); ?></td>
+                          <td><?php echo htmlspecialchars($row['status']); ?></td>
+                        </tr>
+                      <?php endwhile; ?>
+                    <?php else: ?>
+                      <tr>
+                        <td colspan="5">No data found</td>
                       </tr>
                     <?php endif; ?>
                   </tbody>
@@ -268,7 +263,6 @@
               </div>
             </div>
           </div>
-          <!-- /table header -->
         </div>
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.php -->
@@ -280,49 +274,6 @@
     <!-- page-body-wrapper ends -->
   </div>
   <!-- container-scroller -->
-  <!-- search filter -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-
-  <script>
-    $(document).ready(function() {
-      // Function to filter rows based on search input
-      $('#search').on('keyup', function() {
-        var searchTerm = $(this).val().toLowerCase();
-        $('#dataTable tbody tr').each(function() {
-          var row = $(this);
-          var rowText = row.text().toLowerCase();
-          if (rowText.includes(searchTerm)) {
-            row.show();
-          } else {
-            row.hide();
-          }
-        });
-      });
-
-      // Function to filter rows based on date range
-      $('#startDate, #endDate').on('change', function() {
-        var startDate = $('#startDate').val();
-        var endDate = $('#endDate').val();
-
-        $('#dataTable tbody tr').each(function() {
-          var row = $(this);
-          var dateText = row.find('td').eq(2).text(); // Get the date column (third column)
-
-          if (startDate && new Date(dateText) < new Date(startDate)) {
-            row.hide();
-            return;
-          }
-          if (endDate && new Date(dateText) > new Date(endDate)) {
-            row.hide();
-            return;
-          }
-
-          row.show(); // Show the row if within the date range
-        });
-      });
-    });
-  </script>
   <!-- custom js -->
   <script src="assets/js/script.js"></script>
   <!-- bootstrap Library -->

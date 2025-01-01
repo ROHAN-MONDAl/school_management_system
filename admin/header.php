@@ -1,3 +1,22 @@
+<?php
+include '../server_database.php'; // Include the database connection file
+
+$username = 'current_user'; // Replace this with the actual username of the logged-in user
+
+// Query to fetch the profile picture path from the database
+$sql = "SELECT profile_picture FROM user_settings WHERE username = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $username);
+$stmt->execute();
+$stmt->store_result();
+$stmt->bind_result($profile_picture);
+$stmt->fetch();
+
+// Close the database connection
+$stmt->close();
+$conn->close();
+?>
+
 <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
   <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
     <a class="navbar-brand brand-logo-mini " href="index.php"><img src="assets/images/favicon.png" class="me-2"
@@ -14,7 +33,13 @@
     <ul class="navbar-nav navbar-nav-right">
       <li class="nav-item nav-profile dropdown">
         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" id="profileDropdown">
-          <img src="assets/images/faces/face28.jpg" alt="profile" />
+          <!-- HTML code to display the image -->
+          <!-- HTML to display the image -->
+          <?php if (!empty($profile_picture)): ?>
+            <img src="<?php echo htmlspecialchars($profile_picture); ?>" alt="profile" height="100px" />
+          <?php else: ?>
+            <img src="assets/images/default-profile.png" alt="default profile" height="100px" />
+          <?php endif; ?>
         </a>
         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
           <a class="dropdown-item" href="settings.php">
