@@ -1,0 +1,85 @@
+* {
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
+}
+
+::-webkit-scrollbar {
+    display: none;
+  }
+
+/* dashboard search-bar */
+.search-container {
+    display: flex;
+    position: relative;
+    left: 12px;
+}
+
+.search-input {
+    height: 50px;
+    border-radius: 30px;
+    padding-left: 35px;
+    border: 2px solid rgba(0, 0, 0, 0.315);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.37);
+}
+
+.add_button {
+    font-size: 20px;
+    color: aliceblue;
+    font-weight: bold;
+    height: 40px;
+    padding: 0px;
+}
+
+/* student payment table */
+.payslip {
+    font-size: 1rem;
+    width: 100%;
+}
+
+.data {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    padding: 25px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.details {
+    margin-bottom: 20px;
+}
+
+.details table {
+    margin-top: 30px;
+    width: 10%;
+}
+
+.payslip,
+.details th,
+.details td {
+    padding: 8px;
+}
+
+.table-fixed {
+    overflow-x: scroll;
+    overflow-y: scroll;
+}
+
+/* add students employers button css */
+@media screen and (max-width: 430px) {
+    .add_button {
+        margin-right: -3px;
+    }
+
+}
+
+/* date text from students attendance table */
+@media screen and (max-width: 400px) {
+    .myfont {
+        font-size: 3px;
+    }
+
+}
