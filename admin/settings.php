@@ -21,70 +21,78 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("s", $username);
     $stmt->execute();
     $stmt->store_result();
-    $stmt->bind_result($current_password);
-    $stmt->fetch();
 
-    // Check if the old password matches the current password
-    if (!password_verify($old_password, $current_password)) {
-      $message = "Old password is incorrect!";
+    // Check if username exists
+    if ($stmt->num_rows == 0) {
+      $message = "Username does not exist!";
     } else {
-      // Hash the new password before updating it in the database
-      $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+      $stmt->bind_result($current_password);
+      $stmt->fetch();
 
-      // Handle file upload (Profile Picture)
-      $profile_picture = null;
-      if (isset($_FILES['photo']) && $_FILES['photo']['error'] == UPLOAD_ERR_OK) {
-        $file_tmp = $_FILES['photo']['tmp_name'];
-        $file_name = $_FILES['photo']['name'];
-        $file_ext = pathinfo($file_name, PATHINFO_EXTENSION);
-        $target_dir = "assets/images/"; // Directory to save the uploaded files
-        $target_file = $target_dir . uniqid() . "." . $file_ext;
+      // Check if the old password matches the current password
+      if (!password_verify($old_password, $current_password)) {
+        $message = "Old password is incorrect!";
+      } else {
+        // Hash the new password before updating it in the database
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-        // Check file size (max 5MB)
-        if ($_FILES['photo']['size'] > 5 * 1024 * 1024) {
-          $message = "File is too large. Maximum file size is 5MB.";
-        } else {
-          // Move the uploaded file to the target directory
-          if (move_uploaded_file($file_tmp, $target_file)) {
-            $profile_picture = $target_file; // Save the file path to the database
+        // Handle file upload (Profile Picture)
+        $profile_picture = null;
+        if (isset($_FILES['photo']) && $_FILES['photo']['error'] == UPLOAD_ERR_OK) {
+          $file_tmp = $_FILES['photo']['tmp_name'];
+          $file_name = $_FILES['photo']['name'];
+          $file_ext = pathinfo($file_name, PATHINFO_EXTENSION);
+          $target_dir = "assets/images/"; // Directory to save the uploaded files
+          $target_file = $target_dir . uniqid() . "." . $file_ext;
+
+          // Check file size (max 5MB)
+          if ($_FILES['photo']['size'] > 5 * 1024 * 1024) {
+            $message = "File is too large. Maximum file size is 5MB.";
           } else {
-            $message = "There was an error uploading the file.";
+            // Move the uploaded file to the target directory
+            if (move_uploaded_file($file_tmp, $target_file)) {
+              $profile_picture = $target_file; // Save the file path to the database
+            } else {
+              $message = "There was an error uploading the file.";
+            }
           }
         }
-      }
 
-      // Update the user settings in the database using MySQLi
-      if (empty($message)) {
-        try {
-          // Prepare the SQL query to update user details (removed new_username)
-          $sql = "UPDATE user_settings SET password = ?, profile_picture = ? WHERE username = ?";
+        // Update the user settings in the database using MySQLi
+        if (empty($message)) {
+          try {
+            // Prepare the SQL query to update user details (removed new_username)
+            $sql = "UPDATE user_settings SET password = ?, profile_picture = ? WHERE username = ?";
 
-          // Prepare the statement
-          $stmt = $conn->prepare($sql);
+            // Prepare the statement
+            $stmt = $conn->prepare($sql);
 
-          // Bind parameters
-          $stmt->bind_param("sss", $hashed_password, $profile_picture, $username);
+            // Bind parameters
+            $stmt->bind_param("sss", $hashed_password, $profile_picture, $username);
 
-          // Execute the query
-          if ($stmt->execute()) {
-            $message = "Data updated successfully!";
-          } else {
-            $message = "Error: " . $stmt->error;
+            // Execute the query
+            if ($stmt->execute()) {
+              $message = "Data updated successfully!";
+            } else {
+              $message = "Error: " . $stmt->error;
+            }
+          } catch (Exception $e) {
+            $message = "Error: " . $e->getMessage();
           }
-
-          // Close the statement
-          $stmt->close();
-        } catch (Exception $e) {
-          $message = "Error: " . $e->getMessage();
         }
       }
     }
+
+    // Close the statement (moved outside the conditional)
+    $stmt->close();
   }
 }
 
 // Close the database connection
 $conn->close();
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -137,37 +145,30 @@ $conn->close();
                 <h4 class="card-title">Admin Details</h4>
                 <p class="card-description"> Login verification details </p>
 
-                <?php if (!empty($message)) { ?>
-                  <div class="alert alert-info"><?php echo $message; ?></div>
-                <?php } ?>
                 <form action="settings.php" method="post" enctype="multipart/form-data">
-                  <label for="username">Username:</label>
-                  <input type="text" class="form-control" name="username" id="username" value="<?php echo htmlspecialchars($username); ?>" required><br>
+                  <?php if ($message): ?>
+                    <div class="alert alert-warning" role="alert"><?php echo htmlspecialchars($message); ?></div>
+                  <?php endif; ?>
 
-                  <!-- Old Password field -->
+                  <!-- Form Fields -->
+                  <label for="username">Username:</label>
+                  <input type="text" class="form-control" name="username" id="username" required><br>
+
                   <label for="old_password">Old Password:</label>
                   <input type="password" class="form-control" name="old_password" id="old_password" required><br>
 
-                  <!-- New Password field -->
                   <label for="password">New Password:</label>
-                  <input type="password" class="form-control" name="password" id="password"
-                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                    title="Must contain at least one number, one uppercase letter, one lowercase letter, and at least 8 or more characters" required><br>
+                  <input type="password" class="form-control" name="password" id="password" required><br>
 
-                  <!-- Confirm New Password field -->
                   <label for="cpassword">Confirm New Password:</label>
-                  <input type="password" class="form-control" name="cpassword" id="cpassword"
-                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                    title="Must contain at least one number, one uppercase letter, one lowercase letter, and at least 8 or more characters" required><br>
+                  <input type="password" class="form-control" name="cpassword" id="cpassword" required><br>
 
-                  <!-- Profile Picture Upload field -->
-                  <label for="photo">Upload Profile Picture (Max 5MB):</label>
-                  <input type="file" class="form-control" name="photo" id="photo" accept="image/*" /><br>
+                  <label for="photo">Upload Profile Picture:</label>
+                  <input type="file" class="form-control" name="photo" id="photo"><br>
 
-                  <div class="text-center mb-3">
-                    <button type="submit" class="btn btn-primary fs-6 col-4">Submit</button>
-                  </div>
+                  <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
+
               </div>
             </div>
           </div>
