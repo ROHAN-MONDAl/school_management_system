@@ -170,7 +170,7 @@ $conn->close();
                                     <input type="file" class="form-control" name="photo" id="photo" accept="image/*"><br>
 
                                     <label for="name">Name:</label>
-                                    <input type="text" class="form-control" name="name" autocomplete="on" autofocus autocapitalize="words" id="name" required><br>
+                                    <input type="text" class="form-control" name="name" autocomplete="off" autofocus autocapitalize="words" id="name" required><br>
 
                                     <label for="phone">Phone No:</label>
                                     <input type="tel" class="form-control" pattern="^(\+91[\-\s]?)?[0]?(91)?[6789]\d{9}$"

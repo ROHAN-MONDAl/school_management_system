@@ -152,21 +152,23 @@ $conn->close();
 
                   <!-- Form Fields -->
                   <label for="username">Username:</label>
-                  <input type="text" class="form-control" name="username" id="username" required><br>
+                  <input type="text" class="form-control" name="username" autocomplete="off" autofocus id="username" required><br>
 
                   <label for="old_password">Old Password:</label>
-                  <input type="password" class="form-control" name="old_password" id="old_password" required><br>
+                  <input type="password" class="form-control" name="old_password" autocomplete="off" id="old_password" required><br>
 
                   <label for="password">New Password:</label>
-                  <input type="password" class="form-control" name="password" id="password" required><br>
+                  <input type="password" class="form-control" name="password" autocomplete="off" id="password" required><br>
 
                   <label for="cpassword">Confirm New Password:</label>
-                  <input type="password" class="form-control" name="cpassword" id="cpassword" required><br>
+                  <input type="password" class="form-control" name="cpassword" autocomplete="off" id="cpassword" required><br>
 
                   <label for="photo">Upload Profile Picture:</label>
-                  <input type="file" class="form-control" name="photo" id="photo"><br>
+                  <input type="file" class="form-control" name="photo" id="photo"  accept="image/*"><br>
 
-                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <div class="text-center mb-3">
+                    <button type="submit" class="btn btn-primary fs-6 col-4">Submit</button>
+                  </div>
                 </form>
 
               </div>

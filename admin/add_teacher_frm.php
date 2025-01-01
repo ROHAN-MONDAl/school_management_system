@@ -170,11 +170,11 @@ $conn->close();
                                     <input type="file" class="form-control" name="photo" id="photo" accept="image/*"><br>
 
                                     <label for="name">Name:</label>
-                                    <input type="text" class="form-control" name="name" autocomplete="on" autofocus autocapitalize="words" id="name" required><br>
+                                    <input type="text" class="form-control" name="name" autocomplete="off" autofocus autocapitalize="words" id="name" required><br>
 
                                     <label for="phone">Phone No:</label>
                                     <input type="tel" class="form-control" pattern="^(\+91[\-\s]?)?[0]?(91)?[6789]\d{9}$"
-                                        oninput="if (typeof this.reportValidity === 'function') {this.reportValidity();}" name="phone" id="phone" required><br>
+                                        oninput="if (typeof this.reportValidity === 'function') {this.reportValidity();}" name="phone" autocomplete="off" id="phone" required><br>
 
                                     <label for="email">Email:</label>
                                     <input type="email" class="form-control" name="email" id="email" required><br>
@@ -191,15 +191,15 @@ $conn->close();
                                     </select><br>
 
                                     <label for="salary">Salary:</label>
-                                    <input type="number" class="form-control" name="salary" id="salary" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="departmentPassword"
+                                    <input type="number" class="form-control" name="salary" autocomplete="off" id="salary" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="departmentPassword"
                                     title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required><br>
 
                                     <label for="password">Password:</label>
-                                    <input type="password" class="form-control" name="password" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="departmentPassword"
+                                    <input type="password" class="form-control" name="password" autocomplete="off" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="departmentPassword"
                                     title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required><br>
 
                                     <label for="cpassword">Confirm Password:</label>
-                                    <input type="password" class="form-control" name="cpassword" id="cpassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                    <input type="password" class="form-control" name="cpassword" autocomplete="off" id="cpassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                                         title="Must contain at least one number, one uppercase letter, one lowercase letter, and at least 8 or more char" required><br>
 
                                     <div class="text-center mb-3">
