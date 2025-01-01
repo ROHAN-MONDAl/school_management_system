@@ -124,7 +124,7 @@ $result = $conn->query($query);
                                     <td><?php echo $slno++; ?></td>
                                     <td><?php echo $row['date']; ?></td>
                                     <td><?php echo $row['name']; ?></td>
-                                    <td><?php echo $row['gmail']; ?></td>
+                                    <td><?php echo $row['email']; ?></td>
                                     <td><?php echo $row['phone']; ?></td>
                                     <td>
                                       <a href="update_cash.php?cid=<?php echo $row['cid']; ?>">
@@ -154,9 +154,6 @@ $result = $conn->query($query);
               </div>
             </div>
           </div>
-
-
-          <?php $conn->close(); ?>
           <!-- /table header -->
         </div>
         <!-- content-wrapper ends -->

@@ -174,10 +174,6 @@ $result = $conn->query($query);
               </div>
             </div>
           </div>
-
-
-          <?php $conn->close(); ?>
-          <!-- /table header -->
         </div>
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.php -->

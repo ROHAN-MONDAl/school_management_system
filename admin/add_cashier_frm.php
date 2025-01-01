@@ -6,7 +6,7 @@ $message = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $date = $_POST['date'];
     $name = $_POST['name'];
-    $gmail = $_POST['gmail'];
+    $email = $_POST['email'];
     $phone = $_POST['phone'];
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
@@ -16,9 +16,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $message = "Passwords do not match!";
     } else {
         // Check for duplicate email
-        $check_email_query = "SELECT gmail FROM cashiers WHERE gmail = ?";
+        $check_email_query = "SELECT email FROM cashiers WHERE email = ?";
         if ($stmt = mysqli_prepare($conn, $check_email_query)) {
-            mysqli_stmt_bind_param($stmt, "s", $gmail);
+            mysqli_stmt_bind_param($stmt, "s", $email);
             mysqli_stmt_execute($stmt);
             mysqli_stmt_store_result($stmt);
 
@@ -39,10 +39,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $hashed_password = password_hash($password, PASSWORD_BCRYPT);
 
                         // Prepare the SQL query
-                        $insert_query = "INSERT INTO cashiers (date, name, gmail, phone, password) VALUES (?, ?, ?, ?, ?)";
+                        $insert_query = "INSERT INTO cashiers (date, name, email, phone, password) VALUES (?, ?, ?, ?, ?)";
                         if ($insert_stmt = mysqli_prepare($conn, $insert_query)) {
                             // Bind parameters to the query
-                            mysqli_stmt_bind_param($insert_stmt, "sssss", $date, $name, $gmail, $phone, $hashed_password);
+                            mysqli_stmt_bind_param($insert_stmt, "sssss", $date, $name, $email, $phone, $hashed_password);
 
                             // Execute the statement
                             if (mysqli_stmt_execute($insert_stmt)) {
@@ -138,8 +138,8 @@ mysqli_close($conn);
                                         <input type="text" class="form-control" autocomplete="off" autocapitalize="words" autofocus id="name" name="name" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="gmail" class="form-label">Gmail</label>
-                                        <input type="email" class="form-control" autocomplete="on" id="gmail" name="gmail" required>
+                                        <label for="email" class="form-label">email</label>
+                                        <input type="email" class="form-control" autocomplete="on" id="email" name="email" required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="phone" class="form-label">Phone Number</label>

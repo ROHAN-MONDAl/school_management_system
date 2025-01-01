@@ -158,7 +158,6 @@ $result = $conn->query($sql);
               </div>
             </div>
           </div>
-          <?php $conn->close(); ?>
           <!-- /table header -->
         </div>
         <!-- content-wrapper ends -->
