@@ -1,17 +1,18 @@
 <?php
 include '../server_database.php';
 
-// Check if class is passed via URL
-if (empty($_GET['class'])) {
-    die('No class selected.');
+// Validate and retrieve `class` and `branch`
+if (empty($_GET['class']) || empty($_GET['branch'])) {
+    die('Class or branch not selected.');
 }
 
-$class = $conn->real_escape_string($_GET['class']); // Sanitize input
-date_default_timezone_set('Asia/kolkata');
+$class = $conn->real_escape_string($_GET['class']);
+$branch = $conn->real_escape_string($_GET['branch']);
+date_default_timezone_set('Asia/Kolkata');
 $date_today = date('Y-m-d');
 
-// Fetch students from the selected class
-$query_students = "SELECT * FROM students WHERE class = '$class'";
+// Fetch students from the selected class and branch
+$query_students = "SELECT * FROM students WHERE class = '$class' AND branch = '$branch'";
 $result_students = $conn->query($query_students);
 if (!$result_students) {
     die("Error fetching students: " . $conn->error);
@@ -21,9 +22,9 @@ if (!$result_students) {
 $total_students = $result_students->num_rows;
 
 // Check if attendance has already been partially or fully marked
-$query_get_marked_students = "SELECT student_id FROM school_attendance WHERE class = ? AND date = ?";
+$query_get_marked_students = "SELECT student_id FROM school_attendance WHERE class = ? AND branch = ? AND date = ?";
 $stmt = $conn->prepare($query_get_marked_students);
-$stmt->bind_param('ss', $class, $date_today);
+$stmt->bind_param('sss', $class, $branch, $date_today);
 $stmt->execute();
 $result_marked_students = $stmt->get_result();
 
@@ -33,32 +34,38 @@ while ($row = $result_marked_students->fetch_assoc()) {
 }
 $stmt->close();
 
-$attendance_done = (count($marked_student_ids) === $total_students); // Check if attendance is fully done
+$attendance_done = (count($marked_student_ids) === $total_students);
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     foreach ($_POST['status'] as $student_id => $status) {
-        $student_id = $conn->real_escape_string($student_id); // Sanitize input
-        $status = $conn->real_escape_string($status); // Sanitize input
+        $student_id = $conn->real_escape_string($student_id);
+        $status = $conn->real_escape_string($status);
 
-        // Insert attendance for the student
-        $query_insert = "INSERT INTO school_attendance (student_id, class, status, date) 
-                         VALUES ('$student_id', '$class', '$status', '$date_today')";
-        if (!$conn->query($query_insert)) {
-            die("Error inserting attendance: " . $conn->error);
+        // Prevent duplicate entries
+        $query_check = "SELECT * FROM school_attendance WHERE student_id = '$student_id' AND date = '$date_today'";
+        $result_check = $conn->query($query_check);
+
+        if ($result_check->num_rows === 0) {
+            // Insert attendance
+            $query_insert = "INSERT INTO school_attendance (student_id, class, branch, status, date) 
+                             VALUES ('$student_id', '$class', '$branch', '$status', '$date_today')";
+            if (!$conn->query($query_insert)) {
+                die("Error inserting attendance: " . $conn->error);
+            }
         }
     }
 
-    // Redirect to refresh the attendance status
-    header("Location: students_Attendences.php?class=$class");
+    // Redirect to refresh attendance status
+    header("Location: students_Attendences.php?class=$class&branch=$branch");
     exit();
 }
 ?>
-<!DOCTYPE php>
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Daffodils School</title>
@@ -77,88 +84,97 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/customs.css">
     <link rel="shortcut icon" href="assets/images/favicon.png" />
+    <style>
+        .table-sm td,
+        .table-sm th {
+            padding: 5px;
+            /* Adjust padding for even smaller rows */
+            font-size: 0.875rem;
+            /* Reduce font size */
+        }
+    </style>
 </head>
 
 <body>
     <div class="container-scroller">
-        <?php include 'header.php' ?>
+        <?php include 'header.php'; ?>
         <div class="container-fluid page-body-wrapper">
-            <?php include 'navbar.php' ?>
+            <?php include 'navbar.php'; ?>
             <div class="main-panel">
                 <div class="content-wrapper">
                     <div class="row">
-                        <div class="col-lg-12 col-md-12 grid-margin stretch-card">
+                        <div class="col-lg-12 grid-margin stretch-card">
                             <div class="card">
                                 <div class="card-body">
-                                    <div class="card-title col-12 col-md-12 col-lg-12 d-flex justify-content-between align-items-center">
-                                        <span class="col-lg-6 fs-6 text-info" id="date"></span>
+                                    <div class="card-title d-flex justify-content-between align-items-center flex-wrap">
+                                        <h4 class="text-info w-100 w-md-auto">Mark Attendance for Class: <?php echo htmlspecialchars($class); ?></h4>
+                                        <span class="text-secondary" id="date"></span>
                                     </div>
-                                    <div class="row mt-3">
-                                        <div class="col-12">
-                                            <div class="table-responsive col-lg-12 col-md-12">
-                                                <h3>Mark Attendance for Class: <?php echo htmlspecialchars($class); ?></h3>
-                                                <?php if ($attendance_done): ?>
-                                                    <div class="alert alert-warning mt-5">
-                                                        Attendance for today has already been fully marked for this class.
-                                                    </div>
-                                                <?php else: ?>
-                                                    <form action="" method="POST">
-                                                        <table class="table display expandable-table col-lg-12 mt-4">
-                                                            <div class="table-responsive">
-                                                                <thead class="text-center text-wrap">
-                                                                    <tr>
-                                                                        <th>Slno</th>
-                                                                        <th>Name</th>
-                                                                        <th>Roll No</th>
-                                                                        <th>Present</th>
-                                                                        <th>Absent</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody class="text-center text-wrap">
-                                                                    <?php
-                                                                    $slno = 1;
-                                                                    $result_students->data_seek(0); // Reset the result pointer
-                                                                    while ($row = $result_students->fetch_assoc()):
-                                                                        if (!in_array($row['id'], $marked_student_ids)): // Only show unmarked students
-                                                                    ?>
-                                                                            <tr>
-                                                                                <td><?php echo $slno++; ?></td>
-                                                                                <td><?php echo htmlspecialchars($row['name']); ?></td>
-                                                                                <td><?php echo htmlspecialchars($row['roll_no']); ?></td>
-                                                                                <td>
-                                                                                    <input type="radio" name="status[<?php echo $row['id']; ?>]" value="Present">
-                                                                                </td>
-                                                                                <td>
-                                                                                    <input type="radio" name="status[<?php echo $row['id']; ?>]" value="Absent">
-                                                                                </td>
-                                                                            </tr>
-                                                                    <?php
-                                                                        endif;
-                                                                    endwhile; ?>
-                                                                </tbody>
-                                                            </div>
-                                                        </table>
-                                                        <div class="form-group text-center mt-4">
-                                                            <button type="submit" class="btn btn-primary fw-bolder">Submit Attendance</button>
-                                                        </div>
 
-                                                    </form>
-                                                <?php endif; ?>
+                                    <?php if ($attendance_done): ?>
+                                        <p class="text-success">Attendance for this class is already marked for all students.</p>
+                                    <?php else: ?>
+                                        <form method="POST">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered text-center align-items-center table-sm">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Student ID</th>
+                                                            <th>Student Name</th>
+                                                            <th>Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php while ($student = $result_students->fetch_assoc()): ?>
+                                                            <tr>
+                                                                <td><?php echo htmlspecialchars($student['id']); ?></td>
+                                                                <td><?php echo htmlspecialchars($student['name']); ?></td>
+                                                                <td>
+                                                                    <?php if (in_array($student['id'], $marked_student_ids)): ?>
+                                                                        <span class="text-info">Already Marked</span>
+                                                                    <?php else: ?>
+                                                                        <div class="form-group mb-3 mt-4">
+                                                                            <div class="d-flex justify-content-center gap-3">
+                                                                                <label>
+                                                                                    <input type="radio" name="status[<?php echo $student['id']; ?>]" value="Present" required> Present
+                                                                                </label>
+                                                                                <label>
+                                                                                    <input type="radio" name="status[<?php echo $student['id']; ?>]" value="Absent" required> Absent
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    <?php endif; ?>
+                                                                </td>
+                                                            </tr>
+                                                        <?php endwhile; ?>
+                                                    </tbody>
+                                                </table>
                                             </div>
-                                        </div>
-                                    </div>
+                                            <div class="d-flex flex-row align-items-center justify-content-center mt-5 gap-3">
+                                                <button type="submit" class="btn btn-primary btn-sm w-md-auto">Submit Attendance</button>
+                                                <a href="students_Attendences.php" class="btn btn-secondary btn-sm text-white w-md-auto">Back to Class List</a>
+                                            </div>
+
+                                        </form>
+                                    <?php endif; ?>
+
                                 </div>
+
                             </div>
                         </div>
                     </div>
-                    <!-- /table header -->
                 </div>
-                <!-- content-wrapper ends -->
-                <?php include "footer.php" ?>
+                <!-- <?php include 'footer.php'; ?> -->
             </div>
         </div>
     </div>
 
+    <!-- Scripts -->
+    <script>
+        const today = new Date();
+        document.getElementById('date').innerText = today.toLocaleDateString('en-IN');
+    </script>
     <script src="assets/js/script.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

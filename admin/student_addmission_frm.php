@@ -85,9 +85,12 @@ $message_type = $_GET['type'] ?? ''; // 'success' or 'error'
                                         <label for="Class">Select class</label>
                                         <select class="form-control" name="class" id="class" required>
                                             <option value="">--Select a class--</option>
-                                            <option value="Class 1">Class 1</option>
-                                            <option value="Class 2">Class 2</option>
-                                            <option value="Class 3">Class 3</option>
+                                            <option value="Toddlers(18 month)">Toddlers(18 month)</option>
+                                            <option value="Infant group">Infant group</option>
+                                            <option value="Play group">Play group</option>
+                                            <option value="Advanced group">Advanced group</option>
+                                            <option value="Kg">Kg</option>
+                                            <option value="Std-I">Std-I</option>
                                         </select>
                                     </div>
                                     <div class="form-group">

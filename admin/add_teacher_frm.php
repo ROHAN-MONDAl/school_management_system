@@ -193,7 +193,7 @@ $conn->close();
                                         <?php echo $branchOptions; ?>
                                     </select><br>
 
-                                    <label for="class">Class:</label>
+                                    <label for="class">Class Assign:</label>
                                     <select name="class" class="form-control" id="class" required>
                                         <?php echo $classOptions; ?>
                                     </select><br>

@@ -190,39 +190,37 @@ $result = $conn->query($query);
 
 
   <script>
-    $(document).ready(function() {
-      // Function to filter rows based on search input
-      $('#search').on('keyup', function() {
-        var searchTerm = $(this).val().toLowerCase();
-        $('#dataTable tbody tr').each(function() {
-          var row = $(this);
-          var rowText = row.text().toLowerCase();
-          if (rowText.includes(searchTerm)) {
-            row.show();
-          } else {
-            row.hide();
-          }
+ $(document).ready(function() {
+            // Function to filter rows based on search input
+            $('#search').on('keyup', function() {
+                var searchTerm = $(this).val().toLowerCase();
+                $('#dataTable tbody tr').each(function() {
+                    var row = $(this);
+                    var rowText = row.text().toLowerCase();
+                    if (rowText.includes(searchTerm)) {
+                        row.show();
+                    } else {
+                        row.hide();
+                    }
+                });
+            })
         });
-      });
-    });
 
+        function filterByDate() {
+            var startDate = $('#startDate').val();
+            var endDate = $('#endDate').val();
 
-    function filterByDate() {
-      var startDate = new Date($('#startDate').val()); // Convert start date input to Date object
-      var endDate = new Date($('#endDate').val()); // Convert end date input to Date object
+            $('#dataTable tbody tr').each(function() {
+                var row = $(this);
+                var rowDate = new Date(row.find('td:eq(11)').text()); // Get date from the 4th column (index 3)
 
-      $('#dataTable tbody tr').each(function() {
-        var row = $(this);
-        var rowDateText = row.find('td:eq(1)').text(); // Get text from the 10th column (index 9)
-        var rowDate = new Date(rowDateText); // Convert the text to a Date object
-
-        if ((startDate && rowDate < startDate) || (endDate && rowDate > endDate)) {
-          row.hide(); // Hide rows outside the range
-        } else {
-          row.show(); // Show rows within the range
+                if (startDate && rowDate < new Date(startDate) || endDate && rowDate > new Date(endDate)) {
+                    row.hide();
+                } else {
+                    row.show();
+                }
+            });
         }
-      });
-    }
 
     // students update feature
     function confirmUpadte(studentId) {

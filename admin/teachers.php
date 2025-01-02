@@ -8,7 +8,6 @@ $result = $conn->query($sql);
 <html lang="en">
 
 <head>
-
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Daffodils School</title>
@@ -68,7 +67,7 @@ $result = $conn->query($sql);
                         <div class="modal-dialog modal-dialog-centered" role="document">
                           <div class="modal-content">
                             <form id="dateFilterForm" method="post" class="forms-sample bg-white p-3 p-md-5 text-start rounded">
-                              <h3 class="text-center text-primary fw-bold">Admission date</h3>
+                              <h3 class="text-center text-primary fw-bold">Joining date</h3>
                               <label for="startDate" class="text-black">Start Date:</label>
                               <input type="date" id="startDate" class="form-control" name="start_date" required>
                               <label for="endDate" class="text-black mt-2">End Date:</label>
@@ -111,6 +110,7 @@ $result = $conn->query($sql);
                               <th>Designation</th>
                               <th>Joining Date</th>
                               <th>Branch</th>
+                              <th>Class</th>
                               <th>Salary</th>
                               <th>Password</th>
                               <th>Action</th>
@@ -188,23 +188,21 @@ $result = $conn->query($sql);
             row.hide();
           }
         });
-      });
+      })
     });
 
-
     function filterByDate() {
-      var startDate = new Date($('#startDate').val()); // Convert start date input to Date object
-      var endDate = new Date($('#endDate').val()); // Convert end date input to Date object
+      var startDate = $('#startDate').val();
+      var endDate = $('#endDate').val();
 
       $('#dataTable tbody tr').each(function() {
         var row = $(this);
-        var rowDateText = row.find('td:eq(1)').text(); // Get text from the 10th column (index 9)
-        var rowDate = new Date(rowDateText); // Convert the text to a Date object
+        var rowDate = new Date(row.find('td:eq(6)').text()); // Get date from the 4th column (index 3)
 
-        if ((startDate && rowDate < startDate) || (endDate && rowDate > endDate)) {
-          row.hide(); // Hide rows outside the range
+        if (startDate && rowDate < new Date(startDate) || endDate && rowDate > new Date(endDate)) {
+          row.hide();
         } else {
-          row.show(); // Show rows within the range
+          row.show();
         }
       });
     }
@@ -227,6 +225,7 @@ $result = $conn->query($sql);
       }
     }
   </script>
+
   <script src="assets/js/script.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
