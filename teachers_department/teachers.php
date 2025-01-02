@@ -93,9 +93,6 @@ $result = $conn->query($sql);
                 <div class="card-body">
                   <div class="card-title col-12 col-md-12 col-lg-12 d-flex justify-content-between align-items-center">
                     <span class="col-lg-6 fs-6 text-info">Data</span>
-                    <a href="add_teacher_frm.php">
-                      <button class="btn btn-success btn-sm text-white font-weight-bold me-4">Add Teachers</button>
-                    </a>
                   </div>
                   <div class="row mt-3">
                     <div class="col-12">
@@ -112,8 +109,8 @@ $result = $conn->query($sql);
                               <th>Joining Date</th>
                               <th>Branch</th>
                               <th>Salary</th>
-                              <th>Password</th>
-                              <th>Action</th>
+                              <!-- <th>Password</th>
+                              <th>Action</th> -->
                             </tr>
                           </thead>
                           <tbody class="text-center text-wrap">
@@ -130,7 +127,7 @@ $result = $conn->query($sql);
                                   <td><?php echo htmlspecialchars($row['joining_date']); ?></td>
                                   <td><?php echo htmlspecialchars($row['branch']); ?></td>
                                   <td>₹<?php echo number_format((float)$row['salary'], 2); ?></td>
-                                  <td>
+                                  <!-- <td>
                                     <a href="javascript:void(0);" onclick="confirmUpdate(<?php echo (int)$row['tid']; ?>)">
                                       <button type="button" class="btn btn-info btn-sm text-white fw-bold">Update</button>
                                     </a>
@@ -139,7 +136,7 @@ $result = $conn->query($sql);
                                     <a href="javascript:void(0);" onclick="confirmDelete(<?php echo (int)$row['tid']; ?>)">
                                       <button type="button" class="btn btn-danger btn-sm text-white fw-bold">Delete</button>
                                     </a>
-                                  </td>
+                                  </td> -->
                                 </tr>
                               <?php endwhile; ?>
                             <?php else: ?>
@@ -197,7 +194,7 @@ $result = $conn->query($sql);
 
       $('#dataTable tbody tr').each(function() {
         var row = $(this);
-        var rowDateText = row.find('td:eq(1)').text(); // Get text from the 10th column (index 9)
+        var rowDateText = row.find('td:eq(6)').text(); // Get text from the 10th column (index 9)
         var rowDate = new Date(rowDateText); // Convert the text to a Date object
 
         if ((startDate && rowDate < startDate) || (endDate && rowDate > endDate)) {

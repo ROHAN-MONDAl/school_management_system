@@ -92,10 +92,10 @@ $result = $conn->query($query);
                 <div class="card-body">
                   <div class="card-title col-12 col-md-12 col-lg-12 d-flex justify-content-between align-items-center">
                     <span class="col-lg-6 fs-6 text-info">Data</span>
-
+<!-- 
                     <a href="student_addmission_frm.php">
                       <button class="btn btn-success btn-sm text-white font-weight-bold me-4">Add Students</button>
-                    </a>
+                    </a> -->
                   </div>
                   <div class="row mt-3">
                     <div class="col-12">
@@ -117,9 +117,9 @@ $result = $conn->query($query);
                                 <th>Admission Date</th>
                                 <th>Admission Package</th>
                                 <th>Optinal Phone</th>
-                                <th>Edit</th>
+                                <!-- <th>Edit</th>
                                 <th>Action</th>
-                                <th>View</th>
+                                <th>View</th> -->
                               </tr>
                             </thead>
                             <tbody class="text-center text-wrap">
@@ -143,7 +143,7 @@ $result = $conn->query($query);
                                     <td><?php echo $row['admission_date']; ?></td>
                                     <td>Rs <?php echo $row['admission_package']; ?></td>
                                     <td><?php echo $row['optional_phone']; ?></td>
-                                    <td>
+                                    <!-- <td>
                                       <a href="javascript:void(0);" onclick="confirmUpadte(<?php echo $row['id']; ?>)">
                                         <button type="button" class="btn btn-info btn-sm text-white fw-bold">Update</button>
                                       </a>
@@ -157,7 +157,7 @@ $result = $conn->query($query);
                                       <a href="views_payments.php?id=<?php echo $row['id']; ?>" rel="noopener noreferrer">
                                         <button type="button" class="btn btn-success btn-sm text-white fw-bolder">View</button>
                                       </a>
-                                    </td>
+                                    </td> -->
                                   </tr>
                                 <?php endwhile; ?>
                               <?php else: ?>
@@ -213,7 +213,7 @@ $result = $conn->query($query);
 
       $('#dataTable tbody tr').each(function() {
         var row = $(this);
-        var rowDateText = row.find('td:eq(1)').text(); // Get text from the 10th column (index 9)
+        var rowDateText = row.find('td:eq(11)').text(); // Get text from the 10th column (index 9)
         var rowDate = new Date(rowDateText); // Convert the text to a Date object
 
         if ((startDate && rowDate < startDate) || (endDate && rowDate > endDate)) {

@@ -92,50 +92,7 @@ $staff_result = $conn->query($staff_query);
                       <p class="text-secondary">Overview all atendance</p>
                     </div>
                   </div>
-                  <div class="container">
-                    <div class="row">
-                      <div class="col-lg-12 gy-2 transparent">
-                        <div class="row">
-                          <!-- Total Teachers -->
-                          <div class="col-lg-3 mb-4 stretch-card transparent">
-                            <div class="card bg-dark-subtle">
-                              <div class="card-body">
-                                <p class="mb-4 fw-bolder"><i class="fa-regular fa-user"></i> Total Teachers</p>
-                                <p class="fs-30 mb-2 fw-bolder"><?php echo $total_teachers; ?></p>
-                              </div>
-                            </div>
-                          </div>
-                          <!-- Total Students -->
-                          <div class="col-lg-3 mb-4 stretch-card transparent">
-                            <div class="card bg-info-subtle">
-                              <div class="card-body">
-                                <p class="mb-4 fw-bolder"><i class="fa-regular fa-user"></i> Total Students</p>
-                                <p class="fs-30 mb-2 fw-bolder"><?php echo $total_students; ?></p>
-                              </div>
-                            </div>
-                          </div>
-                          <!-- Total Employers -->
-                          <div class="col-lg-3 mb-4 stretch-card transparent">
-                            <div class="card bg-success">
-                              <div class="card-body">
-                                <p class="mb-4 fw-bolder"><i class="fa-regular fa-user"></i> Total Employers</p>
-                                <p class="fs-30 mb-2 fw-bolder"><?php echo $total_employers; ?></p>
-                              </div>
-                            </div>
-                          </div>
-                          <!-- Total Staffs -->
-                          <div class="col-lg-3 mb-4 stretch-card transparent">
-                            <div class="card bg-warning">
-                              <div class="card-body">
-                                <p class="mb-4 fw-bolder"><i class="fa-regular fa-user"></i> Total Staffs</p>
-                                <p class="fs-30 mb-2 fw-bolder"><?php echo $total_staffs; ?></p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+
                 </div>
               </div>
             </div>
@@ -145,7 +102,7 @@ $staff_result = $conn->query($staff_query);
           <div class="row mt-3">
             <!-- Teachers Table -->
             <div class="col-12">
-              <h4 class="text-start">Teacher Attendance</h4>
+              <h4 class="text-start">Your Attendance</h4>
               <div class="table-responsive">
                 <table id="teacherTable" class="table display expandable-table col-lg-12">
                   <thead class="text-center text-wrap">
@@ -163,86 +120,6 @@ $staff_result = $conn->query($staff_query);
                       <?php
                       $slno = 1;
                       while ($row = $teacher_result->fetch_assoc()):
-                      ?>
-                        <tr>
-                          <td><?php echo $slno++; ?></td>
-                          <td><?php echo htmlspecialchars($row['name']); ?></td>
-                          <td><?php echo htmlspecialchars($row['designation']); ?></td>
-                          <td><?php echo htmlspecialchars($row['branch']); ?></td>
-                          <td><?php echo htmlspecialchars($row['date']); ?></td>
-                          <td><?php echo htmlspecialchars($row['status']); ?></td>
-                        </tr>
-                      <?php endwhile; ?>
-                    <?php else: ?>
-                      <tr>
-                        <td colspan="5">No data found</td>
-                      </tr>
-                    <?php endif; ?>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            <!-- Employers Table -->
-            <div class="col-12 mt-4">
-              <h4 class="text-start">Employer Attendance</h4>
-              <div class="table-responsive">
-                <table id="employerTable" class="table display expandable-table col-lg-12">
-                  <thead class="text-center text-wrap">
-                    <tr>
-                      <th>Slno</th>
-                      <th>Name</th>
-                      <th>Designation</th>
-                      <th>Branch</th>
-                      <th>Date</th>
-                      <th>Attendance Status</th>
-                    </tr>
-                  </thead>
-                  <tbody class="text-center text-wrap">
-                    <?php if ($employer_result->num_rows > 0): ?>
-                      <?php
-                      $slno = 1;
-                      while ($row = $employer_result->fetch_assoc()):
-                      ?>
-                        <tr>
-                          <td><?php echo $slno++; ?></td>
-                          <td><?php echo htmlspecialchars($row['name']); ?></td>
-                          <td><?php echo htmlspecialchars($row['designation']); ?></td>
-                          <td><?php echo htmlspecialchars($row['branch']); ?></td>
-                          <td><?php echo htmlspecialchars($row['date']); ?></td>
-                          <td><?php echo htmlspecialchars($row['status']); ?></td>
-                        </tr>
-                      <?php endwhile; ?>
-                    <?php else: ?>
-                      <tr>
-                        <td colspan="5">No data found</td>
-                      </tr>
-                    <?php endif; ?>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            <!-- Staff Table -->
-            <div class="col-12 mt-4">
-              <h4 class="text-start">Staff Attendance</h4>
-              <div class="table-responsive">
-                <table id="staffTable" class="table display expandable-table col-lg-12">
-                  <thead class="text-center text-wrap">
-                    <tr>
-                      <th>Slno</th>
-                      <th>Name</th>
-                      <th>Designation</th>
-                      <th>Branch</th>
-                      <th>Date</th>
-                      <th>Attendance Status</th>
-                    </tr>
-                  </thead>
-                  <tbody class="text-center text-wrap">
-                    <?php if ($staff_result->num_rows > 0): ?>
-                      <?php
-                      $slno = 1;
-                      while ($row = $staff_result->fetch_assoc()):
                       ?>
                         <tr>
                           <td><?php echo $slno++; ?></td>

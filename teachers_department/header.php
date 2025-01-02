@@ -14,11 +14,11 @@ if (!isset($_SESSION['user'])) {
   exit(); // Stop the script from running further
 }
 
-// Get the logged-in username
-$username = $_SESSION['user']['username']; // Get the logged-in username from the session
+// Get the logged-in email
+$email = $_SESSION['user']['email']; // Get the logged-in email from the session
 
 // Query to fetch the profile picture (no need to check session_id anymore)
-$sql = "SELECT profile_picture FROM user_settings WHERE username = '$username'"; 
+$sql = "SELECT photo FROM teachers WHERE email = '$email'";
 
 // Execute the query
 $results = $conn->query($sql);
@@ -27,10 +27,10 @@ $results = $conn->query($sql);
 if ($results && $results->num_rows > 0) {
   // If user found, fetch the profile picture
   $rowe = $results->fetch_assoc();
-  $profile_picture = $rowe['profile_picture'];
+  $photo = $rowe['photo'];
 } else {
   // If no profile picture found or user doesn't exist, use default image
-  $profile_picture = 'assets/images/favicon.png';
+  $photo = 'assets/images/favicon.png';
 }
 
 // Close the database connection
@@ -67,12 +67,9 @@ $_SESSION['last_activity'] = time();
       <li class="nav-item nav-profile dropdown">
         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" id="profileDropdown">
           <!-- Display the profile picture -->
-          <img src="<?php echo htmlspecialchars($profile_picture); ?>" alt="profile" height="100px" />
+          <img src="<?php echo htmlspecialchars($photo); ?>" alt="profile" height="100px" />
         </a>
         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-          <a class="dropdown-item" href="settings.php">
-            <i class="ti-settings text-primary"></i> Settings
-          </a>
           <a class="dropdown-item" href="logout.php">
             <i class="ti-power-off text-primary"></i> Logout
           </a>

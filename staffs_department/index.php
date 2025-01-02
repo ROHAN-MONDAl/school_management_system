@@ -80,7 +80,7 @@ $staff_result = $conn->query($staff_query);
                     
             <!-- Staff Table -->
             <div class="col-12 mt-4">
-              <h4 class="text-start">Staff Attendance</h4>
+              <h4 class="text-start">Your Attendance</h4>
               <div class="table-responsive">
                 <table id="staffTable" class="table display expandable-table col-lg-12">
                   <thead class="text-center text-wrap">
