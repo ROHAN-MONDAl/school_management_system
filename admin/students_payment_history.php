@@ -1,15 +1,44 @@
-<?php include '../server_database.php';
-$id = $_GET['id'];
-$query = "SELECT * FROM payments where 	student_id = '$id'";
-$result = $conn->query($query);
+<?php
+include '../server_database.php';
 
+$id = $_GET['id'] ?? '';  // Getting student ID
+
+// Ensure the ID is valid
+if (empty($id)) {
+    die('Invalid Student ID.');
+}
+
+// Fetch payment history for the student
+$query = "SELECT * FROM payments WHERE student_id = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param('i', $id);
+$stmt->execute();
+$result = $stmt->get_result();
+$stmt->close();
+
+// Handle deletion if payment_id is set
+if (isset($_GET['payment_id'])) {
+    $payment_id = $_GET['payment_id'];
+    
+    // Delete the payment
+    $delete_query = "DELETE FROM payments WHERE payment_id = ? AND student_id = ?";
+    $delete_stmt = $conn->prepare($delete_query);
+    $delete_stmt->bind_param('ii', $payment_id, $id);
+    if ($delete_stmt->execute()) {
+        header("Location: students_payment_history.php?id=" . $id . "&message=Payment record deleted successfully.");
+        exit();
+    } else {
+        header("Location: students_payment_history.php?id=" . $id . "&error=Error deleting payment record.");
+        exit();
+    }
+}
 ?>
-<!DOCTYPE php>
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-
-    <meta charset="utf-8">
+<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Daffodils School</title>
     <link rel="stylesheet" href="assets/vendors/feather/feather.css">
@@ -31,168 +60,73 @@ $result = $conn->query($query);
 
 <body>
     <div class="container-scroller">
-        <?php include 'header.php'   ?>
+        <?php include 'header.php'; ?>
         <div class="container-fluid page-body-wrapper">
-            <?php include 'navbar.php' ?>
+            <?php include 'navbar.php'; ?>
             <div class="main-panel">
                 <div class="content-wrapper">
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="row">
-                                        <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                                            <h2 class="font-weight-bold text-primary fw-bolder">Payments History</h2>
-                                            <p class="text-secondary">Students payments history</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="row justify-content-center p-1">
-                                        <div class="col-12 col-md-10 col-lg-8">
-                                            <!-- Search Container -->
-                                            <div class="search-container d-flex flex-column flex-md-row align-items-center">
-                                                <div class="col-12 col-md-10 mb-2 mb-md-0">
-                                                    <input type="text" class="form-control search-input" id="search" placeholder="Search..." onkeyup="filterTable()">
-                                                </div>
-                                                <p class="mx-md-3 mt-2 mt-md-0 text-danger" style="cursor:pointer" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
-                                                    <i class="fa text-danger" style="font-size:24px;">&#xf0b0;</i> <b>Filter</b>
-                                                </p>
-                                            </div>
-
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                                    <div class="modal-content">
-                                                        <form id="dateFilterForm" method="post" class="forms-sample bg-white p-3 p-md-5 text-start rounded">
-                                                            <h3 class="text-center text-primary fw-bold">Filter</h3>
-                                                            <label for="startDate" class="text-black">Start Date:</label>
-                                                            <input type="date" id="startDate" class="form-control" name="start_date" required>
-                                                            <label for="endDate" class="text-black mt-2">End Date:</label>
-                                                            <input type="date" id="endDate" class="form-control" name="end_date" required>
-                                                            <button type="button" class="btn btn-primary w-100 mt-3" onclick="filterByDate()">Filter</button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row mt-2">
-                        <div class="col-md-12 grid-margin stretch-card">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row mt-3">
-                                        <div class="col-12">
-                                            <div class="table-responsive">
-                                                <table id="dataTable" class=" table display expandable-table col-lg-12">
-                                                    <thead class="text-center text-wrap">
-                                                        <th>Slno</th>
-                                                        <th>Payment Id</th>
-                                                        <th>Invoice No</th>
-                                                        <th>Amount</th>
-                                                        <th>Summary</th>
-                                                        <th>Payment Date</th>
-                                                        <th>Action</th>
-                                                    </thead>
-                                                    <tbody class="text-center text-wrap">
-                                                        <tr>
-                                                            <?php if ($result->num_rows > 0): ?>
-                                                                <?php
-                                                                $i = 1;
-                                                                while ($row = $result->fetch_assoc()): ?>
-                                                        <tr>
-                                                            <td><?php echo $i; ?></td>
-                                                            <td><?php echo $row['payment_id']; ?></td>
-                                                            <td><?php echo $row['invo_no']; ?></td>
-                                                            <td><?php echo $row['amount']; ?></td>
-                                                            <td><?php echo $row['summary']; ?></td>
-                                                            <td><?php echo $row['date']; ?></td>
-                                                            <td>
-                                                                <a href="javascript:void(0);" onclick="confirmDelete('<?php echo $row['payment_id']; ?>')">
-                                                                    <button type="button" class="btn btn-danger text-white fw-bold btn-sm">Delete</button>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                    <?php
-                                                                    $i++;
-                                                                endwhile; ?>
-                                                <?php else: ?>
-                                                    <tr>
-                                                        <td colspan="10">No data found</td>
-                                                    </tr>
-                                                <?php endif; ?>
-
+                            <h2 class="font-weight-bold text-primary fw-bolder">Payments History</h2>
+                            <p class="text-secondary">Student payments history</p>
+                            <?php
+                            // Display success or error messages
+                            if (isset($_GET['message'])) {
+                                echo "<p class='text-success'>" . htmlspecialchars($_GET['message']) . "</p>";
+                            }
+                            if (isset($_GET['error'])) {
+                                echo "<p class='text-danger'>" . htmlspecialchars($_GET['error']) . "</p>";
+                            }
+                            ?>
+                            <div class="table-responsive">
+                                <table id="dataTable" class="table display expandable-table">
+                                    <thead class="text-center">
+                                        <th>Slno</th>
+                                        <th>Payment Id</th>
+                                        <th>Invoice No</th>
+                                        <th>Amount</th>
+                                        <th>Summary</th>
+                                        <th>Payment Date</th>
+                                        <th>Action</th>
+                                    </thead>
+                                    <tbody class="text-center">
+                                        <?php if ($result->num_rows > 0): ?>
+                                            <?php
+                                            $i = 1;
+                                            while ($row = $result->fetch_assoc()):
+                                            ?>
+                                                <tr>
+                                                    <td><?php echo $i; ?></td>
+                                                    <td><?php echo $row['payment_id']; ?></td>
+                                                    <td><?php echo $row['invo_no']; ?></td>
+                                                    <td><?php echo $row['amount']; ?></td>
+                                                    <td class="text-wrap"><?php echo $row['summary']; ?></td>
+                                                    <td><?php echo $row['date']; ?></td>
+                                                    <td>
+                                                        <a href="students_payment_history.php?id=<?php echo $id; ?>&payment_id=<?php echo $row['payment_id']; ?>">
+                                                            <button type="button" class="btn btn-danger text-white fw-bold btn-sm">Delete</button>
+                                                        </a>
+                                                    </td>
                                                 </tr>
-
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                            <?php
+                                            $i++;
+                                            endwhile;
+                                            ?>
+                                        <?php else: ?>
+                                            <tr>
+                                                <td colspan="7">No data found</td>
+                                            </tr>
+                                        <?php endif; ?>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
-                <?php include "footer.php"  ?>
+                <?php include "footer.php"; ?>
             </div>
         </div>
     </div>
-    </div>
-
-    </div>
-    </div>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            // Function to filter rows based on search input
-            $('#search').on('keyup', function() {
-                var searchTerm = $(this).val().toLowerCase();
-                $('#dataTable tbody tr').each(function() {
-                    var row = $(this);
-                    var rowText = row.text().toLowerCase();
-                    if (rowText.includes(searchTerm)) {
-                        row.show();
-                    } else {
-                        row.hide();
-                    }
-                });
-            })
-        });
-
-        //date filter
-        function filterByDate() {
-            var startDate = $('#startDate').val();
-            var endDate = $('#endDate').val();
-
-            $('#dataTable tbody tr').each(function() {
-                var row = $(this);
-                var rowDate = new Date(row.find('td:eq(5)').text()); // Get date from the 4th column (index 3)
-
-                if (startDate && rowDate < new Date(startDate) || endDate && rowDate > new Date(endDate)) {
-                    row.hide();
-                } else {
-                    row.show();
-                }
-            });
-        }
-
-        // confirmation window
-        function confirmDelete(paymentId) {
-            if (confirm("Are you sure you want to delete this record?")) {
-                window.location.href = "delete_payments_hst.php?payment_id=" + paymentId;
-            }
-        }
-    </script>
-
-    </script>
-
     <script src="assets/js/script.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

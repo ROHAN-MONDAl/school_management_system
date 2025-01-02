@@ -50,19 +50,14 @@ $student = $result->fetch_assoc();  // Assuming only one student is fetched
 <html lang="en">
 
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
+<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Daffodils School</title>
-    <!-- plugins:css -->
     <link rel="stylesheet" href="assets/vendors/feather/feather.css">
     <link rel="stylesheet" href="assets/vendors/ti-icons/css/themify-icons.css">
     <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
     <link rel="stylesheet" href="assets/vendors/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
-    <!-- endinject -->
-    <!-- Plugin css for this page -->
-    <!-- <link rel="stylesheet" href="assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css"> -->
     <link rel="stylesheet" href="assets/vendors/datatables.net-bs5/dataTables.bootstrap5.css">
     <link rel="stylesheet" href="assets/vendors/ti-icons/css/themify-icons.css">
     <link rel="stylesheet" type="text/css" href="assets/js/select.dataTables.min.css">
@@ -70,12 +65,8 @@ $student = $result->fetch_assoc();  // Assuming only one student is fetched
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-    <!-- End plugin css for this page -->
-    <!-- inject:css -->
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/customs.css">
-    <!-- endinject -->
     <link rel="shortcut icon" href="assets/images/favicon.png" />
     <style>
         /* Optional styling for the invoice */
@@ -229,7 +220,6 @@ $student = $result->fetch_assoc();  // Assuming only one student is fetched
                             </table>
 
                         </div>
-
                         <?php
                         // Calculate the admission package dynamically
                         $admissionAmount = max($baseAdmissionPackage - $totalAmount, 0);
@@ -257,7 +247,7 @@ $student = $result->fetch_assoc();  // Assuming only one student is fetched
                     </div>
 
                     <div class="text-center mt-4">
-                        <button class="btn btn-primary fw-bolder mt-2 mb-2" onclick="printInvoice()"><i class="fa-solid fa-download"></i> Download</button>
+                   <a href="pdf.php?id=<?php echo $id; ?>"><button class="btn btn-primary fw-bolder mt-2 mb-2"><i class="fa-solid fa-download"></i> Download</button></a>     
                         <button class="btn btn-success fw-bolder text-white mt-2 mb-2" onclick="sendwhatsapp()">
                             <i class="fa-brands fa-whatsapp"></i> Send via WhatsApp
                         </button>
@@ -267,22 +257,190 @@ $student = $result->fetch_assoc();  // Assuming only one student is fetched
 
             </div>
 
+<script>
+    const fs = require('fs');
+    const pdfmake = require('pdfmake');
+    const mysql = require('mysql');
+    const db = require('./server_database'); // Import the database connection
 
+    db.connect((err) => {
+        if (err) throw err;
+        console.log('Connected to database!');
+    });
+
+    // Function to fetch student and payment data
+    function generateInvoice(studentId) {
+        const query = `
+    SELECT 
+      students.img_path,
+      students.name, 
+      students.class, 
+      students.gender, 
+      students.roll_no, 
+      students.phone_no, 
+      students.whatsapp, 
+      students.branch, 
+      students.city, 
+      students.dob, 
+      students.admission_date,
+      students.admission_package,
+      payments.invo_no, 
+      payments.amount, 
+      payments.summary 
+    FROM students
+    LEFT JOIN payments ON students.id = payments.student_id
+    WHERE students.id = ?`;
+
+        db.query(query, [studentId], (err, results) => {
+            if (err) throw err;
+            if (results.length === 0) {
+                console.log('No payments found for this student');
+                return;
+            }
+
+            const student = results[0];
+            let totalAmount = 0;
+            let paymentDetails = [];
+            results.forEach((row) => {
+                totalAmount += row.amount;
+                paymentDetails.push({
+                    SLNO: paymentDetails.length + 1,
+                    Summary: row.summary,
+                    Amount: `Rs ${row.amount.toFixed(2)}`
+                });
+            });
+
+            // Create the PDF document
+            const docDefinition = {
+                content: [
+                    // Logo and school details
+                    {
+                        image: 'path_to_logo.png',
+                        width: 30,
+                        height: 30
+                    },
+                    {
+                        text: 'Daffodils School',
+                        alignment: 'center',
+                        fontSize: 16,
+                        bold: true
+                    },
+                    {
+                        text: 'Address: Kuchkuchia Rd, Bankura, West Bengal 722101, Phone number: 094348 60435',
+                        alignment: 'center',
+                        fontSize: 10
+                    },
+
+                    // Invoice title
+                    {
+                        text: 'Invoice',
+                        alignment: 'center',
+                        fontSize: 14,
+                        bold: true,
+                        margin: [0, 20]
+                    },
+
+                    // Invoice number and date
+                    {
+                        text: `Date: ${new Date().toLocaleDateString()}`,
+                        margin: [0, 5]
+                    },
+                    {
+                        text: `Invoice No: DLS ${student.invo_no} / ${new Date().getFullYear()}`,
+                        margin: [0, 5]
+                    },
+
+                    // Student details table
+                    {
+                        table: {
+                            widths: ['25%', '50%', '25%'],
+                            body: [
+                                ['Student Name:', student.name, {
+                                    image: student.img_path,
+                                    width: 100,
+                                    height: 130
+                                }],
+                                ['Gender:', student.gender, ''],
+                                ['Class:', student.class, ''],
+                                ['Roll no:', student.roll_no, ''],
+                                ['Phone no:', student.phone_no, ''],
+                                ['Whatsapp no:', student.whatsapp, ''],
+                                ['City:', student.city, ''],
+                                ['Date of Birth:', student.dob, ''],
+                                ['Admission Date:', student.admission_date, ''],
+                                ['Admission Package:', `Rs ${student.admission_package}`, '']
+                            ]
+                        }
+                    },
+
+                    // Payment details table
+                    {
+                        text: 'Payment Details',
+                        alignment: 'center',
+                        fontSize: 12,
+                        bold: true,
+                        margin: [0, 10]
+                    },
+                    {
+                        table: {
+                            headerRows: 1,
+                            widths: ['10%', '60%', '30%'],
+                            body: [
+                                ['SLNO', 'Summary', 'Amount'],
+                                ...paymentDetails.map((detail) => [detail.SLNO, detail.Summary, detail.Amount]),
+                                [{
+                                    text: 'Total',
+                                    bold: true,
+                                    colSpan: 2
+                                }, '', `Rs ${totalAmount.toFixed(2)}`]
+                            ]
+                        }
+                    },
+
+                    // Total Paid Amount
+                    {
+                        text: `Today's Paid Amount: Rs ${paymentDetails[paymentDetails.length - 1].Amount.split(' ')[1]}`,
+                        alignment: 'center',
+                        fontSize: 12,
+                        bold: true,
+                        margin: [0, 15]
+                    },
+
+                    // Footer note
+                    {
+                        text: "This invoice is computer generated.",
+                        alignment: 'center',
+                        fontSize: 10,
+                        italics: true
+                    }
+                ]
+            };
+
+            const printer = new pdfmake.TtfFile(fonts);
+            const pdfDoc = printer.createPdfKitDocument(docDefinition);
+            const outputFile = `invoice_${student.name}.pdf`;
+
+            pdfDoc.pipe(fs.createWriteStream(outputFile));
+            pdfDoc.end();
+
+            console.log('Invoice generated and saved as', outputFile);
+        });
+    }
+
+    // Call the function with a student ID (e.g., 123)
+    generateInvoice(123);
+
+    // Fonts configuration for pdfmake
+    const fonts = {
+        Roboto: {
+            normal: 'path_to_roboto_regular.ttf',
+            bold: 'path_to_roboto_bold.ttf',
+            italics: 'path_to_roboto_italics.ttf',
+            bolditalics: 'path_to_roboto_bold_italics.ttf'
+        }
+    };
+</script>
             <script>
-                // Function to download the invoice as a PDF
-                function printInvoice() {
-                    const originalContent = document.body.innerHTML;
-                    const invoiceContent = document.getElementById('invoice').outerHTML;
-
-                    // Temporarily replace body content with the invoice
-                    document.body.innerHTML = invoiceContent;
-
-                    // Trigger the print dialog
-                    window.print();
-
-                    // Restore the original body content
-                    document.body.innerHTML = originalContent;
-                }
 
                 function sendwhatsapp() {
                     // Get the student's WhatsApp number and other details from PHP
@@ -325,39 +483,27 @@ $student = $result->fetch_assoc();  // Assuming only one student is fetched
             </script>
             <!-- custom js -->
             <script src="assets/js/script.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-            <!-- bootstrap Library -->
-            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-                integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-                crossorigin="anonymous"></script>
-            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
-                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-                crossorigin="anonymous"></script>
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-                integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-                crossorigin="anonymous"></script>
-            <!-- plugins:js -->
-            <script src="assets/vendors/js/vendor.bundle.base.js"></script>
-            <!-- endinject -->
-            <!-- Plugin js for this page -->
-            <script src="assets/vendors/chart.js/chart.umd.js"></script>
-            <script src="assets/vendors/datatables.net/jquery.dataTables.js"></script>
-            <!-- <script src="assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script> -->
-            <script src="assets/vendors/datatables.net-bs5/dataTables.bootstrap5.js"></script>
-            <script src="assets/js/dataTables.select.min.js"></script>
-            <!-- End plugin js for this page -->
-            <!-- inject:js -->
-            <script src="assets/js/off-canvas.js"></script>
-            <script src="assets/js/template.js"></script>
-            <script src="assets/js/settings.js"></script>
-            <script src="assets/js/todolist.js"></script>
-            <!-- endinject -->
-            <!-- Custom js for this page-->
-            <script src="assets/js/jquery.cookie.js" type="text/javascript"></script>
-            <script src="assets/js/dashboard.js"></script>
-            <!-- <script src="assets/js/Chart.roundedBarCharts.js"></script> -->
-            <!-- End custom js for this page-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="assets/vendors/js/vendor.bundle.base.js"></script>
+    <script src="assets/vendors/chart.js/chart.umd.js"></script>
+    <script src="assets/vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="assets/vendors/datatables.net-bs5/dataTables.bootstrap5.js"></script>
+    <script src="assets/js/dataTables.select.min.js"></script>
+    <script src="assets/js/off-canvas.js"></script>
+    <script src="assets/js/template.js"></script>
+    <script src="assets/js/settings.js"></script>
+    <script src="assets/js/todolist.js"></script>
+    <script src="assets/js/jquery.cookie.js" type="text/javascript"></script>
+    <script src="assets/js/dashboard.js"></script>
 </body>
 
 </html>

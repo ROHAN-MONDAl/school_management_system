@@ -1,241 +1,207 @@
-<?php include '../server_database.php';
+<?php
+include '../server_database.php';
 
-// Query to fetch student data from the database
-$query = "SELECT * FROM cashiers";
-$result = $conn->query($query);
+// Check if the 'id' parameter exists in the GET request
+$id = $_GET['id'] ?? null;
+if (!$id) {
+    exit("<p class='text-danger'>Invalid student ID.</p>");
+}
+
+// Prepare the query to fetch student details and payment info
+$query = $conn->prepare("
+    SELECT 
+        students.img_path,
+        students.name, 
+        students.class, 
+        students.gender, 
+        students.roll_no, 
+        students.phone_no, 
+        students.whatsapp, 
+        students.branch, 
+        students.city, 
+        students.dob, 
+        students.admission_date,
+        students.admission_package,
+        payments.invo_no, 
+        payments.amount, 
+        payments.summary 
+    FROM students
+    LEFT JOIN payments ON students.id = payments.student_id
+    WHERE students.id = ?");
+$query->bind_param("i", $id);  // Bind the student ID as an integer
+$query->execute();  // Execute the query
+$result = $query->get_result();  // Get the result of the query
+
+$totalAmount = 0;  // Initialize the total amount variable
+
+// If no payments are found, display a message
+if ($result->num_rows == 0) {
+    exit("<p class='text-danger'>No payments found for this student.</p>");
+}
+
+// Fetch the student details
+$student = $result->fetch_assoc();  // Assuming only one student is fetched
+
+// Display student details
 ?>
-<!DOCTYPE php>
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Daffodils School</title>
-  <link rel="stylesheet" href="assets/vendors/feather/feather.css">
-  <link rel="stylesheet" href="assets/vendors/ti-icons/css/themify-icons.css">
-  <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
-  <link rel="stylesheet" href="assets/vendors/font-awesome/css/font-awesome.min.css">
-  <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
-  <link rel="stylesheet" href="assets/vendors/datatables.net-bs5/dataTables.bootstrap5.css">
-  <link rel="stylesheet" href="assets/vendors/ti-icons/css/themify-icons.css">
-  <link rel="stylesheet" type="text/css" href="assets/js/select.dataTables.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="stylesheet" href="assets/css/customs.css">
-  <link rel="shortcut icon" href="assets/images/favicon.png" />
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Daffodils School</title>
+    <!-- Include necessary CSS files here -->
+    <link rel="stylesheet" href="assets/vendors/feather/feather.css">
+    <link rel="stylesheet" href="assets/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="assets/vendors/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/customs.css">
+    <link rel="shortcut icon" href="assets/images/favicon.png" />
 </head>
 
 <body>
-  <div class="container-scroller">
-    <!-- partial:partials/_navbar.php -->
-    <?php include 'header.php'   ?>
-    <!-- partial -->
-    <div class="container-fluid page-body-wrapper">
-      <!-- partial:partials/_sidebar.php -->
-      <?php include 'navbar.php' ?>
-      <!-- Main Dashboard Panel -->
-      <!-- partial -->
-      <div class="main-panel">
-        <div class="content-wrapper">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="row">
-                    <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                      <h2 class="font-weight-bold text-primary fw-bolder">Cashiers</h2>
-                      <p class="text-secondary">Add cashiers to manage expenses</p>
-                    </div>
-                  </div>
-                  <div class="row justify-content-center p-1">
-                    <div class="col-12 col-md-10 col-lg-8">
-                      <!-- Search Container -->
-                      <div class="search-container d-flex flex-column flex-md-row align-items-center">
-                        <div class="col-12 col-md-10 mb-2 mb-md-0">
-                          <input type="text" class="form-control search-input" id="search" placeholder="Search..." onkeyup="filterTable()">
+    <div class="container-scroller">
+
+        <?php include 'header.php' ?>
+
+        <div class="container-fluid page-body-wrapper">
+            <?php include 'navbar.php' ?>
+
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    <h2 class="font-weight-bold text-primary fw-bolder">Student Invoice</h2>
+                    <div class="col-12 col-lg-12 col-md-12 rounded mt-5" id="invoice">
+                        <h3 class="text-center mb-4 text-primary">
+                            <img src="assets/images/logo_.svg" style="width: 4rem; object-fit: cover;"><b>Daffodils School</b>
+                        </h3>
+                        <div class="text-center mb-4">
+                            <p class="text-info">Address: Kuchkuchia Rd, Bankura, West Bengal 722101, <br> Phone: 094348 60435</p>
                         </div>
-                        <p class="mx-md-3 mt-2 mt-md-0 text-danger" style="cursor:pointer" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
-                          <i class="fa text-danger" style="font-size:24px;">&#xf0b0;</i> <b>Filter</b>
-                        </p>
-                      </div>
-
-                      <!-- Modal -->
-                      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                          <div class="modal-content">
-                            <form id="dateFilterForm" method="post" class="forms-sample bg-white p-3 p-md-5 text-start rounded">
-                              <h3 class="text-center text-primary fw-bold">Filter</h3>
-                              <label for="startDate" class="text-black">Start Date:</label>
-                              <input type="date" id="startDate" class="form-control" name="start_date" required>
-                              <label for="endDate" class="text-black mt-2">End Date:</label>
-                              <input type="date" id="endDate" class="form-control" name="end_date" required>
-                              <button type="button" class="btn btn-primary w-100 mt-3" onclick="filterByDate()">Filter</button>
-                            </form>
-                          </div>
+                        <h3 class="text-center mb-4">Invoice</h3>
+                        <hr style="color:black">
+                        <div class="row d-flex justify-content-between align-items-center">
+                            <div class="col-6 col-md-6 mb-5">
+                                <img src="<?php echo $student['img_path']; ?>" class="rounded" alt="Student Image" style="width: 100px; height: 130px; object-fit: cover;">
+                            </div>
+                            <div class="col-6 col-md-6 mb-5 text-end">
+                                <p><strong>Date:</strong> <?php echo date('d-m-Y'); ?></p>
+                                <p><strong>Invoice no:</strong> DLS <?php echo $student['invo_no']; ?> / <?php echo date('Y'); ?></p>
+                            </div>
                         </div>
-                      </div>
-                    </div>
-                  </div>
+                        <div class="row mb-5">
+                            <div class="col-12 col-md-6">
+                                <p><strong>Student Name:</strong> <?php echo $student['name']; ?></p>
+                                <p><strong>Gender:</strong> <?php echo $student['gender']; ?></p>
+                                <p><strong>Class:</strong> <?php echo $student['class']; ?></p>
+                                <p><strong>Roll no:</strong> <?php echo $student['roll_no']; ?></p>
+                                <p><strong>Phone no:</strong> <?php echo $student['phone_no']; ?></p>
+                                <p><strong>Whatsapp no:</strong> <?php echo $student['whatsapp']; ?></p>
+                                <p><strong>City:</strong> <?php echo $student['city']; ?></p>
+                                <p><strong>Date of birth:</strong> <?php echo $student['dob']; ?></p>
+                                <p><strong>Admission date:</strong> <?php echo $student['admission_date']; ?></p>
+                                <p><strong>Admission Package:</strong> Rs <?php echo $student['admission_package']; ?></p>
+                            </div>
+                        </div>
 
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- table header -->
-          <div class="row mt-2">
-            <div class="col-md-12 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <div class="card-title col-12 col-md-12 col-lg-12 d-flex justify-content-between align-items-center">
-                    <span class="col-lg-6 fs-6 text-info">Data</span>
-
-                    <a href="student_addmission_frm.php">
-                    <a href="add_cashier_frm.php"><button class="btn btn-success btn-sm text-white font-weight-bold me-4">Add cashier</button></a>  
-                    </a>
-                  </div>
-                  <div class="row mt-3">
-                    <div class="col-12">
-                      <div class="table-responsive">
+                        <hr style="color:black">
+                        <!-- Payments Table -->
                         <div class="table-responsive">
-                          <table id="dataTable" class="table table-striped table-bordered col-lg-12">
-                            <thead class="text-center text-wrap">
-                              <tr>
-                                <th>Slno</th>
-                                <th>Date</th>
-                                <th>Name</th>
-                                <th>Gmail</th>
-                                <th>Phone no</th>
-                                <th>Password</th>
-                                <th>Action</th>
-                              </tr>
-                            </thead>
-                            <tbody class="text-center text-wrap">
-                              <?php if ($result->num_rows > 0): ?>
-                                <?php
-                                $slno = 1;
-                                while ($row = $result->fetch_assoc()):
-                                ?>
-                                  <tr>
-                                    <td><?php echo $slno++; ?></td>
-                                    <td><?php echo $row['date']; ?></td>
-                                    <td><?php echo $row['name']; ?></td>
-                                    <td><?php echo $row['email']; ?></td>
-                                    <td><?php echo $row['phone']; ?></td>
-                                    <td>
-                                      <a href="update_cash.php?cid=<?php echo $row['cid']; ?>">
-                                        <button type="button" class="btn btn-info btn-sm text-white fw-bold">Update</button>
-                                      </a>
-                                    </td>
-                                    <td>
-                                      <a href="javascript:void(0);" onclick="confirmDelete(<?php echo $row['cid']; ?>)">
-                                        <button type="button" class="btn btn-danger btn-sm text-white fw-bold">Delete</button>
-                                      </a>
-                                    </td>
-                                  </tr>
-                                <?php endwhile; ?>
-                              <?php else: ?>
-                                <tr>
-                                  <td colspan="10">No data found</td>
-                                </tr>
-                              <?php endif; ?>
-                            </tbody>
-                          </table>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Slno</th>
+                                        <th>Summary</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $i = 1;
+                                    $totalAmount = 0;
+                                    $result->data_seek(0); // Reset pointer to the first row
+                                    while ($row = $result->fetch_assoc()) {
+                                        $totalAmount += $row['amount'];
+                                    ?>
+                                    <tr>
+                                        <td><?php echo $i++; ?></td>
+                                        <td><?php echo htmlspecialchars($row['summary']); ?></td>
+                                        <td>Rs <?php echo number_format($row['amount'], 2); ?></td>
+                                    </tr>
+                                    <?php } ?>
+                                    <tr>
+                                        <td colspan="2"><strong>Total Amount</strong></td>
+                                        <td><strong>Rs <?php echo number_format($totalAmount, 2); ?></strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
 
-                      </div>
+                        <?php
+                        // Calculate the admission package dynamically
+                        $admissionAmount = max($student['admission_package'] - $totalAmount, 0);
+                        ?>
+
+                        <div class="text-center mt-4">
+                            <p class="fw-bold">Due Amount: Rs <?php echo number_format($admissionAmount, 2); ?></p>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <a href="update_payments.php?id=<?php echo urlencode($id); ?>"><button class="btn btn-primary bg-danger border-0">Edit</button></a>
+                            <a href="add_payment_form.php?id=<?php echo $id; ?>"><button class="btn btn-success">Make Payment</button></a>
+                        </div>
                     </div>
-                  </div>
+                    <div class="text-center mt-4">
+                        <button class="btn btn-primary" onclick="printInvoice()">Download</button>
+                        <button class="btn btn-success" onclick="sendwhatsapp()">
+                            <i class="fa-brands fa-whatsapp"></i> Send via WhatsApp
+                        </button>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
-          <!-- /table header -->
         </div>
-        <!-- content-wrapper ends -->
-        <!-- partial:partials/_footer.php -->
-        <?php include "footer.php"  ?>
-        <!-- partial -->
-      </div>
-      <!-- main-panel ends -->
     </div>
-    <!-- page-body-wrapper ends -->
-  </div>
-  <!-- container-scroller -->
-  <!-- search filter -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    <script>
+        // Function to download the invoice as a PDF
+        function printInvoice() {
+            const originalContent = document.body.innerHTML;
+            const invoiceContent = document.getElementById('invoice').outerHTML;
 
-  <script>
-    $(document).ready(function() {
-      // Function to filter rows based on search input
-      $('#search').on('keyup', function() {
-        var searchTerm = $(this).val().toLowerCase();
-        $('#dataTable tbody tr').each(function() {
-          var row = $(this);
-          var rowText = row.text().toLowerCase();
-          if (rowText.includes(searchTerm)) {
-            row.show();
-          } else {
-            row.hide();
-          }
-        });
-      });
-    });
+            // Temporarily replace body content with the invoice
+            document.body.innerHTML = invoiceContent;
 
+            // Trigger the print dialog
+            window.print();
 
-    function filterByDate() {
-      var startDate = new Date($('#startDate').val()); // Convert start date input to Date object
-      var endDate = new Date($('#endDate').val()); // Convert end date input to Date object
-
-      $('#dataTable tbody tr').each(function() {
-        var row = $(this);
-        var rowDateText = row.find('td:eq(1)').text(); // Get text from the 10th column (index 9)
-        var rowDate = new Date(rowDateText); // Convert the text to a Date object
-
-        if ((startDate && rowDate < startDate) || (endDate && rowDate > endDate)) {
-          row.hide(); // Hide rows outside the range
-        } else {
-          row.show(); // Show rows within the range
+            // Restore the original body content
+            document.body.innerHTML = originalContent;
         }
-      });
-    }
 
-    // cashiers delete feature
-    function confirmDelete(cid) {
-      // Show a confirmation dialog to the user
-      if (confirm("Are you sure you want to delete this cashier? This action cannot be undone.")) {
-        // If the user confirms, redirect to the delete PHP script with the student ID
-        window.location.href = "delete_cashiers.php?cid=" + cid;
-      }
-    }
-  </script>
-  <script src="assets/js/script.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
-    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-    crossorigin="anonymous"></script>
-  <script src="assets/vendors/js/vendor.bundle.base.js"></script>
-  <script src="assets/vendors/chart.js/chart.umd.js"></script>
-  <script src="assets/vendors/datatables.net/jquery.dataTables.js"></script>
-  <script src="assets/vendors/datatables.net-bs5/dataTables.bootstrap5.js"></script>
-  <script src="assets/js/dataTables.select.min.js"></script>
-  <script src="assets/js/off-canvas.js"></script>
-  <script src="assets/js/template.js"></script>
-  <script src="assets/js/settings.js"></script>
-  <script src="assets/js/todolist.js"></script>
-  <script src="assets/js/jquery.cookie.js" type="text/javascript"></script>
-  <script src="assets/js/dashboard.js"></script>
+        function sendwhatsapp() {
+            var whatsappNumber = "<?php echo htmlspecialchars($student['whatsapp']); ?>";
+            var studentName = "<?php echo htmlspecialchars($student['name']); ?>";
+            var dueAmount = "<?php echo number_format($admissionAmount, 2); ?>";
+
+            var formattedNumber = whatsappNumber.replace(/[^0-9]/g, ""); // Remove non-numeric characters
+            if (!formattedNumber.startsWith("91")) {
+                formattedNumber = "91" + formattedNumber; // Add country code if missing
+            }
+
+            var message = encodeURIComponent(
+                "Invoice Details:\n" +
+                "Daffodils School\n" +
+                "Student Name: " + studentName + "\n" +
+                "Due Amount: Rs " + dueAmount
+            );
+
+            var whatsappUrl = "https://wa.me/" + formattedNumber + "?text=" + message;
+            window.open(whatsappUrl, "_blank");
+        }
+    </script>
 </body>
-
 </html>

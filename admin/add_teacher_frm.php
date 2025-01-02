@@ -211,7 +211,7 @@ $conn->close();
                                         title="Must contain at least one number, one uppercase letter, one lowercase letter, and at least 8 or more char" required><br>
 
                                     <div class="text-center mb-3">
-                                    <button type="submit" class="btn btn-primary fs-6 col-4">Submit</button>
+                                    <button type="submit" class="btn btn-primary fs-6 col-12">Submit</button>
                                     </div>
                                 </form>
 

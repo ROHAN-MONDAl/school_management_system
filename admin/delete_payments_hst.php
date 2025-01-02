@@ -3,7 +3,7 @@ if (isset($_GET['payment_id'])) {
     $payment_id = $_GET['payment_id'];
 
     // Database connection
-  include '../server_database.php';
+    include '../server_database.php';
 
     // Delete query
     $sql = "DELETE FROM payments WHERE payment_id = ?";
@@ -11,17 +11,14 @@ if (isset($_GET['payment_id'])) {
     $stmt->bind_param('i', $payment_id);
 
     if ($stmt->execute()) {
-        echo "<script>
-            window.location.href = 'students_payment_history.php?id=<?php echo $id; ?>'; // Redirect back to the main page
-        </script>";
+        // Redirect back to the students payment history page with success message
+        header("Location: students_payment_history.php?id=" . $_GET['id'] . "&message=Payment record deleted successfully.");
+        exit(); // Ensure the script ends after the redirect
     } else {
-        echo "<script>
-            alert('Error deleting record: " . $conn->error . "');
-            window.location.href = 'students_payment_history.php?id=<?php echo $id; ?>';
-        </script>";
+        // Redirect with error message if deletion fails
+        header("Location: students_payment_history.php?id=" . $_GET['id'] . "&error=Error deleting payment record.");
+        exit();
     }
-
-    $stmt->close();
-    $conn->close();
 }
 ?>
+

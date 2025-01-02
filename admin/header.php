@@ -5,7 +5,7 @@ session_start(); // Start the session
 include '../server_database.php'; // This file should contain the connection details to your database
 
 // Set session timeout to 4 minutes (240 seconds)
-$session_timeout = 240; // 4 minutes (240 seconds)
+$session_timeout = 12000; // 4 minutes (240 seconds)
 
 // Check if the user is logged in
 if (!isset($_SESSION['user'])) {
