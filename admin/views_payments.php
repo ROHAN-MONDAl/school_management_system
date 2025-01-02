@@ -253,7 +253,7 @@ $student = $result->fetch_assoc();  // Assuming only one student is fetched
 
                     <div class="text-center mt-4 me-4">
                         <a href="update_payments.php?id=<?php echo urlencode($id); ?>"><button class="btn btn-primary bg-danger border-0 fw-bolder mt-2 mb-2"><i class="fa-solid fa-pen-to-square"></i> Edit</button></a>
-                        <a href="add_payment_form.php?id=<?php echo $id; ?>"><button class="btn btn-success text-white fw-bolder mt-2 mb-2"><i class="fa-solid fa-file-circle-plus"></i> Add form</button></a>
+                        <a href="add_payment_form.php?id=<?php echo $id; ?>"><button class="btn btn-success text-white fw-bolder mt-2 mb-2"><i class="fa-solid fa-file-circle-plus"></i> Make payment</button></a>
                     </div>
 
                     <div class="text-center mt-4">

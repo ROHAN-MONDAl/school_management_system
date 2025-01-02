@@ -95,7 +95,7 @@ $result = $conn->query($query);
                     <span class="col-lg-6 fs-6 text-info">Data</span>
 
                     <a href="student_addmission_frm.php">
-                    <a href="add_cashier_frm.php"><button class="btn btn-success btn-sm text-white font-weight-bold me-4">Add cashier</button></a>  
+                      <a href="add_cashier_frm.php"><button class="btn btn-success btn-sm text-white font-weight-bold me-4">Add cashier</button></a>
                     </a>
                   </div>
                   <div class="row mt-3">
@@ -111,7 +111,6 @@ $result = $conn->query($query);
                                 <th>Gmail</th>
                                 <th>Phone no</th>
                                 <th>Password</th>
-                                <th>Action</th>
                               </tr>
                             </thead>
                             <tbody class="text-center text-wrap">
@@ -129,11 +128,6 @@ $result = $conn->query($query);
                                     <td>
                                       <a href="update_cash.php?cid=<?php echo $row['cid']; ?>">
                                         <button type="button" class="btn btn-info btn-sm text-white fw-bold">Update</button>
-                                      </a>
-                                    </td>
-                                    <td>
-                                      <a href="javascript:void(0);" onclick="confirmDelete(<?php echo $row['cid']; ?>)">
-                                        <button type="button" class="btn btn-danger btn-sm text-white fw-bold">Delete</button>
                                       </a>
                                     </td>
                                   </tr>

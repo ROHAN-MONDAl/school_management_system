@@ -113,9 +113,8 @@ $message_type = $_GET['type'] ?? ''; // 'success' or 'error'
                                         <label for="branch">Branch</label>
                                         <select class="form-control" name="branch" id="branch" required>
                                             <option value="">--Select a branch--</option>
-                                            <option value="Branch A">Branch A</option>
-                                            <option value="Branch B">Branch B</option>
-                                            <option value="Branch C">Branch C</option>
+                                            <option value="Kuchkuchia">Kuchkuchia</option>
+                                            <option value="Chandmaridanga">Chandmaridanga</option>
                                         </select>
                                     </div>
                                     <div class="form-group">

@@ -6,7 +6,6 @@
         <span class="menu-title">Dashboard</span>
       </a>
     </li>
-
     <li class="nav-item">
       <a class="nav-link" data-bs-toggle="collapse" href="#attendence" aria-expanded="false" aria-controls="attendence">
         <i class="icon-head menu-icon"></i>
@@ -21,8 +20,8 @@
     </li>
     <li class="nav-item">
       <a class="nav-link" data-bs-toggle="collapse" href="#error" aria-expanded="false" aria-controls="error">
-      <i class="fa-solid fa-users"></i> &nbsp; &nbsp;&nbsp;
-        <span class="menu-title">Employers</span>
+      <i class="fa-solid fa-users"></i> 
+        <span class="menu-title">&nbsp;&nbsp;&nbsp;&nbsp;Employers</span>
         <i class="menu-arrow"></i>
       </a>
       <div class="collapse" id="error">

@@ -66,7 +66,7 @@ $result = $conn->query($sql);
                         <div class="modal-dialog modal-dialog-centered" role="document">
                           <div class="modal-content">
                             <form id="dateFilterForm" method="post" class="forms-sample bg-white p-3 p-md-5 text-start rounded">
-                              <h3 class="text-center text-primary fw-bold">Admission date</h3>
+                              <h3 class="text-center text-primary fw-bold">Joining date</h3>
                               <label for="startDate" class="text-black">Start Date:</label>
                               <input type="date" id="startDate" class="form-control" name="start_date" required>
                               <label for="endDate" class="text-black mt-2">End Date:</label>
@@ -194,7 +194,7 @@ $result = $conn->query($sql);
 
       $('#dataTable tbody tr').each(function() {
         var row = $(this);
-        var rowDateText = row.find('td:eq(1)').text(); // Get text from the 10th column (index 9)
+        var rowDateText = row.find('td:eq(6)').text(); // Get text from the 10th column (index 9)
         var rowDate = new Date(rowDateText); // Convert the text to a Date object
 
         if ((startDate && rowDate < startDate) || (endDate && rowDate > endDate)) {

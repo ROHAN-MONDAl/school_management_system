@@ -155,7 +155,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         <?php endif; ?>
 
                                         <div class="mb-3">
-                                            <label class="form-label" for="role">Set your Role</label>
+                                            <label class="form-label" for="role"><i class="fa-regular fa-circle-user"></i> Set your Role</label>
                                             <select class="form-select" id="role" name="role" required>
                                                 <option value="" disabled selected>Select your role</option>
                                                 <option value="teachers">Teachers</option>
@@ -166,18 +166,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         </div>
 
                                         <div class="mb-3">
-                                            <label class="form-label" for="email">Email</label>
+                                            <label class="form-label" for="email"><i class="fa-solid fa-envelope"></i> Email</label>
                                             <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required />
                                         </div>
 
                                         <div class="mb-3">
-                                            <label class="form-label" for="password">Password</label>
+                                            <label class="form-label" for="password"><i class="fa-solid fa-key"></i> Password</label>
                                             <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required />
                                         </div>
 
                                         <div class="text-center">
-                                            <button type="submit" class="btn btn-primary btn-block">Log in</button>
+                                            <button type="submit" class="btn btn-success col-12 fa-2x fw-bold rounded">Log in</button>
                                         </div>
+
                                     </form>
                                 </div>
 
@@ -209,8 +210,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                 class="form-control" placeholder="Please enter your password" autocomplete="off" required />
                                         </div>
 
-                                        <div class="text-center mb-3">
-                                            <button type="submit" class="btn btn-primary btn-block mb-4">Log in</button>
+                                        <div class="text-center">
+                                            <button type="submit" class="btn btn-success col-12 fa-2x fw-bold rounded">Log in</button>
                                         </div>
                                     </form>
                                 </div>

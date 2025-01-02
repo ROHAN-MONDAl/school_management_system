@@ -81,26 +81,7 @@ mysqli_close($conn);
                 <div class="card-body">
                   <div class="row mt-3">
                     <div class="col-12">
-
-                      <!-- Balance Overview Section -->
-                      <section class="mb-2">
-                        <h2 class="text-center">Account Summary</h2>
-                        <div class="container">
-                          <div class="row justify-content-center">
-                            <!-- Card 1 -->
-                            <div class="col-12 col-sm-6 mb-3">
-                              <div class="card mx-auto" style="max-width: 400px;">
-                                <div class="card-body text-center">
-                                  <h4 class="card-title">Current Balance</h4>
-                                  <p class="display-4 text-success">Rs <?= number_format($currentBalance, 2) ?></p>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </section>
-
-
+                      
                       <section class="mb-5">
                         <div class="row justify-content-center p-1">
                           <div class="col-12 col-md-10 col-lg-8">

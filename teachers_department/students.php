@@ -115,7 +115,6 @@ $result = $conn->query($query);
                                 <th>DOB</th>
                                 <th>Branch</th>
                                 <th>Admission Date</th>
-                                <th>Admission Package</th>
                                 <th>Optinal Phone</th>
                                 <!-- <th>Edit</th>
                                 <th>Action</th>
@@ -141,7 +140,6 @@ $result = $conn->query($query);
                                     <td><?php echo $row['dob']; ?></td>
                                     <td><?php echo $row['branch']; ?></td>
                                     <td><?php echo $row['admission_date']; ?></td>
-                                    <td>Rs <?php echo $row['admission_package']; ?></td>
                                     <td><?php echo $row['optional_phone']; ?></td>
                                     <!-- <td>
                                       <a href="javascript:void(0);" onclick="confirmUpadte(<?php echo $row['id']; ?>)">

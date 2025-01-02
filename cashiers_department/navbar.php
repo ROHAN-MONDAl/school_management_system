@@ -8,13 +8,12 @@
     </li>
     <li class="nav-item">
       <a class="nav-link" data-bs-toggle="collapse" href="#e" aria-expanded="false" aria-controls="e">
-        <i class="fa-solid fa-hand-holding-dollar"></i> &nbsp; &nbsp;&nbsp;
-        <span class="menu-title">Management</span>&nbsp;
+      <i class="fa-solid fa-hand-holding-dollar"></i> 
+        <span class="menu-title">&nbsp;&nbsp;&nbsp;&nbsp;Management</span>
         <i class="menu-arrow"></i>
       </a>
       <div class="collapse" id="e">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"> <a class="nav-link" href="school_funds.php"> Funds </a></li>
           <li class="nav-item"> <a class="nav-link" href="cashiers.php"> Cashiers </a></li>
         </ul>
       </div>

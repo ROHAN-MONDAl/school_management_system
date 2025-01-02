@@ -8,8 +8,8 @@
     </li>
     <li class="nav-item">
       <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
-      <i class="fa-solid fa-school"></i> &nbsp; &nbsp; &nbsp;
-        <span class="menu-title"> School</span>
+      <i class="fa-solid fa-school"></i>
+        <span class="menu-title">&nbsp;&nbsp;&nbsp;&nbsp;School</span>
         <i class="menu-arrow"></i>
       </a>
       <div class="collapse" id="auth">

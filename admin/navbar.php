@@ -8,8 +8,8 @@
     </li>
     <li class="nav-item">
       <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
-      <i class="fa-solid fa-school"></i> &nbsp; &nbsp; &nbsp;
-        <span class="menu-title"> School</span>
+      <i class="fa-solid fa-school"></i>
+        <span class="menu-title">&nbsp;&nbsp;&nbsp;&nbsp;School</span>
         <i class="menu-arrow"></i>
       </a>
       <div class="collapse" id="auth">
@@ -36,8 +36,8 @@
     </li>
     <li class="nav-item">
       <a class="nav-link" data-bs-toggle="collapse" href="#error" aria-expanded="false" aria-controls="error">
-      <i class="fa-solid fa-users"></i> &nbsp; &nbsp;&nbsp;
-        <span class="menu-title">Employers</span>
+      <i class="fa-solid fa-users"></i> 
+        <span class="menu-title">&nbsp;&nbsp;&nbsp;&nbsp;Employers</span>
         <i class="menu-arrow"></i>
       </a>
       <div class="collapse" id="error">
@@ -49,8 +49,8 @@
     </li>
     <li class="nav-item">
       <a class="nav-link" data-bs-toggle="collapse" href="#e" aria-expanded="false" aria-controls="e">
-      <i class="fa-solid fa-hand-holding-dollar"></i> &nbsp; &nbsp;&nbsp;
-        <span class="menu-title">Management</span>&nbsp;
+      <i class="fa-solid fa-hand-holding-dollar"></i> 
+        <span class="menu-title">&nbsp;&nbsp;&nbsp;&nbsp;Management</span>
         <i class="menu-arrow"></i>
       </a>
       <div class="collapse" id="e">
