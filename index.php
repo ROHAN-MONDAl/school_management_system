@@ -160,7 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                 <option value="" disabled selected>Select your role</option>
                                                 <option value="teachers">Teacher</option>
                                                 <option value="employers">Employer</option>
-                                                <option value="staffs">Staff</option>
+                                                <option value="staffs">Staffs</option>
                                                 <option value="cashiers">Cashier</option>
                                             </select>
                                         </div>

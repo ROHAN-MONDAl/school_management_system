@@ -1,28 +1,5 @@
 <?php include '../server_database.php';
 
-// Fetch totals from the database
-$total_teachers = $conn->query("SELECT COUNT(*) as count FROM teachers")->fetch_assoc()['count'];
-$total_students = $conn->query("SELECT COUNT(*) as count FROM students")->fetch_assoc()['count'];
-$total_employers = $conn->query("SELECT COUNT(*) as count FROM employers")->fetch_assoc()['count'];
-$total_staffs = $conn->query("SELECT COUNT(*) as count FROM staffs")->fetch_assoc()['count'];
-
-// Fetch teacher attendance records
-$teacher_query = "
-SELECT teachers.name, teachers.designation, teachers.branch, teacher_attendance.date, teacher_attendance.status
-FROM teacher_attendance
-JOIN teachers ON teacher_attendance.teacher_id = tid
-ORDER BY teacher_attendance.date DESC
-";
-$teacher_result = $conn->query($teacher_query);
-
-// Fetch employer attendance records
-$employer_query = "
-SELECT employers.name, employers.designation, employers.branch,employer_attendance.date, employer_attendance.status
-FROM employer_attendance
-JOIN employers ON employer_attendance.employer_id = employers.id
-ORDER BY employer_attendance.date DESC
-";
-$employer_result = $conn->query($employer_query);
 
 // Fetch staff attendance records
 $staff_query = "
@@ -92,50 +69,7 @@ $staff_result = $conn->query($staff_query);
                       <p class="text-secondary">Overview all atendance</p>
                     </div>
                   </div>
-                  <div class="container">
-                    <div class="row">
-                      <div class="col-lg-12 gy-2 transparent">
-                        <div class="row">
-                          <!-- Total Teachers -->
-                          <div class="col-lg-3 mb-4 stretch-card transparent">
-                            <div class="card bg-dark-subtle">
-                              <div class="card-body">
-                                <p class="mb-4 fw-bolder"><i class="fa-regular fa-user"></i> Total Teachers</p>
-                                <p class="fs-30 mb-2 fw-bolder"><?php echo $total_teachers; ?></p>
-                              </div>
-                            </div>
-                          </div>
-                          <!-- Total Students -->
-                          <div class="col-lg-3 mb-4 stretch-card transparent">
-                            <div class="card bg-info-subtle">
-                              <div class="card-body">
-                                <p class="mb-4 fw-bolder"><i class="fa-regular fa-user"></i> Total Students</p>
-                                <p class="fs-30 mb-2 fw-bolder"><?php echo $total_students; ?></p>
-                              </div>
-                            </div>
-                          </div>
-                          <!-- Total Employers -->
-                          <div class="col-lg-3 mb-4 stretch-card transparent">
-                            <div class="card bg-success">
-                              <div class="card-body">
-                                <p class="mb-4 fw-bolder"><i class="fa-regular fa-user"></i> Total Employers</p>
-                                <p class="fs-30 mb-2 fw-bolder"><?php echo $total_employers; ?></p>
-                              </div>
-                            </div>
-                          </div>
-                          <!-- Total Staffs -->
-                          <div class="col-lg-3 mb-4 stretch-card transparent">
-                            <div class="card bg-warning">
-                              <div class="card-body">
-                                <p class="mb-4 fw-bolder"><i class="fa-regular fa-user"></i> Total Staffs</p>
-                                <p class="fs-30 mb-2 fw-bolder"><?php echo $total_staffs; ?></p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+               
                 </div>
               </div>
             </div>
@@ -143,86 +77,7 @@ $staff_result = $conn->query($staff_query);
 
           <!-- table header -->
           <div class="row mt-3">
-            <!-- Teachers Table -->
-            <div class="col-12">
-              <h4 class="text-start">Teacher Attendance</h4>
-              <div class="table-responsive">
-                <table id="teacherTable" class="table display expandable-table col-lg-12">
-                  <thead class="text-center text-wrap">
-                    <tr>
-                      <th>Slno</th>
-                      <th>Name</th>
-                      <th>Designation</th>
-                      <th>branch</th>
-                      <th>Date</th>
-                      <th>Attendance Status</th>
-                    </tr>
-                  </thead>
-                  <tbody class="text-center text-wrap">
-                    <?php if ($teacher_result->num_rows > 0): ?>
-                      <?php
-                      $slno = 1;
-                      while ($row = $teacher_result->fetch_assoc()):
-                      ?>
-                        <tr>
-                          <td><?php echo $slno++; ?></td>
-                          <td><?php echo htmlspecialchars($row['name']); ?></td>
-                          <td><?php echo htmlspecialchars($row['designation']); ?></td>
-                          <td><?php echo htmlspecialchars($row['branch']); ?></td>
-                          <td><?php echo htmlspecialchars($row['date']); ?></td>
-                          <td><?php echo htmlspecialchars($row['status']); ?></td>
-                        </tr>
-                      <?php endwhile; ?>
-                    <?php else: ?>
-                      <tr>
-                        <td colspan="5">No data found</td>
-                      </tr>
-                    <?php endif; ?>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            <!-- Employers Table -->
-            <div class="col-12 mt-4">
-              <h4 class="text-start">Employer Attendance</h4>
-              <div class="table-responsive">
-                <table id="employerTable" class="table display expandable-table col-lg-12">
-                  <thead class="text-center text-wrap">
-                    <tr>
-                      <th>Slno</th>
-                      <th>Name</th>
-                      <th>Designation</th>
-                      <th>Branch</th>
-                      <th>Date</th>
-                      <th>Attendance Status</th>
-                    </tr>
-                  </thead>
-                  <tbody class="text-center text-wrap">
-                    <?php if ($employer_result->num_rows > 0): ?>
-                      <?php
-                      $slno = 1;
-                      while ($row = $employer_result->fetch_assoc()):
-                      ?>
-                        <tr>
-                          <td><?php echo $slno++; ?></td>
-                          <td><?php echo htmlspecialchars($row['name']); ?></td>
-                          <td><?php echo htmlspecialchars($row['designation']); ?></td>
-                          <td><?php echo htmlspecialchars($row['branch']); ?></td>
-                          <td><?php echo htmlspecialchars($row['date']); ?></td>
-                          <td><?php echo htmlspecialchars($row['status']); ?></td>
-                        </tr>
-                      <?php endwhile; ?>
-                    <?php else: ?>
-                      <tr>
-                        <td colspan="5">No data found</td>
-                      </tr>
-                    <?php endif; ?>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
+                    
             <!-- Staff Table -->
             <div class="col-12 mt-4">
               <h4 class="text-start">Staff Attendance</h4>

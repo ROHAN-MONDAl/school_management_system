@@ -18,7 +18,7 @@ if (!isset($_SESSION['user'])) {
 $email = $_SESSION['user']['email']; // Get the logged-in email from the session
 
 // Query to fetch the profile picture (no need to check session_id anymore)
-$sql = "SELECT photo FROM staffs WHERE email = '$email'"; 
+$sql = "SELECT photo FROM staffs WHERE email = '$email'";
 
 // Execute the query
 $results = $conn->query($sql);
@@ -70,9 +70,6 @@ $_SESSION['last_activity'] = time();
           <img src="<?php echo htmlspecialchars($photo); ?>" alt="profile" height="100px" />
         </a>
         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-          <a class="dropdown-item" href="settings.php">
-            <i class="ti-settings text-primary"></i> Settings
-          </a>
           <a class="dropdown-item" href="logout.php">
             <i class="ti-power-off text-primary"></i> Logout
           </a>
