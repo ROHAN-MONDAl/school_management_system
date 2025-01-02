@@ -95,16 +95,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 // Fetch branches from the students table
 $branchOptions = "";
-$sql = "SELECT DISTINCT branch FROM students"; // Assuming "branch" column exists in the "students" table
+$classOptions = "";
+$sql = "SELECT DISTINCT branch , class FROM students"; // Assuming "branch" column exists in the "students" table
 $result = $conn->query($sql);
 
 // Check if there are results and populate the dropdown options
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $branchOptions .= "<option value='" . $row['branch'] . "'>" . $row['branch'] . "</option>";
+        $classOptions .= "<option value='" . $row['class'] . "'>" . $row['class'] . "</option>";
     }
 } else {
     $branchOptions = "<option value=''>No branches available</option>";
+    $classOptions = "<option value=''>No class available</option>";
 }
 
 // Close the database connection
@@ -188,6 +191,11 @@ $conn->close();
                                     <label for="branch">Branch:</label>
                                     <select name="branch" class="form-control" id="branch" required>
                                         <?php echo $branchOptions; ?>
+                                    </select><br>
+
+                                    <label for="class">Class:</label>
+                                    <select name="class" class="form-control" id="class" required>
+                                        <?php echo $classOptions; ?>
                                     </select><br>
 
                                     <label for="salary">Salary:</label>

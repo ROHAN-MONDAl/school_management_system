@@ -87,6 +87,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="main-panel">
                 <div class="content-wrapper">
                     <div class="row">
+                        <div class="row justify-content-center p-1 mx-5">
+                            <div class="col-12 col-md-10 col-lg-8">
+                                <!-- Search Container -->
+                                <div class="search-container d-flex flex-column flex-md-row align-items-center">
+                                    <div class="col-12 col-md-10 mb-2 mb-md-0">
+                                        <input type="text" class="form-control search-input" id="search" placeholder="Search..." onkeyup="filterTable()">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-lg-12 col-md-12 grid-margin stretch-card">
                             <div class="card">
                                 <div class="card-body">
@@ -103,11 +113,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                     </div>
                                                 <?php else: ?>
                                                     <form action="" method="POST">
-                                                        <table class="table display expandable-table col-lg-12 mt-4">
+                                                    <table id="dataTable" class="table display expandable-table col-lg-12">
                                                             <div class="table-responsive">
                                                                 <thead class="text-center text-wrap">
                                                                     <tr>
                                                                         <th>Slno</th>
+                                                                        <th>Branch</th>
                                                                         <th>Name</th>
                                                                         <th>Roll No</th>
                                                                         <th>Present</th>
@@ -123,6 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                                     ?>
                                                                             <tr>
                                                                                 <td><?php echo $slno++; ?></td>
+                                                                                <td><?php echo htmlspecialchars($row['branch']); ?></td>
                                                                                 <td><?php echo htmlspecialchars($row['name']); ?></td>
                                                                                 <td><?php echo htmlspecialchars($row['roll_no']); ?></td>
                                                                                 <td>
@@ -158,6 +170,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Function to filter rows based on search input
+            $('#search').on('keyup', function() {
+                var searchTerm = $(this).val().toLowerCase();
+                $('#dataTable tbody tr').each(function() {
+                    var row = $(this);
+                    var rowText = row.text().toLowerCase();
+                    if (rowText.includes(searchTerm)) {
+                        row.show();
+                    } else {
+                        row.hide();
+                    }
+                });
+            })
+        });
+    </script>
+    <!-- Include JS and other script files here -->
 
     <script src="assets/js/script.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

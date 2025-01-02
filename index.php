@@ -156,12 +156,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                                         <div class="mb-3">
                                             <label class="form-label" for="role">Set your Role</label>
-                                            <select class="form-select fw-bold" id="role" name="role" required>
+                                            <select class="form-select" id="role" name="role" required>
                                                 <option value="" disabled selected>Select your role</option>
-                                                <option value="teachers">Teacher</option>
-                                                <option value="employers">Employer</option>
+                                                <option value="teachers">Teachers</option>
+                                                <option value="employers">Employers</option>
                                                 <option value="staffs">Staffs</option>
-                                                <option value="cashiers">Cashier</option>
+                                                <option value="cashiers">Cashiers</option>
                                             </select>
                                         </div>
 

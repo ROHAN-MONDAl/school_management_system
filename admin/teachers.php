@@ -1,6 +1,6 @@
 <?php include '../server_database.php';
 // Query to fetch teacher data from the database
-$sql = "SELECT tid, photo, name, phone, email, designation, joining_date, branch, salary FROM teachers";
+$sql = "SELECT tid, photo, name, phone, email, designation, joining_date, branch, class, salary FROM teachers";
 $result = $conn->query($sql);
 
 ?>
@@ -129,6 +129,7 @@ $result = $conn->query($sql);
                                   <td><?php echo htmlspecialchars($row['designation']); ?></td>
                                   <td><?php echo htmlspecialchars($row['joining_date']); ?></td>
                                   <td><?php echo htmlspecialchars($row['branch']); ?></td>
+                                  <td><?php echo htmlspecialchars($row['class']); ?></td>
                                   <td>₹<?php echo number_format((float)$row['salary'], 2); ?></td>
                                   <td>
                                     <a href="javascript:void(0);" onclick="confirmUpdate(<?php echo (int)$row['tid']; ?>)">
