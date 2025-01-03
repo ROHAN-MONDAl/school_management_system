@@ -64,9 +64,18 @@ $pdf->SetAutoPageBreak(TRUE, 10);
 $pdf->AddPage();
 
 // Add logo and school details
-$pdf->Image('assets/favicon.png', 10, 10, 30, 0, '', '', 'T', false, 300);
+
+// Get the total page width
+$pageWidth = $pdf->getPageWidth();
+
+// Calculate X position for 30% right alignment
+$xPosition = $pageWidth * 0.35;
+
+
+// Place the image
+$pdf->Image('assets/logo.jpeg', $xPosition,  15, 15, 12, '', '', 'T', false, 300);
 $pdf->SetFont('helvetica', 'B', 16);
-$pdf->Cell(0, 10, 'Daffodils School', 0, 1, 'C');
+$pdf->Cell( 20, 12, 'Daffodils School', 0, 1, '');
 $pdf->SetFont('helvetica', '', 10);
 $pdf->Cell(0, 10, 'Address: Kuchkuchia Rd, Bankura, West Bengal 722101, Phone number: 094348 60435', 0, 1, 'C');
 
