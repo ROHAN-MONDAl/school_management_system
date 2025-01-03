@@ -94,9 +94,9 @@ $result = $conn->query($query);
                   <div class="card-title col-12 col-md-12 col-lg-12 d-flex justify-content-between align-items-center">
                     <span class="col-lg-6 fs-6 text-info">Data</span>
 
-                    <a href="student_addmission_frm.php">
+                    <!-- <a href="student_addmission_frm.php">
                       <a href="add_cashier_frm.php"><button class="btn btn-success btn-sm text-white font-weight-bold me-4">Add cashier</button></a>
-                    </a>
+                    </a> -->
                   </div>
                   <div class="row mt-3">
                     <div class="col-12">
