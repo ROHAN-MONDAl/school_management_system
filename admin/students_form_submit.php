@@ -33,11 +33,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $img_name = $_FILES['img']['name'] ?? '';
     $img_temp = $_FILES['img']['tmp_name'] ?? '';
     $img_size = $_FILES['img']['size'] ?? 0;
-    $max_size = 2 * 1024 * 1024; // 2 MB in bytes
+    $max_size = 5 * 1024 * 1024; // 5 MB in bytes
     
-    // Check if the file size exceeds 2 MB
+    // Check if the file size exceeds 5 MB
     if ($img_size > $max_size) {
-        header("Location: student_addmission_frm.php?message=Image size must not exceed 2 MB&type=error");
+        header("Location: student_addmission_frm.php?message=Image size must not exceed 5 MB&type=error");
         exit;
     }
     

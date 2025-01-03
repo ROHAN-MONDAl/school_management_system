@@ -17,6 +17,7 @@ $responseMessage = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $student_id = $id;
+    date_default_timezone_set("Asia/kolkata");
     $date = date('Y-m-d');
     $invo_no = $randomInvoiceNumber; // Use the generated random invoice number
     $amount = filter_input(INPUT_POST, 'amount', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);

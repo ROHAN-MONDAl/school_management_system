@@ -5,7 +5,7 @@ session_start(); // Start the session
 include '../server_database.php'; // This file should contain the connection details to your database
 
 // Set session timeout to 4 minutes (240 seconds)
-$session_timeout = 12000; // 4 minutes (240 seconds)
+$session_timeout = 120000000; // 4 minutes (240 seconds)
 
 // Check if the user is logged in
 if (!isset($_SESSION['user'])) {
@@ -114,7 +114,6 @@ $_SESSION['last_activity'] = time();
       var minutes = Math.floor(remainingTime / 60000); // Divide by 60,000 to get minutes
       var seconds = Math.floor((remainingTime % 60000) / 1000); // Get the remaining seconds
 
-      document.getElementById('session-timer').textContent = "Session Timeout: " + minutes + "m " + seconds + "s";
     }
   }
 

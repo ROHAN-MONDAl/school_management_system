@@ -58,6 +58,7 @@
           <li class="nav-item"> <a class="nav-link" href="school_funds.php"> Funds </a></li>
           <li class="nav-item"> <a class="nav-link" href="cashiers.php"> Cashiers </a></li>
           <li class="nav-item"> <a class="nav-link" href="expenses.php"> Expenses </a></li>
+          <li class="nav-item"> <a class="nav-link" href="barcode.php"> Barcode </a></li>
         </ul>
       </div>
     </li>

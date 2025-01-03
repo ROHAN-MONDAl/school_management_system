@@ -116,7 +116,7 @@ $result = $conn->query($query);
                                 <th>Branch</th>
                                 <th>Admission Date</th>
                                 <th>Admission Package</th>
-                                <th>Optinal Phone</th>
+                                <th>Optional Phone</th>
                                 <th>Edit</th>
                                 <th>Action</th>
                                 <th>View</th>

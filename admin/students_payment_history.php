@@ -85,7 +85,7 @@ if (isset($_GET['payment_id'])) {
                                         <th>Payment Id</th>
                                         <th>Invoice No</th>
                                         <th>Amount</th>
-                                        <th>Summary</th>
+                                        <th>Payment type</th>
                                         <th>Payment Date</th>
                                         <th>Action</th>
                                     </thead>

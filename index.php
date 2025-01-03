@@ -113,10 +113,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <header>
         <nav class="navbar bg-primary">
             <div class="container d-flex justify-content-center">
-            <a class="head_name d-flex align-items-center">
-    <img src="images/logo.png" class="img-fluid" alt="Logo" style="width: 80px; height: auto;">
-    <span class="ms-2 fs-4">Daffodils School</span>
-</a>
+                <a class="head_name d-flex align-items-center">
+                    <img src="images/logo.png" class="img-fluid" alt="Logo" style="width: 80px; height: auto;">
+                    <span class="ms-2">Daffodils School</span>
+                </a>
 
             </div>
         </nav>
