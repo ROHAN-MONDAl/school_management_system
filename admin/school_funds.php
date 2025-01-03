@@ -1,24 +1,54 @@
 <?php
 include '../server_database.php';
+
 // Fetch total amount from the payments table
 $sql = "SELECT SUM(amount) AS total_amount FROM payments";
-$result = $conn->query($sql);
+$result = mysqli_query($conn, $sql);
 
 $totalAmount = 0;
-if ($result->num_rows > 0) {
-    $row = $result->fetch_assoc();
+if (mysqli_num_rows($result) > 0) {
+    $row = mysqli_fetch_assoc($result);
     $totalAmount = $row['total_amount'];
 }
 
-$conn->close();
+// Handling the Search and Date Range Filter
+$searchTerm = '';
+$startDate = '';
+$endDate = '';
+
+// Collect search data
+if (isset($_GET['search'])) {
+    $searchTerm = $_GET['search'];
+}
+
+if (isset($_GET['start_date']) && isset($_GET['end_date'])) {
+    $startDate = $_GET['start_date'];
+    $endDate = $_GET['end_date'];
+}
+
+// Build dynamic query based on filters
+$query = "SELECT payments.*, students.name FROM payments 
+          JOIN students ON payments.student_id = students.id 
+          WHERE 1";
+
+// Apply search filter
+if ($searchTerm != '') {
+    $query .= " AND (students.name LIKE '%$searchTerm%' OR payments.invo_no LIKE '%$searchTerm%')";
+}
+
+// Apply date range filter
+if ($startDate != '' && $endDate != '') {
+    $query .= " AND payments.date BETWEEN '$startDate' AND '$endDate'";
+}
+
+// Execute the query
+$result = mysqli_query($conn, $query);
 ?>
 
-
-<!DOCTYPE php>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Daffodils School</title>
@@ -37,77 +67,98 @@ $conn->close();
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/customs.css">
     <link rel="shortcut icon" href="assets/images/favicon.png" />
+    <!-- Add necessary stylesheets here -->
 </head>
 
 <body>
     <div class="container-scroller">
-        <!-- partial:partials/_navbar.php -->
-        <?php include 'header.php'   ?>
-        <!-- partial -->
+        <?php include 'header.php'; ?>
         <div class="container-fluid page-body-wrapper">
-            <!-- partial:partials/_sidebar.php -->
-            <?php include 'navbar.php' ?>
-            <!-- Main Dashboard Panel -->
-            <!-- partial -->
+            <?php include 'navbar.php'; ?>
             <div class="main-panel">
                 <div class="content-wrapper">
-                    <!-- table header -->
-                    <div class="row mt-2">
-                        <div class="col-md-12 grid-margin stretch-card">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row mt-3">
-                                        <div class="col-12">
-
-                                            <!-- Balance Overview Section -->
-                                            <section class="mb-2">
-                                                <h2 class="text-center fw-bolder text-primary">Daffodils School Funds</h2>
-                                                <div class="container">
-                                                    <div class="row justify-content-center">
-                                                        <!-- Card 1 -->
-                                                        <div class="col-12 col-sm-6 mb-3">
-                                                            <div class="card mx-auto" style="max-width: 400px;">
-                                                                <div class="card-body text-center">
-                                                                    <h4 class="card-title">Lifetime Earning</h4>
-                                                                    <p class="display-4 fw-bolder text-success">Rs <?= number_format($totalAmount, 2) ?></p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </section>
-                                        </div>
-                                    </div>
+                    <section class="row justify-content-center">
+                        <h2 class="text-center fw-bolder text-primary">Daffodils School Funds</h2>
+                        <div class="col-12 col-sm-6 mb-3">
+                            <div class="card mx-auto" style="max-width: 400px;">
+                                <div class="card-body text-center">
+                                    <h4 class="card-title">Lifetime Earning</h4>
+                                    <p class="display-4 fw-bolder text-success">Rs <?= number_format($totalAmount, 2) ?></p>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- /table header -->
+                    </section>
+                    <!-- Filters Section -->
+                    <form method="get" class="mb-3 mt-2">
+                        <div class="row">
+                            <div class="col-12 col-sm-6 col-md-3 mb-2 mb-sm-0">
+                                <input type="text" name="search" value="<?php echo $searchTerm; ?>" class="form-control" placeholder="Search by name or invoice">
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-3 mb-2 mb-sm-0">
+                                <input type="date" name="start_date" value="<?php echo $startDate; ?>" class="form-control">
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-3 mb-2 mb-sm-0">
+                                <input type="date" name="end_date" value="<?php echo $endDate; ?>" class="form-control">
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-3 mt-2 mt-sm-0">
+                                <button type="submit" class="btn btn-primary w-100 w-sm-auto mt-2">Apply Filters</button>
+                            </div>
+                        </div>
+                    </form>
+
+
+                    <!-- Balance Overview Section -->
+                    <section class="mb-2">
+                        <div class="row justify-content-center">
+                            <div class="table-responsive">
+                                <table id="dataTable" class="table display expandable-table">
+                                    <thead class="text-center">
+                                        <th>Slno</th>
+                                        <th>Name</th>
+                                        <th>Invoice No</th>
+                                        <th>Amount</th>
+                                        <th>Payment Type</th>
+                                        <th>Payment Date</th>
+                                        <!-- <th>Action</th> -->
+                                    </thead>
+                                    <tbody class="text-center">
+                                        <?php if (mysqli_num_rows($result) > 0): ?>
+                                            <?php
+                                            $i = 1;
+                                            while ($row = mysqli_fetch_assoc($result)):
+                                            ?>
+                                                <tr>
+                                                    <td><?php echo $i; ?></td>
+                                                    <td><?php echo $row['name']; ?></td>
+                                                    <td><?php echo $row['invo_no']; ?></td>
+                                                    <td><?php echo $row['amount']; ?></td>
+                                                    <td class="text-wrap"><?php echo $row['summary']; ?></td>
+                                                    <td><?php echo $row['date']; ?></td>
+                                                    <!-- <td>
+                                                        <a href="students_payment_history.php?id=<?php echo $id; ?>&payment_id=<?php echo $row['payment_id']; ?>">
+                                                            <button type="button" class="btn btn-danger text-white fw-bold btn-sm">Delete</button>
+                                                        </a>
+                                                    </td> -->
+                                                </tr>
+                                            <?php
+                                                $i++;
+                                            endwhile;
+                                            ?>
+                                        <?php else: ?>
+                                            <tr>
+                                                <td colspan="7">No data found</td>
+                                            </tr>
+                                        <?php endif; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
                 </div>
-                <!-- content-wrapper ends -->
-                <!-- partial:partials/_footer.php -->
-                <?php include "footer.php"  ?>
+                <?php include "footer.php"; ?>
             </div>
-            <!-- partial -->
         </div>
-        <!-- main-panel ends -->
     </div>
-    <!-- page-body-wrapper ends -->
-    </div>
-    <!-- Add some JavaScript to format the number -->
-    <script>
-        // Function to format large numbers with commas
-        function formatNumber(number) {
-            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        }
-
-        // Format the balance displayed
-        const balanceElement = document.getElementById('balance');
-        const amount = balanceElement.textContent.replace('Rs ', '').trim();
-        const formattedAmount = 'Rs ' + formatNumber(amount);
-
-        balanceElement.textContent = formattedAmount;
-    </script>
     <script src="assets/js/script.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

@@ -25,23 +25,24 @@ $query = $conn->prepare("
         students.admission_package,
         payments.invo_no, 
         payments.amount, 
-        payments.summary 
+        payments.summary,
+        payments.date  -- Ensure this column exists in the database
     FROM students
     LEFT JOIN payments ON students.id = payments.student_id
     WHERE students.id = ?");
 
-$query->bind_param("i", $id);
-$query->execute();
-$result = $query->get_result();
+$query->bind_param("i", $id);  // Bind the student ID as an integer
+$query->execute();  // Execute the query
+$result = $query->get_result();  // Get the result of the query
 
-$totalAmount = 0;
+$totalAmount = 0;  // Initialize total amount variable
 
+// Check if no results were found
 if ($result->num_rows == 0) {
     exit("<p class='text-danger'>No payments found for this student.</p>");
 }
 
-// Fetch the student details
-$student = $result->fetch_assoc();
+$student = $result->fetch_assoc();  // Fetch the student details
 
 // Generate a unique invoice number (format: DLS<last invoice number> / <year>)
 $lastRow = null;
@@ -70,7 +71,6 @@ $pageWidth = $pdf->getPageWidth();
 
 // Calculate X position for 30% right alignment
 $xPosition = $pageWidth * 0.35;
-
 
 // Place the image
 $pdf->Image('assets/logo.jpeg', $xPosition,  15, 15, 12, '', '', 'T', false, 300);
@@ -149,11 +149,13 @@ $pdf->SetFont('helvetica', 'B', 12);
 $pdf->Cell(0, 10, 'Payment Details', 0, 1, 'C');
 $pdf->SetFont('helvetica', '', 10);
 
-$html = '<table border="1" cellpadding="5" cellspacing="0"><thead><tr align= "center" ><th  style="font-weight: bold;">SLNO</th><th style="font-weight: bold;">Summary</th><th style="font-weight: bold;">Amount</th></tr></thead><tbody>';
+$html = '<table border="1" cellpadding="5" cellspacing="0"><thead><tr align= "center" ><th  style="font-weight: bold;">Date</th><th style="font-weight: bold;">Payment type</th><th style="font-weight: bold;">Amount</th></tr></thead><tbody>';
 $i = 1;
 $result->data_seek(0); // Reset pointer to include all rows
 while ($row = $result->fetch_assoc()) {
-    $html .= '<tr align= "center"><td>' . $i++ . '</td><td>' . $row['summary'] . '</td><td> Rs ' . number_format($row['amount'], 2) . '</td></tr>';
+    // Check if 'date' exists in the row
+    $date = isset($row['date']) ? $row['date'] : 'N/A'; // Fallback if 'date' is not set
+    $html .= '<tr align= "center"><td>' . $date . '</td><td>' . $row['summary'] . '</td><td> Rs ' . number_format($row['amount'], 2) . '</td></tr>';
 }
 $html .= '<tr><td colspan="2" align="right"><b>Total:</b></td><td><b>Rs ' . number_format($totalAmount, 2) . '</b></td></tr>';
 $html .= '</tbody></table>';
@@ -167,11 +169,19 @@ if ($lastRow) {
     $pdf->Cell(0, 10, "Today's Paid Amount: Rs " . number_format($todayPaidAmount, 2), 0, 1, 'C');
 }
 
+// Add due amount
+$pdf->Ln(5);
+$pdf->SetFont('helvetica', 'B', 12);
+$admissionAmount = $student['admission_package'] - $totalAmount; // Remaining amount
+$admissionAmount = max($admissionAmount, 0); // Ensure non-negative due amount
+$pdf->Cell(0, 10, "Remaining Due Amount: Rs " . number_format($admissionAmount, 2), 0, 1, 'C');
+
 // Add footer note
-$pdf->Ln(18);
+$pdf->Ln(16);
 $pdf->SetFont('helvetica', 'I', 10);
 $pdf->Cell(0, 10, "This invoice is computer generated.", 0, 1, 'C');
 
 // Output PDF to browser
 $pdf->Output('invoice_' . $student['name'] . '.pdf', 'D');  // 'D' means download
 exit();
+?>

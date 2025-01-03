@@ -1,13 +1,7 @@
-<?php
-include '../server_database.php';
-?>
-
-
 <!DOCTYPE php>
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Daffodils School</title>
@@ -26,6 +20,39 @@ include '../server_database.php';
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/customs.css">
     <link rel="shortcut icon" href="assets/images/favicon.png" />
+
+    <style>
+        /* Responsive image styling */
+        .barcode-img {
+            max-width: 100%;  /* Ensure it scales with container */
+            height: auto;     /* Maintain aspect ratio */
+            border: 3px solid transparent; /* Initial border for the animation */
+            border-radius: 10px;
+            padding: 5px;
+            background-image: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet);
+            background-size: 400%;
+            animation: rainbowBorder 5s linear infinite; /* Animation for the rainbow border */
+        }
+
+        @media (max-width: 767px) {
+            .barcode-img {
+                max-width: 100%; /* Make the barcode bigger on small screens */
+            }
+        }
+
+        /* Rainbow border animation */
+        @keyframes rainbowBorder {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -49,14 +76,13 @@ include '../server_database.php';
                                         <div class="col-12">
                                             <!-- Balance Overview Section -->
                                             <section class="mb-2 text-center">
-                                                <img src="assets/images/barcode.jpg" alt="Barcode" class="img-fluid">
+                                                <img src="assets/images/barcode.jpg" alt="Barcode" class="barcode-img">
                                             </section>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                     <!-- /table header -->
                 </div>
@@ -73,8 +99,6 @@ include '../server_database.php';
     <!-- container-scroller -->
     <!-- search filter -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-
     <script>
         $(document).ready(function() {
             // Function to filter rows based on search input
@@ -91,7 +115,6 @@ include '../server_database.php';
                 });
             });
         });
-
 
         function filterByDate() {
             var startDate = new Date($('#startDate').val()); // Convert start date input to Date object

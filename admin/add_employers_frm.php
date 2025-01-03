@@ -203,7 +203,7 @@ $conn->close();
                                     <input type="password" class="form-control" name="cpassword" id="cpassword" required><br>
 
                                     <div class="text-center mb-3">
-                                        <button type="submit" class="btn btn-primary fs-6 col-4">Submit</button>
+                                        <button type="submit" class="btn btn-primary fs-6 col-12">Submit</button>
                                     </div>
                                 </form>
 

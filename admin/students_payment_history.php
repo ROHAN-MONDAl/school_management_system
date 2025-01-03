@@ -25,10 +25,10 @@ if (isset($_GET['payment_id'])) {
     $delete_stmt = $conn->prepare($delete_query);
     $delete_stmt->bind_param('ii', $payment_id, $id);
     if ($delete_stmt->execute()) {
-        header("Location: students_payment_history.php?id=" . $id . "&message=Payment record deleted successfully.");
+        header("Location: views_payments.php?id=" . $id . "&message=Payment record deleted successfully.");
         exit();
     } else {
-        header("Location: students_payment_history.php?id=" . $id . "&error=Error deleting payment record.");
+        header("Location: views_payments.php?id=" . $id . "&error=Error deleting payment record.");
         exit();
     }
 }
