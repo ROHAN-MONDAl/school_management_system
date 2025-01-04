@@ -88,14 +88,14 @@ mysqli_close($conn);
                                 <form method="POST" action="">
                                     <div class="mb-3">
                                         <label for="date" class="form-label text-black">Date</label>
-                                        <input type="date" class="form-control" id="date" name="date" required>
+                                        <input type="date" class="form-control text-primary" id="date" name="date" required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="user" class="form-label">Users</label>
-                                        <select class="form-select text-black" id="user" name="user" required>
+                                        <select class="form-select text-primary" id="user" name="user" required>
                                             <option value="">Select Cashier</option>
                                             <?php foreach ($cashiers as $cashier): ?>
-                                                <option class="text-black" value="<?= $cashier['name'] ?>"><?= $cashier['name'] ?></option>
+                                                <option class="text-primary" value="<?= $cashier['name'] ?>"><?= $cashier['name'] ?></option>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
@@ -109,7 +109,7 @@ mysqli_close($conn);
                                     </div>
                                     <div class="mb-3">
                                         <label for="remark" class="form-label">Remark</label>
-                                        <textarea class="form-control" id="remark" name="remark" rows="3"></textarea>
+                                        <textarea class="form-control" id="remark" name="remark" rows="3" required></textarea>
                                     </div>
                                     <div class="text-center mb-3">
                                     <button type="submit" class="btn btn-primary fs-6 col-12">Submit</button>

@@ -34,7 +34,7 @@ if ($student_id) {
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
+<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Daffodils School</title>
     <link rel="stylesheet" href="assets/vendors/feather/feather.css">
@@ -43,8 +43,14 @@ if ($student_id) {
     <link rel="stylesheet" href="assets/vendors/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="assets/vendors/datatables.net-bs5/dataTables.bootstrap5.css">
+    <link rel="stylesheet" href="assets/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" type="text/css" href="assets/js/select.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/custom.css">
+    <link rel="stylesheet" href="assets/css/customs.css">
     <link rel="shortcut icon" href="assets/images/favicon.png" />
 </head>
 
@@ -185,7 +191,9 @@ if ($student_id) {
                                         <input type="password" name="confirm_password" id="confirm_password" class="form-control" placeholder="Confirm password" required>
                                     </div>
 
-                                    <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                                    <div class="text-center mb-3">
+                                    <button type="submit" class="btn btn-primary col-12 fs-6">Update</button>
+                                    </div>
                                 </form>
 
                             </div>

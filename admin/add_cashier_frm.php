@@ -131,7 +131,7 @@ mysqli_close($conn);
                                 <form method="POST">
                                     <div class="mb-3">
                                         <label for="date" class="form-label">Date</label>
-                                        <input type="date" class="form-control" id="date" name="date" required>
+                                        <input type="date" class="form-control text-primary" id="date" name="date" required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="name" class="form-label">Name</label>
@@ -150,11 +150,13 @@ mysqli_close($conn);
                                     </div>
                                     <div class="mb-3">
                                         <label for="password" class="form-label">Password</label>
-                                        <input type="password" class="form-control" id="password" name="password" required>
+                                        <input type="password" class="form-control" id="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                        title="Must contain at least one number, one uppercase letter, one lowercase letter, and at least 8 or more characters" required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="confirm_password" class="form-label">Confirm Password</label>
-                                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                        title="Must contain at least one number, one uppercase letter, one lowercase letter, and at least 8 or more characters" required>
                                     </div>
                                     <button type="submit" class="btn btn-primary w-100">Submit</button>
                                 </form>

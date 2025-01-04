@@ -149,7 +149,7 @@ $conn->close();
                     <div class="col-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
-                                <a href="teachers.php" class="btn btn-warning text-white fw-bolder">Back</a>
+                                <a href="employers.php" class="btn btn-warning text-white fw-bolder">Back</a>
                                 <h4 class="card-title mt-5">Form</h4>
                                 <p class="card-description text-danger"><b>Warning: Be careful while filling details</b></p>
 
@@ -184,10 +184,10 @@ $conn->close();
                                     <input type="text" class="form-control" name="designation" autocomplete="on" autocapitalize="words" id="designation" required><br>
 
                                     <label for="joining_date">Joining Date:</label>
-                                    <input type="date" class="form-control" name="joining_date" id="joining_date" required><br>
+                                    <input type="date" class="form-control text-primary" name="joining_date" id="joining_date" required><br>
 
                                     <label for="branch">Branch:</label>
-                                    <select name="branch" class="form-control" id="branch" required>
+                                    <select name="branch" class="form-control text-primary" id="branch" required>
                                         <?php echo $branchOptions; ?>
                                     </select><br>
 

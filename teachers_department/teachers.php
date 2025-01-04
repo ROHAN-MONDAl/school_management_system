@@ -1,6 +1,6 @@
 <?php include '../server_database.php';
 // Query to fetch teacher data from the database
-$sql = "SELECT tid, photo, name, phone, email, designation, joining_date, branch, salary FROM teachers";
+$sql = "SELECT tid, photo, name, phone, email, designation, joining_date, branch, class, salary FROM teachers";
 $result = $conn->query($sql);
 
 ?>
@@ -8,7 +8,6 @@ $result = $conn->query($sql);
 <html lang="en">
 
 <head>
-
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Daffodils School</title>
@@ -93,6 +92,9 @@ $result = $conn->query($sql);
                 <div class="card-body">
                   <div class="card-title col-12 col-md-12 col-lg-12 d-flex justify-content-between align-items-center">
                     <span class="col-lg-6 fs-6 text-info">Data</span>
+                    <a href="add_teacher_frm.php">
+                      <button class="btn btn-success btn-sm text-white font-weight-bold me-4">Add Teachers</button>
+                    </a>
                   </div>
                   <div class="row mt-3">
                     <div class="col-12">
@@ -103,11 +105,15 @@ $result = $conn->query($sql);
                               <th>Slno</th>
                               <th>Photo</th>
                               <th>Name</th>
+                              <th>Phone no</th>
+                              <th>Email</th>
                               <th>Designation</th>
                               <th>Joining Date</th>
                               <th>Branch</th>
-                             <th>Password</th>
-                             <!--   <th>Action</th> -->
+                              <th>Class</th>
+                              <th>Salary</th>
+                              <th>Password</th>
+                              <th>Action</th>
                             </tr>
                           </thead>
                           <tbody class="text-center text-wrap">
@@ -116,21 +122,29 @@ $result = $conn->query($sql);
                               <?php while ($row = $result->fetch_assoc()): ?>
                                 <tr>
                                   <td><?php echo $slno++; ?></td>
-                                  <td><img src="<?php echo htmlspecialchars($row['photo']); ?>" alt="Employer Photo" style="width: 50px; height: 50px; object-fit: cover;"></td>
+                                  <td><?php if (isset($row['photo']) && !empty($row['photo'])): ?>
+                                      <img src="../admin/<?php echo $row['photo']; ?>" alt="Teacher Image" style="width: 50px; height: 50px; object-fit: cover;">
+                                    <?php else: ?>
+                                      <span>Teacher Image</span>
+                                    <?php endif; ?></td>
                                   <td class="text-wrap"><?php echo htmlspecialchars($row['name']); ?></td>
+                                  <td><?php echo htmlspecialchars($row['phone']); ?></td>
+                                  <td><?php echo htmlspecialchars($row['email']); ?></td>
                                   <td><?php echo htmlspecialchars($row['designation']); ?></td>
                                   <td><?php echo htmlspecialchars($row['joining_date']); ?></td>
                                   <td><?php echo htmlspecialchars($row['branch']); ?></td>
-                                 <td>
+                                  <td><?php echo htmlspecialchars($row['class']); ?></td>
+                                  <td>₹<?php echo number_format((float)$row['salary'], 2); ?></td>
+                                  <td>
                                     <a href="javascript:void(0);" onclick="confirmUpdate(<?php echo (int)$row['tid']; ?>)">
                                       <button type="button" class="btn btn-info btn-sm text-white fw-bold">Update</button>
                                     </a>
                                   </td>
-                                  <!--  <td>
+                                  <td>
                                     <a href="javascript:void(0);" onclick="confirmDelete(<?php echo (int)$row['tid']; ?>)">
                                       <button type="button" class="btn btn-danger btn-sm text-white fw-bold">Delete</button>
                                     </a>
-                                  </td> -->
+                                  </td>
                                 </tr>
                               <?php endwhile; ?>
                             <?php else: ?>
@@ -178,23 +192,21 @@ $result = $conn->query($sql);
             row.hide();
           }
         });
-      });
+      })
     });
 
-
     function filterByDate() {
-      var startDate = new Date($('#startDate').val()); // Convert start date input to Date object
-      var endDate = new Date($('#endDate').val()); // Convert end date input to Date object
+      var startDate = $('#startDate').val();
+      var endDate = $('#endDate').val();
 
       $('#dataTable tbody tr').each(function() {
         var row = $(this);
-        var rowDateText = row.find('td:eq(4)').text(); // Get text from the 10th column (index 9)
-        var rowDate = new Date(rowDateText); // Convert the text to a Date object
+        var rowDate = new Date(row.find('td:eq(6)').text()); // Get date from the 4th column (index 3)
 
-        if ((startDate && rowDate < startDate) || (endDate && rowDate > endDate)) {
-          row.hide(); // Hide rows outside the range
+        if (startDate && rowDate < new Date(startDate) || endDate && rowDate > new Date(endDate)) {
+          row.hide();
         } else {
-          row.show(); // Show rows within the range
+          row.show();
         }
       });
     }
@@ -217,6 +229,7 @@ $result = $conn->query($sql);
       }
     }
   </script>
+
   <script src="assets/js/script.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

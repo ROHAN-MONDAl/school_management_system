@@ -184,10 +184,10 @@ $conn->close();
                                     <input type="text" class="form-control" name="designation" autocomplete="on" autocapitalize="words" id="designation" required><br>
 
                                     <label for="joining_date">Joining Date:</label>
-                                    <input type="date" class="form-control" name="joining_date" id="joining_date" required><br>
+                                    <input type="date" class="form-control text-primary" name="joining_date" id="joining_date" required><br>
 
                                     <label for="branch">Branch:</label>
-                                    <select name="branch" class="form-control" id="branch" required>
+                                    <select name="branch" class="form-control text-primary" id="branch" required>
                                         <?php echo $branchOptions; ?>
                                     </select><br>
 
