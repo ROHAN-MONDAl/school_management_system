@@ -41,8 +41,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $student_id) {
             exit;
         }
 
+        // Check for JPG file extension
+        $allowed_extensions = ['jpg', 'jpeg'];
+        $image_extension = strtolower(pathinfo($_FILES['image_path']['name'], PATHINFO_EXTENSION));
+
+        if (!in_array($image_extension, $allowed_extensions)) {
+            $message = "Only JPG images are allowed.";
+            header("Location: update_students_info.php?id=$student_id&message=$message&type=error");
+            exit;
+        }
+
+        // Check MIME type to ensure it is a valid image (JPEG)
+        $image_mime = mime_content_type($_FILES['image_path']['tmp_name']);
+        if ($image_mime !== 'image/jpeg') {
+            $message = "Invalid image type. Only JPG images are allowed.";
+            header("Location: update_students_info.php?id=$student_id&message=$message&type=error");
+            exit;
+        }
+
+        // Set target directory for image upload
         $target_dir = "assets/images/";
         $target_file = $target_dir . basename($_FILES['image_path']['name']);
+        
+        // Move uploaded file to the target directory
         if (move_uploaded_file($_FILES['image_path']['tmp_name'], $target_file)) {
             $image_url = $target_file; // Save image URL
         } else {

@@ -97,7 +97,7 @@ if ($student_id) {
                                     <div class="form-group">
                                         <label for="image_path">File Upload</label>
                                         <input type="file" name="image_path" id="image_path" class="form-control" accept="image/*" onchange="previewImage(event)">
-                                        <small class="form-text text-muted">Only JPEG, PNG, and GIF images are allowed. Max file size: 5 MB.</small>
+                                        <small class="form-text text-muted">Only JPEG, and GIF images are allowed. Max file size: 5 MB.</small>
                                         <div id="image-preview-container" style="margin-top: 10px;">
                                             <?php if ($student['image_path']) : ?>
                                                 <img id="image-preview" src="<?php echo htmlspecialchars($student['image_path']); ?>" alt="Image Preview" style="max-width: 100px; max-height: 100px;">

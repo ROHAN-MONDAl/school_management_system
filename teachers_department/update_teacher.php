@@ -107,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="col-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
-                                <p><a href="teachers.php"><button type="button" class="btn btn-warning text-white fw-bolder">Back</button></a></p>
+                                <p><a href="teachers.php"><button type="button" class="btn btn-warning text-white fw-bolder mb-3">Back</button></a></p>
                                 <h4 class="card-title">Update Password</h4>
                                 <p class="card-description">Update your old password</p>
                                 <?php if ($message): ?>

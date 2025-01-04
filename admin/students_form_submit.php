@@ -41,8 +41,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
     
-    $img_path = $img_name ? $upload_dir . basename($img_name) : "assets/images/";
+    // Check for JPG file extension and MIME type
+    $allowed_extensions = ['jpg', 'jpeg'];
+    $img_ext = strtolower(pathinfo($img_name, PATHINFO_EXTENSION));
+
+    if (!in_array($img_ext, $allowed_extensions)) {
+        header("Location: student_addmission_frm.php?message=Only JPG images are allowed&type=error");
+        exit;
+    }
+
+    $img_mime = mime_content_type($img_temp);
+    if ($img_mime !== 'image/jpeg') {
+        header("Location: student_addmission_frm.php?message=Invalid image type. Only JPG images are allowed&type=error");
+        exit;
+    }
     
+    $img_path = $img_name ? $upload_dir . basename($img_name) : "assets/images/";
+
     if ($img_name && !move_uploaded_file($img_temp, $img_path)) {
         $img_path = "assets/images/"; // Fallback to default image if upload fails
     }
