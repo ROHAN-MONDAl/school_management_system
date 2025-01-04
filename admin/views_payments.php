@@ -9,7 +9,7 @@ if (!$id) {
 // Prepare the query to fetch student details and payment info
 $query = $conn->prepare("
     SELECT 
-        students.img_path,
+        students.image_path,
         students.name, 
         students.class, 
         students.gender, 
@@ -130,7 +130,7 @@ $student = $result->fetch_assoc();  // Assuming only one student is fetched
 
                         <div class="row d-flex justify-content-between align-items-center">
                             <div class="col-6 col-md-6 mb-5">
-                                <img src="<?php echo $student['img_path']; ?>" class="rounded" alt="Student Image" style="width: 100px; height: 130px; object-fit: cover;">
+                                <img src="<?php echo $student['image_path']; ?>" class="rounded" alt="Student Image" style="width: 100px; height: 130px; object-fit: cover;">
                             </div>
                             <div class="col-6 col-md-6 mb-5 text-end">
                                 <p><strong>Date:</strong> <?php

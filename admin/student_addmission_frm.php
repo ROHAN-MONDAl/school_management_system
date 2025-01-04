@@ -83,7 +83,7 @@ $message_type = $_GET['type'] ?? ''; // 'success' or 'error'
                                     </div>
                                     <div class="form-group">
                                         <label for="Class">Select class</label>
-                                        <select class="form-control" name="class" id="class" required>
+                                        <select class="form-control text-primary" name="class" id="class" required>
                                             <option value="">--Select a class--</option>
                                             <option value="Toddlers(18 month)">Toddlers(18 month)</option>
                                             <option value="Infant group">Infant group</option>
@@ -111,7 +111,7 @@ $message_type = $_GET['type'] ?? ''; // 'success' or 'error'
                                     </div>
                                     <div class="form-group">
                                         <label for="branch">Branch</label>
-                                        <select class="form-control" name="branch" id="branch" required>
+                                        <select class="form-control text-primary" name="branch" id="branch" required>
                                             <option value="">--Select a branch--</option>
                                             <option value="Kuchkuchia">Kuchkuchia</option>
                                             <option value="Chandmaridanga">Chandmaridanga</option>

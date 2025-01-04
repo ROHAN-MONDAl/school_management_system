@@ -148,7 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <div class="tab-content">
                                 <!-- Department Sign in -->
                                 <div class="tab-pane show active" id="usersLogin">
-                                    <form action="" method="post" id="loginForm">
+                                    <form action="" method="post" id="departmentform">
                                         <h3>Department Login</h3>
 
                                         <!-- Display Error Message -->
@@ -171,12 +171,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                                         <div class="mb-3">
                                             <label class="form-label" for="email"><i class="fa-solid fa-envelope"></i> Email</label>
-                                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required />
+                                            <input type="email" class="form-control" name="email" placeholder="Enter your email" required />
                                         </div>
 
                                         <div class="mb-3">
                                             <label class="form-label" for="password"><i class="fa-solid fa-key"></i> Password</label>
-                                            <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required />
+                                            <input type="password" class="form-control" name="password" placeholder="Enter your password" required />
                                         </div>
 
                                         <div class="text-center">

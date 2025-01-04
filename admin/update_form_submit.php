@@ -1,73 +1,75 @@
 <?php
-include '../server_database.php';  // Include your database connection
+include '../server_database.php';
 
-$student_id = $_GET['id'] ?? null;  // Get student ID
+// Retrieve student ID from URL
+$student_id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Retrieve form data
-    $name = $_POST['name'];
-    $gender = $_POST['gender'];
-    $class = $_POST['class'];
-    $roll_no = $_POST['roll_no'];
-    $phone_no = $_POST['phone_no'];
-    $whatsapp = $_POST['whatsapp'];
-    $optional_phone = $_POST['optional_phone'];
-    $branch = $_POST['branch'];
-    $city = $_POST['city'];
-    $dob = $_POST['dob'];
-    $admission_date = $_POST['admission_date'];
-    $admission_package = $_POST['admission_package'];
-    $password = $_POST['password'];  // New password
-    $confirm_password = $_POST['confirm_password'];  // Confirm new password
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $student_id) {
+    // Sanitize form data
+    $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
+    $gender = filter_input(INPUT_POST, 'gender', FILTER_SANITIZE_STRING);
+    $class = filter_input(INPUT_POST, 'class', FILTER_SANITIZE_STRING);
+    $roll_no = filter_input(INPUT_POST, 'roll_no', FILTER_SANITIZE_STRING);
+    $phone_no = filter_input(INPUT_POST, 'phone_no', FILTER_SANITIZE_STRING);
+    $whatsapp = filter_input(INPUT_POST, 'whatsapp', FILTER_SANITIZE_STRING);
+    $optional_phone = filter_input(INPUT_POST, 'optional_phone', FILTER_SANITIZE_STRING);
+    $branch = filter_input(INPUT_POST, 'branch', FILTER_SANITIZE_STRING);
+    $city = filter_input(INPUT_POST, 'city', FILTER_SANITIZE_STRING);
+    $dob = filter_input(INPUT_POST, 'dob', FILTER_SANITIZE_STRING);
+    $admission_date = filter_input(INPUT_POST, 'admission_date', FILTER_SANITIZE_STRING);
+    $admission_package = filter_input(INPUT_POST, 'admission_package', FILTER_SANITIZE_NUMBER_INT);
+    $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
+    $confirm_password = filter_input(INPUT_POST, 'confirm_password', FILTER_SANITIZE_STRING);
 
-    // Validate passwords match
+    // Check if passwords match
     if ($password !== $confirm_password) {
-        header('Location: update_students_info.php?id=' . $student_id . '&message=Passwords do not match&message_type=error');
+        $message = "Passwords do not match.";
+        header("Location: update_students_info.php?id=$student_id&message=$message&type=error");
         exit;
     }
 
-    // Fetch the current student data (excluding the old password)
-    if ($student_id) {
-        $query = "SELECT * FROM students WHERE id = ?";
-        $stmt = $conn->prepare($query);
-        $stmt->bind_param('i', $student_id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $student = $result->fetch_assoc();
+    // Hash the password before storing it
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-        // Check if student exists
-        if (!$student) {
-            echo "Student not found!";
+    // Handle image upload
+    $image_url = '';
+    if (isset($_FILES['image_path']) && $_FILES['image_path']['error'] === UPLOAD_ERR_OK) {
+        // Check if the file size exceeds 5MB
+        if ($_FILES['image_path']['size'] > 5 * 1024 * 1024) {
+            $message = "Image size exceeds 5MB. Please upload a smaller image.";
+            header("Location: update_students_info.php?id=$student_id&message=$message&type=warning");
             exit;
         }
 
-        // Hash the new password before storing
-        $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+        $target_dir = "assets/images/";
+        $target_file = $target_dir . basename($_FILES['image_path']['name']);
+        if (move_uploaded_file($_FILES['image_path']['tmp_name'], $target_file)) {
+            $image_url = $target_file; // Save image URL
+        } else {
+            $message = "Error uploading image.";
+            header("Location: update_students_info.php?id=$student_id&message=$message&type=error");
+            exit;
+        }
     } else {
-        echo "Student ID is missing!";
-        exit;
+        // If no new image, use existing one
+        $image_url = filter_input(INPUT_POST, 'existing_image', FILTER_SANITIZE_STRING);
     }
 
-    // Prepare the update query (update other fields too, not just password)
-    $query = "UPDATE students SET name=?, gender=?, class=?, roll_no=?, phone_no=?, whatsapp=?, optional_phone=?, branch=?, city=?, dob=?, admission_date=?, admission_package=?, password=? WHERE id=?";
-    $stmt = $conn->prepare($query);
+    // Prepare SQL query for update
+    $query = "UPDATE students SET name = '$name', gender = '$gender', class = '$class', roll_no = '$roll_no', phone_no = '$phone_no', whatsapp = '$whatsapp', optional_phone = '$optional_phone', branch = '$branch', city = '$city', dob = '$dob', admission_date = '$admission_date', admission_package = '$admission_package', password = '$hashed_password', image_path = '$image_url' WHERE id = $student_id";
 
-    if ($stmt === false) {
-        echo "Error preparing the query: " . $conn->error;
-        exit;
-    }
-
-    // Bind the parameters and execute the update
-    $stmt->bind_param('sssssssssssssi', $name, $gender, $class, $roll_no, $phone_no, $whatsapp, $optional_phone, $branch, $city, $dob, $admission_date, $admission_package, $hashed_password, $student_id);
-    $stmt->execute();
-
-    // Check if the update was successful
-    if ($stmt->affected_rows > 0) {
-        header('Location: update_students_info.php?id=' . $student_id . '&message= Update successfully&message_type=success');
-        exit();
+    // Execute query
+    if (mysqli_query($conn, $query)) {
+        $message = "Student data updated successfully.";
+        header("Location: update_students_info.php?id=$student_id&message=$message&type=success");
     } else {
-        header('Location: update_students_info.php?id=' . $student_id . '&message=No changes were made or an error occurred&message_type=error');
-        exit();
+        $message = "Error updating student data.";
+        header("Location: update_students_info.php?id=$student_id&message=$message&type=error");
     }
+    exit;
+} else {
+    $message = "Invalid request.";
+    header("Location: update_students_info.php?id=$student_id&message=$message&type=error");
+    exit;
 }
 ?>

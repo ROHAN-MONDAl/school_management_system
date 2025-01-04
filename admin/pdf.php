@@ -11,7 +11,7 @@ if (!$id) {
 // Prepare the query to fetch student details and payment info
 $query = $conn->prepare("
     SELECT 
-        students.img_path,
+        students.image_path,
         students.name, 
         students.class, 
         students.gender, 
@@ -73,11 +73,14 @@ $pageWidth = $pdf->getPageWidth();
 $xPosition = $pageWidth * 0.35;
 
 // Place the image
-$pdf->Image('assets/logo.jpeg', $xPosition,  15, 15, 12, '', '', 'T', false, 300);
+$pdf->Image('assets/favicon.jpg', $xPosition,  15, 15, 12, '', '', 'T', false, 300);
 $pdf->SetFont('helvetica', 'B', 16);
 $pdf->Cell( 20, 12, 'Daffodils School', 0, 1, '');
 $pdf->SetFont('helvetica', '', 10);
-$pdf->Cell(0, 10, 'Address: Kuchkuchia Rd, Bankura, West Bengal 722101, Phone number: 094348 60435', 0, 1, 'C');
+$pdf->Cell(0, 5, 'Address: Kuchkuchia Rd, Bankura, West Bengal 722101,', 0, 1, 'C');
+$pdf->Cell(0, 1, 'Branch address: Chandmaridanga Rd, Jogeshpally, Bankura, West Bengal 722101: 094348 60435', 0, 1, 'C');
+$pdf->Cell(0, 1, 'Phone number: 094348 60435', 0, 1, 'C');
+
 
 // Add Invoice title
 $pdf->Ln(10);
@@ -100,7 +103,7 @@ $html = <<<EOD
         <td style="width: 25%; font-weight: bold;">Student Name:</td>
         <td style="width: 50%;">{$student['name']}</td>
         <td style="width: 25%;" rowspan="6" align="center">
-            <img src="{$student['img_path']}" alt="Student Image" style="width: 100px; height: 130px; object-fit: cover;" />
+            <img src="{$student['image_path']}" alt="Student Image" style="width: 100px; height: 130px; object-fit: cover;" />
         </td>
     </tr>
     <tr>

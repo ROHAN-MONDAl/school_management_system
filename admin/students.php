@@ -130,7 +130,7 @@ $result = $conn->query($query);
                                 ?>
                                   <tr>
                                     <td><?php echo $slno++; ?></td>
-                                    <td><img src="<?php echo $row['img_path']; ?>" alt="Student Image" style="width: 50px; height: 50px; object-fit: cover;"></td>
+                                    <td><img src="<?php echo $row['image_path']; ?>" alt="Student Image" style="width: 50px; height: 50px; object-fit: cover;"></td>
                                     <td  class="text-wrap"><?php echo $row['name']; ?></td>
                                     <td><?php echo $row['class']; ?></td>
                                     <td><?php echo $row['gender']; ?></td>

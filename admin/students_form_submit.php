@@ -96,7 +96,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $check_whatsapp_stmt->close();
 
         // Insert query
-        $sql = "INSERT INTO students (name, gender, class, roll_no, phone_no, whatsapp, optional_phone, city, dob, branch, admission_date, admission_package, today_date, password, img_path) 
+        $sql = "INSERT INTO students (name, gender, class, roll_no, phone_no, whatsapp, optional_phone, city, dob, branch, admission_date, admission_package, today_date, password, image_path) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $conn->prepare($sql);

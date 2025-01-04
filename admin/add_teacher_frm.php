@@ -81,8 +81,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $passwordHash = password_hash($_POST['password'], PASSWORD_BCRYPT);
 
             // Insert into database if there are no errors
-            $sql = "INSERT INTO teachers (photo, name, phone, email, designation, joining_date, branch, salary, password)
-                    VALUES ('$photo', '$name', '$phone', '$email', '" . $_POST['designation'] . "', '" . $_POST['joining_date'] . "', '" . $_POST['branch'] . "', '" . $_POST['salary'] . "', '$passwordHash')";
+            $sql = "INSERT INTO teachers (photo, name, phone, email, designation, joining_date, branch, class, salary, password)
+                    VALUES ('$photo', '$name', '$phone', '$email', '" . $_POST['designation'] . "', '" . $_POST['joining_date'] . "', '" . $_POST['branch'] . "', '" . $_POST['class'] . "', '" . $_POST['salary'] . "', '$passwordHash')";
 
             if ($conn->query($sql)) {
                 $successMessage = "Record inserted successfully!";
@@ -186,15 +186,15 @@ $conn->close();
                                     <input type="text" class="form-control" name="designation"  autocomplete="on" autofocus autocapitalize="words" id="designation" required><br>
 
                                     <label for="joining_date">Joining Date:</label>
-                                    <input type="date" class="form-control" name="joining_date" id="joining_date" required><br>
+                                    <input type="date" class="form-control text-primary" name="joining_date" id="joining_date" required><br>
 
                                     <label for="branch">Branch:</label>
-                                    <select name="branch" class="form-control" id="branch" required>
+                                    <select name="branch" class="form-control text-primary" id="branch" required>
                                         <?php echo $branchOptions; ?>
                                     </select><br>
 
                                     <label for="class">Class Assign:</label>
-                                    <select name="class" class="form-control" id="class" required>
+                                    <select name="class" class="form-control text-primary" id="class" required>
                                         <?php echo $classOptions; ?>
                                     </select><br>
 
