@@ -188,7 +188,7 @@ $result = $conn->query($query);
 
       $('#dataTable tbody tr').each(function() {
         var row = $(this);
-        var rowDateText = row.find('td:eq(9)').text(); // Get text from the 10th column (index 9)
+        var rowDateText = row.find('td:eq(1)').text(); // Get text from the 10th column (index 9)
         var rowDate = new Date(rowDateText); // Convert the text to a Date object
 
         if ((startDate && rowDate < startDate) || (endDate && rowDate > endDate)) {

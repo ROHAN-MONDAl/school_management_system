@@ -92,9 +92,6 @@ $result = $conn->query($sql);
                 <div class="card-body">
                   <div class="card-title col-12 col-md-12 col-lg-12 d-flex justify-content-between align-items-center">
                     <span class="col-lg-6 fs-6 text-info">Data</span>
-                    <a href="add_teacher_frm.php">
-                      <button class="btn btn-success btn-sm text-white font-weight-bold me-4">Add Teachers</button>
-                    </a>
                   </div>
                   <div class="row mt-3">
                     <div class="col-12">
@@ -105,15 +102,15 @@ $result = $conn->query($sql);
                               <th>Slno</th>
                               <th>Photo</th>
                               <th>Name</th>
-                              <th>Phone no</th>
-                              <th>Email</th>
+                              <!-- <th>Phone no</th>
+                              <th>Email</th> -->
                               <th>Designation</th>
                               <th>Joining Date</th>
                               <th>Branch</th>
                               <th>Class</th>
-                              <th>Salary</th>
+                              <!-- <th>Salary</th> -->
                               <th>Password</th>
-                              <th>Action</th>
+                              <!-- <th>Action</th> -->
                             </tr>
                           </thead>
                           <tbody class="text-center text-wrap">
@@ -128,23 +125,23 @@ $result = $conn->query($sql);
                                       <span>Teacher Image</span>
                                     <?php endif; ?></td>
                                   <td class="text-wrap"><?php echo htmlspecialchars($row['name']); ?></td>
-                                  <td><?php echo htmlspecialchars($row['phone']); ?></td>
-                                  <td><?php echo htmlspecialchars($row['email']); ?></td>
+                                  <!-- <td><?php echo htmlspecialchars($row['phone']); ?></td>
+                                  <td><?php echo htmlspecialchars($row['email']); ?></td> -->
                                   <td><?php echo htmlspecialchars($row['designation']); ?></td>
                                   <td><?php echo htmlspecialchars($row['joining_date']); ?></td>
                                   <td><?php echo htmlspecialchars($row['branch']); ?></td>
                                   <td><?php echo htmlspecialchars($row['class']); ?></td>
-                                  <td>₹<?php echo number_format((float)$row['salary'], 2); ?></td>
+                                  <!-- <td>₹<?php echo number_format((float)$row['salary'], 2); ?></td> -->
                                   <td>
                                     <a href="javascript:void(0);" onclick="confirmUpdate(<?php echo (int)$row['tid']; ?>)">
                                       <button type="button" class="btn btn-info btn-sm text-white fw-bold">Update</button>
                                     </a>
                                   </td>
-                                  <td>
+                                  <!-- <td>
                                     <a href="javascript:void(0);" onclick="confirmDelete(<?php echo (int)$row['tid']; ?>)">
                                       <button type="button" class="btn btn-danger btn-sm text-white fw-bold">Delete</button>
                                     </a>
-                                  </td>
+                                  </td> -->
                                 </tr>
                               <?php endwhile; ?>
                             <?php else: ?>
@@ -201,7 +198,7 @@ $result = $conn->query($sql);
 
       $('#dataTable tbody tr').each(function() {
         var row = $(this);
-        var rowDate = new Date(row.find('td:eq(6)').text()); // Get date from the 4th column (index 3)
+        var rowDate = new Date(row.find('td:eq(4)').text()); // Get date from the 4th column (index 3)
 
         if (startDate && rowDate < new Date(startDate) || endDate && rowDate > new Date(endDate)) {
           row.hide();

@@ -81,18 +81,18 @@ mysqli_close($conn);
                     <div class="col-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
-                                <a href="expenses.php" class="btn btn-warning text-white fw-bolder">Back</a>
+                                <a href="index.php" class="btn btn-warning text-white fw-bolder">Back</a>
                                 <h4 class="card-title mt-5">Form</h4>
 
                                 <!-- Form -->
                                 <form method="POST" action="">
                                     <div class="mb-3">
-                                        <label for="date" class="form-label text-black">Date</label>
-                                        <input type="date" class="form-control" id="date" name="date" required>
+                                        <label for="date" class="form-label">Date</label>
+                                        <input type="date" class="form-control text-primary" id="date" name="date" required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="user" class="form-label">Users</label>
-                                        <select class="form-select text-black" id="user" name="user" required>
+                                        <select class="form-select text-primary" id="user" name="user" required>
                                             <option value="">Select Cashier</option>
                                             <?php foreach ($cashiers as $cashier): ?>
                                                 <option class="text-black" value="<?= $cashier['name'] ?>"><?= $cashier['name'] ?></option>

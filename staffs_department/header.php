@@ -67,7 +67,11 @@ $_SESSION['last_activity'] = time();
       <li class="nav-item nav-profile dropdown">
         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" id="profileDropdown">
           <!-- Display the profile picture -->
-          <img src="<?php echo htmlspecialchars($photo); ?>" alt="profile" height="100px" />
+          <?php if (isset($rowe['photo']) && !empty($rowe['photo'])): ?>
+                                      <img src="../admin/<?php echo $rowe['photo']; ?>" alt="Student Image" style="width: 40px; height: 40px; object-fit: cover;">
+                                    <?php else: ?>
+                                      <span>Student Image</span>
+                                    <?php endif; ?>
         </a>
         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
           <a class="dropdown-item" href="logout.php">
@@ -111,7 +115,7 @@ $_SESSION['last_activity'] = time();
       var minutes = Math.floor(remainingTime / 60000); // Divide by 60,000 to get minutes
       var seconds = Math.floor((remainingTime % 60000) / 1000); // Get the remaining seconds
 
-      document.getElementById('session-timer').textContent = "Session Timeout: " + minutes + "m " + seconds + "s";
+      document.getElementById('session-timer').textContent = "Timeout: " + minutes + "m " + seconds + "s";
     }
   }
 

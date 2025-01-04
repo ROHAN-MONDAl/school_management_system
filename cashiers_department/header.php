@@ -97,7 +97,7 @@ $_SESSION['last_activity'] = time();
       var minutes = Math.floor(remainingTime / 60000); // Divide by 60,000 to get minutes
       var seconds = Math.floor((remainingTime % 60000) / 1000); // Get the remaining seconds
 
-      document.getElementById('session-timer').textContent = "Session Timeout: " + minutes + "m " + seconds + "s";
+      document.getElementById('session-timer').textContent = "Timeout: " + minutes + "m " + seconds + "s";
     }
   }
 

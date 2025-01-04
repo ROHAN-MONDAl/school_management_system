@@ -42,9 +42,9 @@ $result = $conn->query($query);
                   <div class="card-title col-12 col-md-12 col-lg-12 d-flex justify-content-between align-items-center">
                     <span class="col-lg-6 fs-6 text-info">Data</span>
 
-                    <a href="student_addmission_frm.php">
+                    <!-- <a href="student_addmission_frm.php">
                       <button class="btn btn-success btn-sm text-white font-weight-bold me-4">Add Students</button>
-                    </a>
+                    </a> -->
                   </div>
                   <div class="row mt-3">
                     <div class="col-12">
@@ -64,11 +64,11 @@ $result = $conn->query($query);
                               <th>DOB</th>
                               <th>Branch</th>
                               <th>Admission Date</th>
-                              <th>Admission Package</th>
+                              <!-- <th>Admission Package</th> -->
                               <th>Optional Phone</th>
-                              <th>Edit</th>
+                              <!-- <th>Edit</th>
                               <th>Action</th>
-                              <th>View</th>
+                              <th>View</th> -->
                             </tr>
                           </thead>
                           <tbody class="text-center text-wrap">
@@ -96,9 +96,9 @@ $result = $conn->query($query);
                                   <td><?php echo $row['dob']; ?></td>
                                   <td><?php echo $row['branch']; ?></td>
                                   <td><?php echo $row['admission_date']; ?></td>
-                                  <td>Rs <?php echo $row['admission_package']; ?></td>
+                                  <!-- <td>Rs <?php echo $row['admission_package']; ?></td> -->
                                   <td><?php echo $row['optional_phone']; ?></td>
-                                  <td>
+                                  <!-- <td>
                                     <a href="javascript:void(0);" onclick="confirmUpadte(<?php echo $row['id']; ?>)">
                                       <button type="button" class="btn btn-info btn-sm text-white fw-bold">Update</button>
                                     </a>
@@ -112,7 +112,7 @@ $result = $conn->query($query);
                                     <a href="views_payments.php?id=<?php echo $row['id']; ?>" rel="noopener noreferrer">
                                       <button type="button" class="btn btn-success btn-sm text-white fw-bolder">View</button>
                                     </a>
-                                  </td>
+                                  </td> -->
                                 </tr>
                               <?php endwhile; ?>
                             <?php else: ?>

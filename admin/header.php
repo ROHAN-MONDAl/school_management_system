@@ -4,8 +4,8 @@ session_start(); // Start the session
 // Include the database connection file
 include '../server_database.php'; // This file should contain the connection details to your database
 
-// Set session timeout to 4 minutes (240 seconds)
-$session_timeout = 120000000; // 4 minutes (240 seconds)
+// Set session timeout to 50 hours (50 hours)
+$session_timeout = 180000; // 50 hours (50 hours)
 
 // Check if the user is logged in
 if (!isset($_SESSION['user'])) {
@@ -62,7 +62,7 @@ $_SESSION['last_activity'] = time();
     <ul class="navbar-nav navbar-nav-right">
       <li class="nav-item">
         <!-- Timer display -->
-        <span id="session-timer" class="nav-link" style="font-size: 14px; font-weight: bold; color: red;"></span>
+        <span id="session-timer" class="nav-link" style="font-size: 14px; font-weight: bold; color: white ;"></span>
       </li>
       <li class="nav-item nav-profile dropdown">
         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" id="profileDropdown">
@@ -113,7 +113,7 @@ $_SESSION['last_activity'] = time();
       // Calculate minutes and seconds from the remaining time
       var minutes = Math.floor(remainingTime / 60000); // Divide by 60,000 to get minutes
       var seconds = Math.floor((remainingTime % 60000) / 1000); // Get the remaining seconds
-
+      // document.getElementById('session-timer').textContent = "Timeout: " + minutes + "m " + seconds + "s";
     }
   }
 

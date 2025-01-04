@@ -115,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="container d-flex justify-content-center">
                 <a class="head_name d-flex align-items-center">
                     <img src="images/logo.png" class="img-fluid" alt="Logo" style="width: 80px; height: auto;">
-                    <span class="ms-2">Daffodils School</span>
+                    <span class="ms-2 fs-1">Daffodils School</span>
                 </a>
 
             </div>
@@ -160,7 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                                         <div class="mb-3">
                                             <label class="form-label" for="role"><i class="fa-regular fa-circle-user"></i> Set your Role</label>
-                                            <select class="form-select" id="role" name="role" required>
+                                            <select class="form-select text-primary" id="role" name="role" required>
                                                 <option value="" disabled selected>Select your role</option>
                                                 <option value="teachers">Teachers</option>
                                                 <option value="employers">Employers</option>

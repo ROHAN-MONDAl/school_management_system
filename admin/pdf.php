@@ -114,6 +114,10 @@ $html = <<<EOD
         <td style="font-weight: bold;">Class:</td>
         <td>{$student['class']}</td>
     </tr>
+        <tr>
+        <td style="font-weight: bold;">Branch:</td>
+        <td>{$student['branch']}</td>
+    </tr>
     <tr>
         <td style="font-weight: bold;">Roll no:</td>
         <td>{$student['roll_no']}</td>
