@@ -143,7 +143,7 @@ $html = <<<EOD
         <td colspan="2">{$student['admission_date']}</td>
     </tr>
     <tr>
-        <td style="font-weight: bold;">Admission Package:</td>
+        <td style="font-weight: bold;">Yearly Package:</td>
         <td colspan="2">Rs {$student['admission_package']}</td>
     </tr>
 </table>
