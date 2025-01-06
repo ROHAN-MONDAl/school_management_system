@@ -70,7 +70,7 @@ mysqli_close($conn);
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                                    <h2 class="font-weight-bold text-primary fw-bolder">Trasaction form</h2>
+                                    <h2 class="font-weight-bold text-primary fw-bolder">Transaction form</h2>
                                 </div>
                             </div>
 

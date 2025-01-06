@@ -78,7 +78,7 @@ $pdf->SetFont('helvetica', 'B', 16);
 $pdf->Cell( 20, 12, 'Daffodils School', 0, 1, '');
 $pdf->SetFont('helvetica', '', 10);
 $pdf->Cell(0, 5, 'Address: Kuchkuchia Rd, Bankura, West Bengal 722101,', 0, 1, 'C');
-$pdf->Cell(0, 1, 'Branch address: Chandmaridanga Rd, Jogeshpally, Bankura, West Bengal 722101: 094348 60435', 0, 1, 'C');
+$pdf->Cell(0, 1, 'Branch address: Chandmaridanga Rd, Jogeshpally, Bankura, West Bengal 722101', 0, 1, 'C');
 $pdf->Cell(0, 1, 'Phone number: 094348 60435', 0, 1, 'C');
 
 
