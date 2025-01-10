@@ -99,75 +99,75 @@ $result = $conn->query($query);
                   </div>
                   <div class="row mt-3">
                     <div class="col-12">
-                        <div class="table-responsive">
-                          <table id="dataTable" class="table table-striped table-bordered col-lg-12">
-                            <thead class="text-center text-wrap">
-                              <tr>
-                                <th>Slno</th>
-                                <th>Photo</th>
-                                <th>Name</th>
-                                <th>Class</th>
-                                <th>Gender</th>
-                                <th>Roll no</th>
-                                <th>Phone no</th>
-                                <th>Whatsapp</th>
-                                <th>City</th>
-                                <th>DOB</th>
-                                <th>Branch</th>
-                                <th>Admission Date</th>
-                                <th>Admission Package</th>
-                                <th>Optional Phone</th>
-                                <th>Edit</th>
-                                <th>Action</th>
-                                <th>View</th>
-                              </tr>
-                            </thead>
-                            <tbody class="text-center text-wrap">
-                              <?php if ($result->num_rows > 0): ?>
-                                <?php
-                                $slno = 1;
-                                while ($row = $result->fetch_assoc()):
-                                ?>
-                                  <tr>
-                                    <td><?php echo $slno++; ?></td>
-                                    <td><img src="<?php echo $row['image_path']; ?>" alt="Student Image" style="width: 50px; height: 50px; object-fit: cover;"></td>
-                                    <td  class="text-wrap"><?php echo $row['name']; ?></td>
-                                    <td><?php echo $row['class']; ?></td>
-                                    <td><?php echo $row['gender']; ?></td>
-                                    <td><?php echo $row['roll_no']; ?></td>
-                                    <td><?php echo $row['phone_no']; ?></td>
-                                    <td><?php echo $row['whatsapp']; ?></td>
-                                    <td><?php echo $row['city']; ?></td>
-                                    <td><?php echo $row['dob']; ?></td>
-                                    <td><?php echo $row['branch']; ?></td>
-                                    <td><?php echo $row['admission_date']; ?></td>
-                                    <td>Rs <?php echo $row['admission_package']; ?></td>
-                                    <td><?php echo $row['optional_phone']; ?></td>
-                                    <td>
-                                      <a href="javascript:void(0);" onclick="confirmUpadte(<?php echo $row['id']; ?>)">
-                                        <button type="button" class="btn btn-info btn-sm text-white fw-bold">Update</button>
-                                      </a>
-                                    </td>
-                                    <td>
-                                      <a href="javascript:void(0);" onclick="confirmDelete(<?php echo $row['id']; ?>)">
-                                        <button type="button" class="btn btn-danger btn-sm text-white fw-bold">Delete</button>
-                                      </a>
-                                    </td>
-                                    <td>
-                                      <a href="views_payments.php?id=<?php echo $row['id']; ?>" rel="noopener noreferrer">
-                                        <button type="button" class="btn btn-success btn-sm text-white fw-bolder">View</button>
-                                      </a>
-                                    </td>
-                                  </tr>
-                                <?php endwhile; ?>
-                              <?php else: ?>
+                      <div class="table-responsive">
+                        <table id="dataTable" class="table table-striped table-bordered col-lg-12">
+                          <thead class="text-center">
+                            <tr class="table-warning">
+                              <th>Slno</th>
+                              <th>Roll no</th>
+                              <th>Branch</th>
+                              <th>Photo</th>
+                              <th>Name</th>
+                              <th>Class</th>
+                              <th>Gender</th>
+                              <th>Phone no</th>
+                              <th>Whatsapp</th>
+                              <th>City</th>
+                              <th>DOB</th>
+                              <th>Admission Date</th>
+                              <th>Admission Package</th>
+                              <th>Optional Phone</th>
+                              <th>Edit</th>
+                              <th>Action</th>
+                              <th>View</th>
+                            </tr>
+                          </thead>
+                          <tbody class="text-center text-wrap">
+                            <?php if ($result->num_rows > 0): ?>
+                              <?php
+                              $slno = 1;
+                              while ($row = $result->fetch_assoc()):
+                              ?>
                                 <tr>
-                                  <td colspan="10">No data found</td>
+                                  <td><?php echo $slno++; ?></td>
+                                  <td><?php echo $row['roll_no']; ?></td>
+                                  <td><?php echo $row['branch']; ?></td>
+                                  <td><img src="<?php echo $row['image_path']; ?>" alt="Student Image" style="width: 50px; height: 50px; object-fit: cover;"></td>
+                                  <td class="text-wrap"><?php echo $row['name']; ?></td>
+                                  <td><?php echo $row['class']; ?></td>
+                                  <td><?php echo $row['gender']; ?></td>
+                                  <td><?php echo $row['phone_no']; ?></td>
+                                  <td><?php echo $row['whatsapp']; ?></td>
+                                  <td><?php echo $row['city']; ?></td>
+                                  <td><?php echo $row['dob']; ?></td>
+                                  <td><?php echo $row['admission_date']; ?></td>
+                                  <td>Rs <?php echo $row['admission_package']; ?></td>
+                                  <td><?php echo $row['optional_phone']; ?></td>
+                                  <td>
+                                    <a href="javascript:void(0);" onclick="confirmUpadte(<?php echo $row['id']; ?>)">
+                                      <button type="button" class="btn btn-info btn-sm text-white fw-bold">Update</button>
+                                    </a>
+                                  </td>
+                                  <td>
+                                    <a href="javascript:void(0);" onclick="confirmDelete(<?php echo $row['id']; ?>)">
+                                      <button type="button" class="btn btn-danger btn-sm text-white fw-bold">Delete</button>
+                                    </a>
+                                  </td>
+                                  <td>
+                                    <a href="views_payments.php?id=<?php echo $row['id']; ?>" rel="noopener noreferrer">
+                                      <button type="button" class="btn btn-success btn-sm text-white fw-bolder">View</button>
+                                    </a>
+                                  </td>
                                 </tr>
-                              <?php endif; ?>
-                            </tbody>
-                          </table>
-                        </div>
+                              <?php endwhile; ?>
+                            <?php else: ?>
+                              <tr>
+                                <td colspan="10">No data found</td>
+                              </tr>
+                            <?php endif; ?>
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -190,37 +190,37 @@ $result = $conn->query($query);
 
 
   <script>
- $(document).ready(function() {
-            // Function to filter rows based on search input
-            $('#search').on('keyup', function() {
-                var searchTerm = $(this).val().toLowerCase();
-                $('#dataTable tbody tr').each(function() {
-                    var row = $(this);
-                    var rowText = row.text().toLowerCase();
-                    if (rowText.includes(searchTerm)) {
-                        row.show();
-                    } else {
-                        row.hide();
-                    }
-                });
-            })
+    $(document).ready(function() {
+      // Function to filter rows based on search input
+      $('#search').on('keyup', function() {
+        var searchTerm = $(this).val().toLowerCase();
+        $('#dataTable tbody tr').each(function() {
+          var row = $(this);
+          var rowText = row.text().toLowerCase();
+          if (rowText.includes(searchTerm)) {
+            row.show();
+          } else {
+            row.hide();
+          }
         });
+      })
+    });
 
-        function filterByDate() {
-            var startDate = $('#startDate').val();
-            var endDate = $('#endDate').val();
+    function filterByDate() {
+      var startDate = $('#startDate').val();
+      var endDate = $('#endDate').val();
 
-            $('#dataTable tbody tr').each(function() {
-                var row = $(this);
-                var rowDate = new Date(row.find('td:eq(11)').text()); // Get date from the 4th column (index 3)
+      $('#dataTable tbody tr').each(function() {
+        var row = $(this);
+        var rowDate = new Date(row.find('td:eq(11)').text()); // Get date from the 4th column (index 3)
 
-                if (startDate && rowDate < new Date(startDate) || endDate && rowDate > new Date(endDate)) {
-                    row.hide();
-                } else {
-                    row.show();
-                }
-            });
+        if (startDate && rowDate < new Date(startDate) || endDate && rowDate > new Date(endDate)) {
+          row.hide();
+        } else {
+          row.show();
         }
+      });
+    }
 
     // students update feature
     function confirmUpadte(studentId) {
@@ -231,7 +231,7 @@ $result = $conn->query($query);
       }
     }
 
-// students delete feature
+    // students delete feature
     function confirmDelete(studentId) {
       // Show a confirmation dialog to the user
       if (confirm("Are you sure you want to delete this student? This action cannot be undone.")) {

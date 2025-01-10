@@ -116,18 +116,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     <?php else: ?>
                                         <form method="POST">
                                             <div class="table-responsive">
-                                                <table class="table table-bordered text-center align-items-center table-sm">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Student ID</th>
+                                                <table id="dataTable" class="table table-striped table-bordered col-lg-12">
+                                                    <thead class="text-center">
+                                                        <tr class="table-warning">
+                                                            <th>Roll no</th>
                                                             <th>Student Name</th>
                                                             <th>Status</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody>
+                                                    <tbody class="text-center text-wrap">
                                                         <?php while ($student = $result_students->fetch_assoc()): ?>
-                                                            <tr>
-                                                                <td><?php echo htmlspecialchars($student['id']); ?></td>
+                                                            <tr class="text-wrap">
+                                                                <td><?php echo htmlspecialchars($student['roll_no']); ?></td>
                                                                 <td><?php echo htmlspecialchars($student['name']); ?></td>
                                                                 <td>
                                                                     <?php if (in_array($student['id'], $marked_student_ids)): ?>
@@ -151,11 +151,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            <div class="d-flex flex-row align-items-center justify-content-center mt-5 gap-3">
-                                                <button type="submit" class="btn btn-primary btn-sm w-md-auto">Submit Attendance</button>
-                                                <a href="students_Attendences.php" class="btn btn-secondary btn-sm text-white w-md-auto">Back to Class List</a>
+                                            <div class="d-flex flex-column flex-md-row align-items-center justify-content-center mt-5 gap-3">
+                                                <button type="submit" class="btn btn-primary">Submit Attendance</button>
+                                                <a href="students_Attendences.php" class="btn btn-secondary">Back to Class List</a>
                                             </div>
-
                                         </form>
                                     <?php endif; ?>
 

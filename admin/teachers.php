@@ -101,7 +101,7 @@ $result = $conn->query($sql);
                       <div class="table-responsive">
                         <table id="dataTable" class="table table-striped table-bordered col-lg-12">
                           <thead class="text-center text-wrap">
-                            <tr>
+                            <tr class="table-warning">
                               <th>Slno</th>
                               <th>Photo</th>
                               <th>Name</th>
