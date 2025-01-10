@@ -152,8 +152,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                 </table>
                                             </div>
                                             <div class="d-flex flex-column flex-md-row align-items-center justify-content-center mt-5 gap-3">
-                                                <button type="submit" class="btn btn-primary">Submit Attendance</button>
-                                                <a href="students_Attendences.php" class="btn btn-secondary">Back to Class List</a>
+                                                <button type="submit" class="btn btn-primary fw-bolder">Submit Attendance</button>
+                                                <a href="students_Attendences.php" class="btn btn-secondary fw-bolder">Back to Class List</a>
                                             </div>
                                         </form>
                                     <?php endif; ?>
