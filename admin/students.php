@@ -47,7 +47,7 @@ $result = $conn->query($query);
                   <div class="row">
                     <div class="col-12 col-xl-8 mb-4 mb-xl-0">
                       <h2 class="font-weight-bold text-primary fw-bolder">Students</h2>
-                      <p class="text-secondary">Students Admision and Attendence</p>
+                      <p class="text-secondary">Students Admision</p>
                     </div>
                   </div>
                   <div class="row justify-content-center p-1">
@@ -103,7 +103,6 @@ $result = $conn->query($query);
                         <table id="dataTable" class="table table-striped table-bordered col-lg-12">
                           <thead class="text-center">
                             <tr class="table-warning">
-                              <th>Slno</th>
                               <th>Roll no</th>
                               <th>Branch</th>
                               <th>Photo</th>
@@ -115,7 +114,7 @@ $result = $conn->query($query);
                               <th>City</th>
                               <th>DOB</th>
                               <th>Admission Date</th>
-                              <th>Admission Package</th>
+                              <th>Yearly Package</th>
                               <th>Optional Phone</th>
                               <th>Edit</th>
                               <th>Action</th>
@@ -125,11 +124,9 @@ $result = $conn->query($query);
                           <tbody class="text-center text-wrap">
                             <?php if ($result->num_rows > 0): ?>
                               <?php
-                              $slno = 1;
                               while ($row = $result->fetch_assoc()):
                               ?>
                                 <tr>
-                                  <td><?php echo $slno++; ?></td>
                                   <td><?php echo $row['roll_no']; ?></td>
                                   <td><?php echo $row['branch']; ?></td>
                                   <td><img src="<?php echo $row['image_path']; ?>" alt="Student Image" style="width: 50px; height: 50px; object-fit: cover;"></td>
