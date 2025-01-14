@@ -3,7 +3,7 @@ include '../server_database.php';
 
 // Validate and retrieve `class` and `branch`
 if (empty($_GET['class']) || empty($_GET['branch'])) {
-    die('Class or branch not selected.');
+    die('Error: Class or branch not selected.');
 }
 
 $class = $conn->real_escape_string($_GET['class']);
@@ -12,8 +12,9 @@ date_default_timezone_set('Asia/Kolkata');
 $date_today = date('Y-m-d');
 
 // Fetch students from the selected class and branch
-$query_students = "SELECT * FROM students WHERE class = '$class' AND branch = '$branch'";
+$query_students = "SELECT * FROM students WHERE class = '$class' AND branch = '$branch' ORDER BY roll_no ASC";
 $result_students = $conn->query($query_students);
+
 if (!$result_students) {
     die("Error fetching students: " . $conn->error);
 }
@@ -61,6 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     exit();
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
