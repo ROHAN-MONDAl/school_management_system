@@ -149,8 +149,8 @@ $result = $conn->query($query);
         startY: 20,
         theme: 'grid',
         headStyles: {
-            fillColor: [255, 255, 0], // Yellow header background
-            textColor: [0, 0, 0],    // Black text color
+            fillColor: [65, 105, 225], // Yellow header background
+            textColor: [255, 255, 255],    // Black text color
             halign: 'center',        // Horizontal alignment
             valign: 'middle'         // Vertical alignment
         },
