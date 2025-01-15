@@ -175,7 +175,7 @@ $result = mysqli_query($conn, $query);
     const doc = new jsPDF();
 
     // Title
-    doc.text("Students Attendance History", 105, 10, { align: 'center' });
+    doc.text("Funds", 105, 10, { align: 'center' });
 
     // AutoTable configuration
     doc.autoTable({
