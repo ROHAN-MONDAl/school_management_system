@@ -12,7 +12,7 @@ date_default_timezone_set('Asia/Kolkata');
 $date_today = date('Y-m-d');
 
 // Fetch students from the selected class and branch
-$query_students = "SELECT * FROM students WHERE class = '$class' AND branch = '$branch' ORDER BY roll_no ASC";
+$query_students = "SELECT * FROM students WHERE class = '$class' AND branch = '$branch' ORDER BY CAST(roll_no AS UNSIGNED) ASC";
 $result_students = $conn->query($query_students);
 
 if (!$result_students) {

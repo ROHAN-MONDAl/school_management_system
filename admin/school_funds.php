@@ -49,9 +49,10 @@ $result = mysqli_query($conn, $query);
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
+<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Daffodils School</title>
+    <!-- Include your CSS and JS files -->
     <link rel="stylesheet" href="assets/vendors/feather/feather.css">
     <link rel="stylesheet" href="assets/vendors/ti-icons/css/themify-icons.css">
     <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
@@ -60,14 +61,12 @@ $result = mysqli_query($conn, $query);
     <link rel="stylesheet" href="assets/vendors/datatables.net-bs5/dataTables.bootstrap5.css">
     <link rel="stylesheet" href="assets/vendors/ti-icons/css/themify-icons.css">
     <link rel="stylesheet" type="text/css" href="assets/js/select.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/customs.css">
     <link rel="shortcut icon" href="assets/images/favicon.png" />
-    <!-- Add necessary stylesheets here -->
+
 </head>
 
 <body>
@@ -153,12 +152,51 @@ $result = mysqli_query($conn, $query);
                                 </table>
                             </div>
                         </div>
+                         <!-- PDF Download Button -->
+                    <div class="text-center mt-3">
+                        <button id="downloadPDF" class="btn btn-success text-white">
+                            <i class="fa fa-download"></i> Download PDF
+                        </button>
+                    </div>
                     </section>
                 </div>
                 <?php include "footer.php"; ?>
             </div>
         </div>
     </div>
+
+        <!-- Scripts -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable"></script>
+    <script>
+    document.getElementById('downloadPDF').addEventListener('click', function () {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    // Title
+    doc.text("Students Attendance History", 105, 10, { align: 'center' });
+
+    // AutoTable configuration
+    doc.autoTable({
+        html: '#dataTable',
+        startY: 20,
+        theme: 'grid',
+        headStyles: {
+            fillColor: [255, 255, 0], // Yellow header background
+            textColor: [0, 0, 0],    // Black text color
+            halign: 'center',        // Horizontal alignment
+            valign: 'middle'         // Vertical alignment
+        },
+        bodyStyles: {
+            halign: 'center',        // Center-align all body cells
+        },
+    });
+
+    // Save the PDF
+    doc.save('Funds.pdf');
+});
+</script>
     <script src="assets/js/script.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
