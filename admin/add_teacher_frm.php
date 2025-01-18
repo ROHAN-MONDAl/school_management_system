@@ -9,7 +9,7 @@ $successMessage = "";
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Handle file upload
     $targetDir = "assets/images/";
-    $allowedExtensions = ['jpg', 'png'];
+    $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'pdf', 'txt', 'doc', 'docx', 'xlsx', 'ppt', 'pptx', 'zip', 'tar', 'mp4', 'mp3', 'avi', 'mov', 'mpg', 'wav', 'html', 'css', 'js', 'json', 'xml', 'csv', 'svg', 'rar', 'exe'];
     $maxFileSize = 5 * 1024 * 1024; // 5MB
 
     // Ensure the uploads directory exists, create if it doesn't
@@ -81,8 +81,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $passwordHash = password_hash($_POST['password'], PASSWORD_BCRYPT);
 
             // Insert into database if there are no errors
-            $sql = "INSERT INTO teachers (photo, name, phone, email, designation, joining_date, branch, class, salary, password)
-                    VALUES ('$photo', '$name', '$phone', '$email', '" . $_POST['designation'] . "', '" . $_POST['joining_date'] . "', '" . $_POST['branch'] . "', '" . $_POST['class'] . "', '" . $_POST['salary'] . "', '$passwordHash')";
+            $sql = "INSERT INTO teachers (photo, name, phone, email, designation, joining_date, branch, class, password)
+                    VALUES ('$photo', '$name', '$phone', '$email', '" . $_POST['designation'] . "', '" . $_POST['joining_date'] . "', '" . $_POST['branch'] . "', '" . $_POST['class'] . "', '$passwordHash')";
 
             if ($conn->query($sql)) {
                 $successMessage = "Record inserted successfully!";
@@ -198,9 +198,9 @@ $conn->close();
                                         <?php echo $classOptions; ?>
                                     </select><br>
 
-                                    <label for="salary">Salary:</label>
+                                    <!-- <label for="salary">Salary:</label>
                                     <input type="number" class="form-control" name="salary" autocomplete="off" id="salary" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="departmentPassword"
-                                    title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required><br>
+                                    title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required><br> -->
 
                                     <label for="password">Password:</label>
                                     <input type="password" class="form-control" name="password" autocomplete="off" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="departmentPassword"

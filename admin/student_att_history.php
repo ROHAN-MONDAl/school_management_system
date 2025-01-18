@@ -1,13 +1,24 @@
 <?php
 include '../server_database.php';
 
-// Query to fetch attendance records
+// Fetch unique branches for the dropdown
+$query_branches = "SELECT DISTINCT branch FROM students";
+$branches_result = $conn->query($query_branches);
+
+// Query to fetch attendance records (filtered by branch if selected)
+$selected_branch = isset($_GET['branch']) ? $conn->real_escape_string($_GET['branch']) : '';
 $query = "
 SELECT students.roll_no, students.class, students.name, students.branch, 
-       school_attendance.date, school_attendance.status
+       school_attendance.date, MAX(school_attendance.status) AS status
 FROM school_attendance
 JOIN students ON school_attendance.student_id = students.id
-ORDER BY school_attendance.date DESC";
+";
+if (!empty($selected_branch)) {
+    $query .= "WHERE students.branch = '$selected_branch' ";
+}
+$query .= "GROUP BY students.id, school_attendance.date
+           ORDER BY school_attendance.date DESC";
+
 $result = $conn->query($query);
 ?>
 <!DOCTYPE html>
@@ -31,7 +42,6 @@ $result = $conn->query($query);
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/customs.css">
     <link rel="shortcut icon" href="assets/images/favicon.png" />
-
 </head>
 
 <body>
@@ -51,9 +61,24 @@ $result = $conn->query($query);
                                             <p class="text-secondary">View and download attendance records below:</p>
                                         </div>
                                     </div>
+                                    <!-- Branch Selection -->
                                     <div class="row justify-content-center p-1">
                                         <div class="col-12 col-md-10 col-lg-8">
-                                            <!-- Search Container -->
+                                            <form method="get" class="mb-3">
+                                                <div class="form-group">
+                                                    <label for="branch" class="text-black">Select Branch:</label>
+                                                    <select id="branch" name="branch" class="form-control" onchange="this.form.submit()">
+                                                        <option value="">All Branches</option>
+                                                        <?php if ($branches_result->num_rows > 0): ?>
+                                                            <?php while ($branch = $branches_result->fetch_assoc()): ?>
+                                                                <option value="<?= $branch['branch']; ?>" <?= $selected_branch === $branch['branch'] ? 'selected' : '' ?>>
+                                                                    <?= $branch['branch']; ?>
+                                                                </option>
+                                                            <?php endwhile; ?>
+                                                        <?php endif; ?>
+                                                    </select>
+                                                </div>
+                                            </form>
                                             <div class="search-container d-flex flex-column flex-md-row align-items-center">
                                                 <div class="col-12 col-md-10 mb-2 mb-md-0">
                                                     <input type="text" class="form-control search-input" id="search" placeholder="Search..." onkeyup="filterTable()">
@@ -62,7 +87,6 @@ $result = $conn->query($query);
                                                     <i class="fa text-danger" style="font-size:24px;">&#xf0b0;</i> <b>Filter</b>
                                                 </p>
                                             </div>
-
                                             <!-- Modal for Date Filter -->
                                             <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered" role="document">
@@ -83,7 +107,8 @@ $result = $conn->query($query);
                                 </div>
                             </div>
                         </div>
-                    </div> <!-- Attendance Table -->
+                    </div>
+                    <!-- Attendance Table -->
                     <div class="table-responsive">
                         <table id="dataTable" class="table table-striped table-bordered">
                             <thead class="text-center table-warning">
@@ -116,110 +141,104 @@ $result = $conn->query($query);
                             </tbody>
                         </table>
                     </div>
-                    
                     <!-- PDF Download Button -->
                     <div class="text-center mt-3">
                         <button id="downloadPDF" class="btn btn-success text-white">
                             <i class="fa fa-download"></i> Download PDF
                         </button>
                     </div>
-
-                   
                 </div>
                 <?php include 'footer.php'; ?>
             </div>
         </div>
     </div>
-
-    <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable"></script>
     <script>
-    document.getElementById('downloadPDF').addEventListener('click', function () {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
 
-    // Title
+$(document).ready(function() {
+      // Function to filter rows based on search input
+      $('#search').on('keyup', function() {
+        var searchTerm = $(this).val().toLowerCase();
+        $('#dataTable tbody tr').each(function() {
+          var row = $(this);
+          var rowText = row.text().toLowerCase();
+          if (rowText.includes(searchTerm)) {
+            row.show();
+          } else {
+            row.hide();
+          }
+        });
+      })
+    });
+
+
+document.getElementById('downloadPDF').addEventListener('click', function () {
+    const { jsPDF } = window.jspdf; // Destructure jsPDF from the jspdf library
+    const doc = new jsPDF(); // Create a new PDF document instance
+
+    // Add a title to the PDF
     doc.text("Students Attendance History", 105, 10, { align: 'center' });
 
-    // AutoTable configuration
+    // Generate the table with custom header styles
     doc.autoTable({
-        html: '#dataTable',
-        startY: 20,
-        theme: 'grid',
+        html: '#dataTable', // Reference the table in the HTML
+        startY: 20, // Starting position for the table (y-coordinate)
+        theme: 'grid', // Table theme
         headStyles: {
-            fillColor: [65, 105, 225], // Yellow header background
-            textColor: [255, 255, 255],    // Black text color
-            halign: 'center',        // Horizontal alignment
-            valign: 'middle'         // Vertical alignment
+            fillColor: [255, 195, 0], // Header background color (RGB: Royal Blue)
+            textColor: [255, 255, 255], // Header text color (white)
+            fontStyle: 'bold', // Make the header text bold
+            halign: 'center', // Center-align header text
         },
         bodyStyles: {
-            halign: 'center',        // Center-align all body cells
+            textColor: [0, 0, 0], // Body text color (black)
+            halign: 'center', // Center-align body text
         },
     });
 
-    // Save the PDF
+    // Save the PDF document
     doc.save('Attendance_History.pdf');
 });
 
 
-        $(document).ready(function() {
-            // Function to filter rows based on search input
-            $('#search').on('keyup', function() {
-                var searchTerm = $(this).val().toLowerCase();
-                $('#dataTable tbody tr').each(function() {
-                    var row = $(this);
-                    var rowText = row.text().toLowerCase();
-                    if (rowText.includes(searchTerm)) {
-                        row.show();
-                    } else {
-                        row.hide();
-                    }
-                });
-            })
-        });
 
         function filterByDate() {
             var startDate = $('#startDate').val();
             var endDate = $('#endDate').val();
-
-            $('#dataTable tbody tr').each(function() {
-                var row = $(this);
-                var rowDate = new Date(row.find('td:eq(4)').text()); // Get date from the 3rd column (index 2)
-
-                if (startDate && rowDate < new Date(startDate) || endDate && rowDate > new Date(endDate)) {
-                    row.hide();
+            $('#dataTable tbody tr').each(function () {
+                var rowDate = new Date($(this).find('td:eq(4)').text());
+                if ((startDate && rowDate < new Date(startDate)) || (endDate && rowDate > new Date(endDate))) {
+                    $(this).hide();
                 } else {
-                    row.show();
+                    $(this).show();
                 }
             });
         }
     </script>
-
-<script src="assets/js/script.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
-    <script src="assets/vendors/js/vendor.bundle.base.js"></script>
-    <script src="assets/vendors/chart.js/chart.umd.js"></script>
-    <script src="assets/vendors/datatables.net/jquery.dataTables.js"></script>
-    <script src="assets/vendors/datatables.net-bs5/dataTables.bootstrap5.js"></script>
-    <script src="assets/js/dataTables.select.min.js"></script>
-    <script src="assets/js/off-canvas.js"></script>
-    <script src="assets/js/template.js"></script>
-    <script src="assets/js/settings.js"></script>
-    <script src="assets/js/todolist.js"></script>
-    <script src="assets/js/jquery.cookie.js" type="text/javascript"></script>
-    <script src="assets/js/dashboard.js"></script>
-
+      <script src="assets/js/script.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+  <script src="assets/vendors/js/vendor.bundle.base.js"></script>
+  <script src="assets/vendors/chart.js/chart.umd.js"></script>
+  <script src="assets/vendors/datatables.net/jquery.dataTables.js"></script>
+  <script src="assets/vendors/datatables.net-bs5/dataTables.bootstrap5.js"></script>
+  <script src="assets/js/dataTables.select.min.js"></script>
+  <script src="assets/js/off-canvas.js"></script>
+  <script src="assets/js/template.js"></script>
+  <script src="assets/js/settings.js"></script>
+  <script src="assets/js/todolist.js"></script>
+  <script src="assets/js/jquery.cookie.js" type="text/javascript"></script>
+  <script src="assets/js/dashboard.js"></script>
 </body>
 
 </html>

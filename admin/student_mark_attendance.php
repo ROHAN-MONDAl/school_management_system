@@ -138,10 +138,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                                         <div class="form-group mb-3 mt-4">
                                                                             <div class="d-flex justify-content-center gap-3">
                                                                                 <label>
-                                                                                    <input type="radio" name="status[<?php echo $student['id']; ?>]" value="Present" required> Present
+                                                                                    <input type="radio" name="status[<?php echo $student['id']; ?>]" value="Present" > Present
                                                                                 </label>
                                                                                 <label>
-                                                                                    <input type="radio" name="status[<?php echo $student['id']; ?>]" value="Absent" required> Absent
+                                                                                    <input type="radio" name="status[<?php echo $student['id']; ?>]" value="Absent"> Absent
                                                                                 </label>
                                                                             </div>
                                                                         </div>
@@ -173,6 +173,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <!-- Scripts -->
     <script>
+
+
+
         const today = new Date();
         document.getElementById('date').innerText = today.toLocaleDateString('en-IN');
     </script>

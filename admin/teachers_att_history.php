@@ -137,22 +137,25 @@ $result = $conn->query($query);
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
     <script>
-        $(document).ready(function() {
-            // Function to filter rows based on search input
-            $('#search').on('keyup', function() {
-                var searchTerm = $(this).val().toLowerCase();
-                $('#dataTable tbody tr').each(function() {
-                    var row = $(this);
-                    var rowText = row.text().toLowerCase();
-                    if (rowText.includes(searchTerm)) {
-                        row.show();
-                    } else {
-                        row.hide();
-                    }
-                });
-            })
+     $(document).ready(function() {
+      // Function to filter rows based on search input
+      $('#search').on('keyup', function() {
+        var searchTerm = $(this).val().toLowerCase();
+        $('#dataTable tbody tr').each(function() {
+          var row = $(this);
+          var rowText = row.text().toLowerCase();
+          if (rowText.includes(searchTerm)) {
+            row.show();
+          } else {
+            row.hide();
+          }
         });
+      })
+    });
 
         function filterByDate() {
             var startDate = $('#startDate').val();
