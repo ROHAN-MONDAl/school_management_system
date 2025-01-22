@@ -1,6 +1,6 @@
 <?php include '../server_database.php';
 // Query to fetch teacher data from the database
-$sql = "SELECT tid, photo, name, phone, email, designation, joining_date, branch, class, salary FROM teachers";
+$sql = "SELECT tid, photo, name, phone, email, designation, joining_date, branch, class FROM teachers";
 $result = $conn->query($sql);
 
 ?>
