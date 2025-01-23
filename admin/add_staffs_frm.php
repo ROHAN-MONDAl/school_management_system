@@ -82,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             // Insert into database if there are no errors
             $sql = "INSERT INTO staffs (photo, name, phone, email, designation, joining_date, branch, password)
-                    VALUES ('$photo', '$name', '$phone', '$email', '" . $_POST['designation'] . "', '" . $_POST['joining_date'] . "', '" . $_POST['branch'] . "', '" . $_POST['salary'] . "', '$passwordHash')";
+                    VALUES ('$photo', '$name', '$phone', '$email', '" . $_POST['designation'] . "', '" . $_POST['joining_date'] . "', '" . $_POST['branch'] . "', '$passwordHash')";
 
             if ($conn->query($sql)) {
                 $successMessage = "Record inserted successfully!";
