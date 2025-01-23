@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $passwordHash = password_hash($_POST['password'], PASSWORD_BCRYPT);
 
             // Insert into database if there are no errors
-            $sql = "INSERT INTO employers (photo, name, phone, email, designation, joining_date, branch, salary, password)
+            $sql = "INSERT INTO employers (photo, name, phone, email, designation, joining_date, branch, password)
                     VALUES ('$photo', '$name', '$phone', '$email', '" . $_POST['designation'] . "', '" . $_POST['joining_date'] . "', '" . $_POST['branch'] . "', '" . $_POST['salary'] . "', '$passwordHash')";
 
             if ($conn->query($sql)) {
@@ -191,8 +191,8 @@ $conn->close();
                                         <?php echo $branchOptions; ?>
                                     </select><br>
 
-                                    <label for="salary">Salary:</label>
-                                    <input type="number" class="form-control" name="salary" id="salary" min="0" step="0.01" required><br>
+                                    <!-- <label for="salary">Salary:</label>
+                                    <input type="number" class="form-control" name="salary" id="salary" min="0" step="0.01" required><br> -->
 
                                     <label for="password">Password:</label>
                                     <input type="password" class="form-control" name="password" id="password"
