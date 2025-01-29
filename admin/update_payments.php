@@ -1,49 +1,48 @@
 <?php
 include '../server_database.php'; // Ensure the database connection is included
 
-$id = $_GET['id'] ?? null; // Get the student ID from the URL
+$id = isset($_GET['id']) ? intval($_GET['id']) : null; // Ensure student ID is an integer
 
-if ($id) {
-    // Ensure the column name 'id' or 'payment_id' matches your database's column name, e.g., 'student_id'
-    // Prepare the query to fetch the latest payment record
-    $sql = "SELECT * FROM payments WHERE student_id = ? ORDER BY payment_id DESC LIMIT 1"; // Modify 'payment_id' as per your table schema
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $id); // Bind the student ID parameter as an integer
-    $stmt->execute();
-    $result = $stmt->get_result();
+if (!$id) {
+    echo "<p class='text-danger'>Invalid student ID.</p>";
+    exit;
+}
 
-    if ($result->num_rows > 0) {
-        $payment = $result->fetch_assoc(); // Fetch the latest payment record
-    } else {
-        $payment = null; // Set $payment to null if no record is found
-    }
+// Fetch the latest payment record for the student
+$sql = "SELECT * FROM payments WHERE student_id = $id ORDER BY payment_id DESC LIMIT 1";
+$result = mysqli_query($conn, $sql);
+$payment = mysqli_fetch_assoc($result);
 
-    // Handle form submission for updating payment details
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && $payment) {
-        // Sanitize and validate user input before using it in the query
-        $amount = $_POST['amount'] ?? ''; // Amount
-        $summary = $_POST['summary'] ?? ''; // Payment summary
+if (!$payment) {
+    echo "<p class='text-danger'>No payment record found for this student.</p>";
+    exit;
+}
 
-        // Check if the necessary fields are provided
-        if (!empty($amount) && !empty($summary)) {
-            // Prepare the UPDATE query to update only the last payment entry for the given student_id
-            $updateSql = "UPDATE payments SET amount = ?, summary = ? WHERE payment_id = ?";
-            $stmt = $conn->prepare($updateSql);
-            $stmt->bind_param("dsi", $amount, $summary, $payment['payment_id']); // 'd' for double, 's' for string, 'i' for integer
+// Handle form submission for updating payment details
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $payment) {
+    // Sanitize and validate user input
+    $date = trim($_POST['date'] ?? '');
+    $amount = trim($_POST['amount'] ?? '');
+    $summary = trim($_POST['summary'] ?? '');
 
-            if ($stmt->execute()) {
-                // Redirect after updating the payment record
-                header('Location: views_payments.php?id=' . $id);
-                exit();
-            } else {
-                echo "Error updating record: " . $conn->error;
-            }
+    // Validate required fields
+    if (!empty($date) && !empty($amount) && !empty($summary)) {
+        // Prepare the UPDATE query to update only the last payment entry
+        $updateSql = "UPDATE payments SET amount = '$amount', summary = '$summary', date = '$date' WHERE payment_id = " . $payment['payment_id'];
+
+        if (mysqli_query($conn, $updateSql)) {
+            header('Location: views_payments.php?id=' . urlencode($id)); // Redirect on success
+            exit;
         } else {
-            echo "Please fill in all the required fields!";
+            echo "<p class='text-danger'>Error updating record: " . mysqli_error($conn) . "</p>";
         }
+    } else {
+        echo "<p class='text-danger'>Please fill in all required fields!</p>";
     }
 }
 ?>
+
+
 
 
 
@@ -104,6 +103,10 @@ if ($id) {
             <?php else: ?>
                 <!-- Render the form with fetched data if a payment record exists -->
                 <form method="post" class="forms-sample text-dark">
+                <div class="form-group">
+                        <label for="date"><b>date</b></label>
+                        <input type="date" name="date" class="form-control" id="date" value="<?= htmlspecialchars($payment['date'] ?? '') ?>" required>
+                    </div>
                     <div class="form-group">
                         <label for="amount"><b>Amount</b></label>
                         <input type="number" name="amount" class="form-control" id="amount" value="<?= htmlspecialchars($payment['amount'] ?? '') ?>" required>
