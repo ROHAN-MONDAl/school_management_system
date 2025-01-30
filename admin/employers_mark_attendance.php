@@ -129,6 +129,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                 <th>Name</th>
                                                 <th>Present</th>
                                                 <th>Absent</th>
+                                                <th>Halfday</th>
                                             </tr>
                                         </thead>
                                         <tbody class="text-center">
@@ -142,10 +143,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                     <td><?php echo htmlspecialchars($row['name']); ?></td>
 
                                                     <td>
-                                                        <input type="checkbox" name="status[<?php echo $row['id']; ?>]" value="Present" <?php echo in_array($row['id'], $marked_employer_ids) ? 'disabled' : ''; ?>>
+                                                        <input type="radio" name="status[<?php echo $row['id']; ?>]" value="Present" <?php echo in_array($row['id'], $marked_employer_ids) ? 'disabled' : ''; ?>required>
                                                     </td>
                                                     <td>
-                                                        <input type="checkbox" name="status[<?php echo $row['id']; ?>]" value="Absent" <?php echo in_array($row['id'], $marked_employer_ids) ? 'disabled' : ''; ?>>
+                                                        <input type="radio" name="status[<?php echo $row['id']; ?>]" value="Absent" <?php echo in_array($row['id'], $marked_employer_ids) ? 'disabled' : ''; ?>required>
+                                                    </td>
+                                                    <td>
+                                                        <input type="radio" name="status[<?php echo $row['id']; ?>]" value="Halfday" <?php echo in_array($row['id'], $marked_employer_ids) ? 'disabled' : ''; ?>required>
                                                     </td>
                                                 </tr>
                                             <?php endwhile; ?>

@@ -121,44 +121,53 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                             <!-- Attendance Table -->
                             <form action="" method="POST">
-    <div class="table-responsive">
-        <table class="table table-hover mt-4" style="font-size: 1.2rem; border-spacing: 0.5rem;">
-            <thead class="text-center bg-info text-white">
-                <tr>
-                    <th>Slno</th>
-                    <th>Designation</th>
-                    <th>Name</th>
-                    <th>Present</th>
-                    <th>Absent</th>
-                </tr>
-            </thead>
-            <tbody class="text-center">
-                <?php
-                $slno = 1;
-                while ($row = $result_staffs->fetch_assoc()):
-                ?>
-                    <tr>
-                        <td><?php echo $slno++; ?></td>
-                        <td><?php echo htmlspecialchars($row['designation']); ?></td>
-                        <td><?php echo htmlspecialchars($row['name']); ?></td>
+                                <div class="table-responsive">
+                                    <table class="table table-hover mt-4" style="font-size: 1.2rem; border-spacing: 0.5rem;">
+                                        <thead class="text-center bg-info text-white">
+                                            <tr>
+                                                <th>Slno</th>
+                                                <th>Designation</th>
+                                                <th>Name</th>
+                                                <th>Present</th>
+                                                <th>Absent</th>
+                                                <th>Halfday</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="text-center">
+                                            <?php
+                                            $slno = 1;
+                                            while ($row = $result_staffs->fetch_assoc()):
+                                            ?>
+                                                <tr>
+                                                    <td><?php echo $slno++; ?></td>
+                                                    <td><?php echo htmlspecialchars($row['designation']); ?></td>
+                                                    <td><?php echo htmlspecialchars($row['name']); ?></td>
 
-                        <td>
-                            <input type="checkbox" name="status[<?php echo $row['id']; ?>]" value="Present" <?php echo in_array($row['id'], $marked_staff_ids) ? 'disabled' : ''; ?>>
-                        </td>
-                        <td>
-                            <input type="checkbox" name="status[<?php echo $row['id']; ?>]" value="Absent" <?php echo in_array($row['id'], $marked_staff_ids) ? 'disabled' : ''; ?>>
-                        </td>
-                    </tr>
-                <?php endwhile; ?>
+                                                    <td>
+                                                        <input type="radio" name="status[<?php echo $row['id']; ?>]" value="Present"
+                                                            <?php echo in_array($row['id'], $marked_staff_ids) ? 'disabled' : ''; ?> required> Present
+                                                    </td>
+                                                    <td>
+                                                        <input type="radio" name="status[<?php echo $row['id']; ?>]" value="Absent"
+                                                            <?php echo in_array($row['id'], $marked_staff_ids) ? 'disabled' : ''; ?> required> Absent
+                                                    </td>
+                                                    <td>
+                                                        <input type="radio" name="status[<?php echo $row['id']; ?>]" value="Halfday"
+                                                            <?php echo in_array($row['id'], $marked_staff_ids) ? 'disabled' : ''; ?> required> Halfday
+                                                    </td>
 
-            </tbody>
-        </table>
-    </div>
 
-    <div class="form-group text-center mt-4">
-        <button type="submit" class="btn btn-primary fw-bolder" <?php echo $attendance_done ? 'disabled' : ''; ?>>Submit Attendance</button>
-    </div>
-</form>
+                                                </tr>
+                                            <?php endwhile; ?>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="form-group text-center mt-4">
+                                    <button type="submit" class="btn btn-primary fw-bolder" <?php echo $attendance_done ? 'disabled' : ''; ?>>Submit Attendance</button>
+                                </div>
+                            </form>
 
                         </div>
                     </div>

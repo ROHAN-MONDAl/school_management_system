@@ -49,7 +49,7 @@ $result = mysqli_query($conn, $query);
 <html lang="en">
 
 <head>
-<meta charset="utf-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Daffodils School</title>
     <!-- Include your CSS and JS files -->
@@ -111,92 +111,101 @@ $result = mysqli_query($conn, $query);
                         <div class="row justify-content-center">
                             <div class="table-responsive">
                                 <table id="dataTable" class="table display expandable-table">
-                                    <thead class="text-center">
-                                        <th>Slno</th>
-                                        <th>Name</th>
-                                        <th>Invoice No</th>
-                                        <th>Amount</th>
-                                        <th>Payment Type</th>
-                                        <th>Payment Date</th>
-                                        <!-- <th>Action</th> -->
+                                    <thead class="text-center bg-primary text-white">
+                                        <tr class="align-middle">
+                                            <th class="p-3 border-bottom border-light">Slno</th>
+                                            <th class="p-3 border-bottom border-light">Name</th>
+                                            <th class="p-3 border-bottom border-light">Invoice No</th>
+                                            <th class="p-3 border-bottom border-light">Amount</th>
+                                            <th class="p-3 border-bottom border-light">Payment Type</th>
+                                            <th class="p-3 border-bottom border-light">Payment Date</th>
+                                        </tr>
                                     </thead>
+
                                     <tbody class="text-center">
-                                        <?php if (mysqli_num_rows($result) > 0): ?>
-                                            <?php
+                                        <?php
+                                        $totalAmount = 0; // Initialize total amount
+                                        if (mysqli_num_rows($result) > 0):
                                             $i = 1;
                                             while ($row = mysqli_fetch_assoc($result)):
-                                            ?>
+                                                $totalAmount += $row['amount']; // Add amount to total
+                                        ?>
                                                 <tr>
                                                     <td><?php echo $i; ?></td>
                                                     <td><?php echo $row['name']; ?></td>
                                                     <td><?php echo $row['invo_no']; ?></td>
-                                                    <td><?php echo $row['amount']; ?></td>
+                                                    <td><?php echo number_format($row['amount'], 2); ?></td>
                                                     <td class="text-wrap"><?php echo $row['summary']; ?></td>
                                                     <td><?php echo $row['date']; ?></td>
-                                                    <!-- <td>
-                                                        <a href="students_payment_history.php?id=<?php echo $id; ?>&payment_id=<?php echo $row['payment_id']; ?>">
-                                                            <button type="button" class="btn btn-danger text-white fw-bold btn-sm">Delete</button>
-                                                        </a>
-                                                    </td> -->
                                                 </tr>
                                             <?php
                                                 $i++;
                                             endwhile;
                                             ?>
+                                            <tr>
+                                                <td colspan="3" class="text-end fw-bold">Total:</td>
+                                                <td class="fw-bold"><?php echo number_format($totalAmount, 2); ?></td>
+                                                <td colspan="2"></td>
+                                            </tr>
                                         <?php else: ?>
                                             <tr>
-                                                <td colspan="7">No data found</td>
+                                                <td colspan="6">No data found</td>
                                             </tr>
                                         <?php endif; ?>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                         <!-- PDF Download Button -->
-                    <div class="text-center mt-3">
-                        <button id="downloadPDF" class="btn btn-success text-white">
-                            <i class="fa fa-download"></i> Download PDF
-                        </button>
-                    </div>
+                        <!-- PDF Download Button -->
+                        <div class="text-center mt-3">
+                            <button id="downloadPDF" class="btn btn-success text-white">
+                                <i class="fa fa-download"></i> Download PDF
+                            </button>
+                        </div>
                     </section>
+
                 </div>
                 <?php include "footer.php"; ?>
             </div>
         </div>
     </div>
 
-        <!-- Scripts -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable"></script>
     <script>
-    document.getElementById('downloadPDF').addEventListener('click', function () {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
+        document.getElementById('downloadPDF').addEventListener('click', function() {
+            const {
+                jsPDF
+            } = window.jspdf;
+            const doc = new jsPDF();
 
-    // Title
-    doc.text("Funds", 105, 10, { align: 'center' });
+            // Title
+            doc.text("Funds", 105, 10, {
+                align: 'center'
+            });
 
-    // AutoTable configuration
-    doc.autoTable({
-        html: '#dataTable',
-        startY: 20,
-        theme: 'grid',
-        headStyles: {
-            fillColor: [65, 105, 225], // Yellow header background
-            textColor: [255, 255, 255],    // Black text color
-            halign: 'center',        // Horizontal alignment
-            valign: 'middle'         // Vertical alignment
-        },
-        bodyStyles: {
-            halign: 'center',        // Center-align all body cells
-        },
-    });
+            // AutoTable configuration
+            doc.autoTable({
+                html: '#dataTable',
+                startY: 20,
+                theme: 'grid',
+                headStyles: {
+                    fillColor: [65, 105, 225], // Yellow header background
+                    textColor: [255, 255, 255], // Black text color
+                    halign: 'center', // Horizontal alignment
+                    valign: 'middle' // Vertical alignment
+                },
+                bodyStyles: {
+                    halign: 'center', // Center-align all body cells
+                },
+            });
 
-    // Save the PDF
-    doc.save('Funds.pdf');
-});
-</script>
+            // Save the PDF
+            doc.save('Funds.pdf');
+        });
+    </script>
     <script src="assets/js/script.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
