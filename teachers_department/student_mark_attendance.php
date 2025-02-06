@@ -3,7 +3,7 @@ include '../server_database.php';
 
 // Validate and retrieve `class` and `branch`
 if (empty($_GET['class']) || empty($_GET['branch'])) {
-    die('Class or branch not selected.');
+    die('Error: Class or branch not selected.');
 }
 
 $class = $conn->real_escape_string($_GET['class']);
@@ -12,8 +12,9 @@ date_default_timezone_set('Asia/Kolkata');
 $date_today = date('Y-m-d');
 
 // Fetch students from the selected class and branch
-$query_students = "SELECT * FROM students WHERE class = '$class' AND branch = '$branch'";
+$query_students = "SELECT * FROM students WHERE class = '$class' AND branch = '$branch' ORDER BY CAST(roll_no AS UNSIGNED) ASC";
 $result_students = $conn->query($query_students);
+
 if (!$result_students) {
     die("Error fetching students: " . $conn->error);
 }
@@ -61,6 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     exit();
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -116,18 +118,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     <?php else: ?>
                                         <form method="POST">
                                             <div class="table-responsive">
-                                                <table class="table table-bordered text-center align-items-center table-sm">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Student ID</th>
+                                                <table id="dataTable" class="table table-striped table-bordered col-lg-12">
+                                                    <thead class="text-center">
+                                                        <tr class="table-warning">
+                                                            <th>Roll no</th>
                                                             <th>Student Name</th>
                                                             <th>Status</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody>
+                                                    <tbody class="text-center text-wrap">
                                                         <?php while ($student = $result_students->fetch_assoc()): ?>
-                                                            <tr>
-                                                                <td><?php echo htmlspecialchars($student['id']); ?></td>
+                                                            <tr class="text-wrap">
+                                                                <td><?php echo htmlspecialchars($student['roll_no']); ?></td>
                                                                 <td><?php echo htmlspecialchars($student['name']); ?></td>
                                                                 <td>
                                                                     <?php if (in_array($student['id'], $marked_student_ids)): ?>
@@ -136,10 +138,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                                         <div class="form-group mb-3 mt-4">
                                                                             <div class="d-flex justify-content-center gap-3">
                                                                                 <label>
-                                                                                    <input type="radio" name="status[<?php echo $student['id']; ?>]" value="Present" required> Present
+                                                                                    <input type="radio" name="status[<?php echo $student['id']; ?>]" value="Present" > Present
                                                                                 </label>
                                                                                 <label>
-                                                                                    <input type="radio" name="status[<?php echo $student['id']; ?>]" value="Absent" required> Absent
+                                                                                    <input type="radio" name="status[<?php echo $student['id']; ?>]" value="Absent"> Absent
                                                                                 </label>
                                                                             </div>
                                                                         </div>
@@ -151,11 +153,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            <div class="d-flex flex-row align-items-center justify-content-center mt-5 gap-3">
-                                                <button type="submit" class="btn btn-primary btn-sm w-md-auto">Submit Attendance</button>
-                                                <a href="students_Attendences.php" class="btn btn-secondary btn-sm text-white w-md-auto">Back to Class List</a>
+                                            <div class="d-flex flex-column flex-md-row align-items-center justify-content-center mt-5 gap-3">
+                                                <button type="submit" class="btn btn-primary fw-bolder">Submit Attendance</button>
+                                                <a href="students_Attendences.php" class="btn btn-secondary fw-bolder">Back to Class List</a>
                                             </div>
-
                                         </form>
                                     <?php endif; ?>
 
@@ -172,6 +173,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <!-- Scripts -->
     <script>
+
+
+
         const today = new Date();
         document.getElementById('date').innerText = today.toLocaleDateString('en-IN');
     </script>

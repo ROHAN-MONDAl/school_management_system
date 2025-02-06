@@ -104,39 +104,44 @@ $staff_result = $conn->query($staff_query);
             <div class="col-12">
               <h4 class="text-start">Your Attendance</h4>
               <div class="table-responsive">
-                <table id="teacherTable" class="table display expandable-table col-lg-12">
-                  <thead class="text-center text-wrap">
-                    <tr>
-                      <th>Slno</th>
-                      <th>Name</th>
-                      <th>Designation</th>
-                      <th>branch</th>
-                      <th>Date</th>
-                      <th>Attendance Status</th>
-                    </tr>
-                  </thead>
-                  <tbody class="text-center text-wrap">
-                    <?php if ($teacher_result->num_rows > 0): ?>
-                      <?php
-                      $slno = 1;
-                      while ($row = $teacher_result->fetch_assoc()):
-                      ?>
-                        <tr>
-                          <td><?php echo $slno++; ?></td>
-                          <td><?php echo htmlspecialchars($row['name']); ?></td>
-                          <td><?php echo htmlspecialchars($row['designation']); ?></td>
-                          <td><?php echo htmlspecialchars($row['branch']); ?></td>
-                          <td><?php echo htmlspecialchars($row['date']); ?></td>
-                          <td><?php echo htmlspecialchars($row['status']); ?></td>
-                        </tr>
-                      <?php endwhile; ?>
-                    <?php else: ?>
+                <div class="table-responsive">
+                  <table id="teacherTable" class="table table-striped table-bordered table-hover text-center align-middle">
+                    <thead class="table-warning">
                       <tr>
-                        <td colspan="5">No data found</td>
+                        <th>Sl.no</th>
+                        <th>Name</th>
+                        <th>Designation</th>
+                        <th>Branch</th>
+                        <th>Date</th>
+                        <th>Attendance Status</th>
                       </tr>
-                    <?php endif; ?>
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      <?php if ($teacher_result->num_rows > 0): ?>
+                        <?php $slno = 1; ?>
+                        <?php while ($row = $teacher_result->fetch_assoc()): ?>
+                          <tr>
+                            <td><?php echo $slno++; ?></td>
+                            <td><?php echo htmlspecialchars($row['name']); ?></td>
+                            <td><?php echo htmlspecialchars($row['designation']); ?></td>
+                            <td><?php echo htmlspecialchars($row['branch']); ?></td>
+                            <td><?php echo htmlspecialchars($row['date']); ?></td>
+                            <td>
+                              <span class="badge rounded-pill bg-<?php echo ($row['status'] === 'Present') ? 'success' : 'danger'; ?>">
+                                <?php echo htmlspecialchars($row['status']); ?>
+                              </span>
+                            </td>
+                          </tr>
+                        <?php endwhile; ?>
+                      <?php else: ?>
+                        <tr>
+                          <td colspan="6" class="text-center">No data found</td>
+                        </tr>
+                      <?php endif; ?>
+                    </tbody>
+                  </table>
+                </div>
+
               </div>
             </div>
           </div>

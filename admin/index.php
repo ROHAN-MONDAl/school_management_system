@@ -148,7 +148,7 @@ $staff_result = $conn->query($staff_query);
         <h4 class="text-start">Teacher Attendance</h4>
         <div class="table-responsive">
             <table id="teacherTable" class="table table-bordered table-striped">
-                <thead class="text-center text-wrap">
+                <thead class="text-center text-wrap table-warning">
                     <tr>
                         <th>Slno</th>
                         <th>Name</th>
@@ -188,7 +188,7 @@ $staff_result = $conn->query($staff_query);
         <h4 class="text-start">Employer Attendance</h4>
         <div class="table-responsive">
             <table id="employerTable" class="table table-bordered table-striped">
-                <thead class="text-center text-wrap">
+                <thead class="text-center text-wrap table-warning">
                     <tr>
                         <th>Slno</th>
                         <th>Name</th>
@@ -228,7 +228,7 @@ $staff_result = $conn->query($staff_query);
         <h4 class="text-start">Staff Attendance</h4>
         <div class="table-responsive">
             <table id="staffTable" class="table table-bordered table-striped">
-                <thead class="text-center text-wrap">
+                <thead class="text-center text-wrap table-warning">
                     <tr>
                         <th>Slno</th>
                         <th>Name</th>

@@ -138,10 +138,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                     <td><?php echo htmlspecialchars($row['name']); ?></td>
 
                                                     <td>
-                                                        <input type="checkbox" name="status[<?php echo $row['tid']; ?>]" value="Present" <?php echo in_array($row['tid'], $marked_teacher_ids) ? 'disabled' : ''; ?>>
+                                                        <input type="radio" name="status[<?php echo $row['tid']; ?>]" value="Present" <?php echo in_array($row['tid'], $marked_teacher_ids) ? 'disabled' : ''; ?>>
                                                     </td>
                                                     <td>
-                                                        <input type="checkbox" name="status[<?php echo $row['tid']; ?>]" value="Absent" <?php echo in_array($row['tid'], $marked_teacher_ids) ? 'disabled' : ''; ?>>
+                                                        <input type="radio" name="status[<?php echo $row['tid']; ?>]" value="Absent" <?php echo in_array($row['tid'], $marked_teacher_ids) ? 'disabled' : ''; ?>>
                                                     </td>
                                                 </tr>
                                             <?php endwhile; ?>
