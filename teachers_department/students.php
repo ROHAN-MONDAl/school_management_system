@@ -104,8 +104,13 @@ $result = $conn->query($query);
                                 <tr>
                                   <td><?php echo $row['roll_no']; ?></td>
                                   <td><?php echo $row['branch']; ?></td>
-                                  <td><img src="<?php echo $row['image_path']; ?>" alt="Student Image" style="width: 50px; height: 50px; object-fit: cover;"></td>
-                                  <td class="text-wrap"><?php echo $row['name']; ?></td>
+                                  <td>
+                                    <?php if (isset($row['image_path']) && !empty($row['image_path'])): ?>
+                                      <img src="../admin/<?php echo $row['image_path']; ?>" alt="Student Image" style="width: 50px; height: 50px; object-fit: cover;">
+                                    <?php else: ?>
+                                      <span>Student Image</span>
+                                    <?php endif; ?>
+                                  </td>                                  <td class="text-wrap"><?php echo $row['name']; ?></td>
                                   <td><?php echo $row['class']; ?></td>
                                   <td><?php echo $row['gender']; ?></td>
                                   <td><?php echo $row['phone_no']; ?></td>
