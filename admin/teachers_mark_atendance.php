@@ -1,43 +1,47 @@
 <?php
 include '../server_database.php';
 
-// Get the current date and class
+// Set timezone and date
 date_default_timezone_set('Asia/Kolkata');
-$date_today = date('Y-m-d');
+$date_today = isset($_GET['date']) ? $_GET['date'] : date('Y-m-d');
 
-// Fetch teachers from the database
-$query_teachers = "SELECT tid, name, designation FROM teachers";
-$result_teachers = $conn->query($query_teachers);
-if (!$result_teachers) {
-    die("Error fetching teachers: " . $conn->error);
+// Get selected branch from GET
+$selected_branch = isset($_GET['class']) ? $_GET['class'] : '';
+
+// Fetch teachers from the selected branch
+if (!empty($selected_branch)) {
+    $query_teachers = "SELECT tid, name, designation, branch FROM teachers WHERE branch = '$selected_branch'";
+    $result_teachers = $conn->query($query_teachers);
+    if (!$result_teachers) {
+        die("Error fetching teachers: " . $conn->error);
+    }
+} else {
+    $result_teachers = null; // No branch selected yet
 }
 
 // Fetch the total number of teachers
-$total_teachers = $result_teachers->num_rows;
+$total_teachers = $result_teachers ? $result_teachers->num_rows : 0;
 
-// Check if attendance has already been partially or fully marked
-$query_get_marked_teachers = "SELECT teacher_id FROM teacher_attendance WHERE date = ?";
-$stmt = $conn->prepare($query_get_marked_teachers);
-$stmt->bind_param('s', $date_today);
-$stmt->execute();
-$result_marked_teachers = $stmt->get_result();
+// Check if attendance has already been marked for the selected date
+$query_get_marked_teachers = "SELECT teacher_id FROM teacher_attendance WHERE date = '$date_today'";
+$result_marked_teachers = $conn->query($query_get_marked_teachers);
+if (!$result_marked_teachers) {
+    die("Error fetching marked attendance: " . $conn->error);
+}
 
 $marked_teacher_ids = [];
 while ($row = $result_marked_teachers->fetch_assoc()) {
     $marked_teacher_ids[] = $row['teacher_id'];
 }
-$stmt->close();
 
-$attendance_done = (count($marked_teacher_ids) === $total_teachers); // Check if all teachers' attendance is marked
+$attendance_done = ($total_teachers > 0 && count($marked_teacher_ids) === $total_teachers);
 
 // Handle form submission for attendance marking
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Loop through the form data to insert attendance
     foreach ($_POST['status'] as $teacher_id => $status) {
-        $teacher_id = $conn->real_escape_string($teacher_id); // Sanitize input
-        $status = $conn->real_escape_string($status); // Sanitize input
+        $teacher_id = $conn->real_escape_string($teacher_id);
+        $status = $conn->real_escape_string($status);
 
-        // Insert attendance for the teacher
         $query_insert = "INSERT INTO teacher_attendance (teacher_id, status, date) 
                          VALUES ('$teacher_id', '$status', '$date_today')";
         if (!$conn->query($query_insert)) {
@@ -45,8 +49,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
-    // Redirect to refresh the attendance status page
-    header("Location: teachers_Attendences.php");
+    // Redirect after marking attendance
+    header("Location: teachers_Attendences.php?class=" . urlencode($selected_branch) . "&date=" . urlencode($date_today));
     exit();
 }
 ?>
@@ -96,30 +100,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <div class="row">
                         <div class="col-12">
                             <h4 class="mb-3 text-center text-primary">Mark Teacher Attendance for Today</h4>
-
+                            <!-- Attendance Status Section -->
+                            <div class="text-center">
+                                <?php if ($attendance_done): ?>
+                                    <p class="text-success">All teachers have marked attendance for <?php echo $date_today; ?>.</p>
+                                <?php else: ?>
+                                    <p class="text-warning">Some teachers have not marked attendance yet for <?php echo $date_today; ?>.</p>
+                                <?php endif; ?>
+                            </div>
                             <!-- Row for Date and Attendance Status -->
                             <div class="row justify-content-between align-items-center">
-                                <!-- Date Section -->
-                                <div class="col-12 col-md-6 mb-3 mb-md-0">
-                                    <span class="fs-6 text-info" id="date"><?php echo $date_today; ?></span>
-                                </div>
-                                <!-- Attendance Status Section -->
-                                <div class="col-12 col-md-6 text-center text-md-end">
-                                    <?php if ($attendance_done): ?>
-                                        <p class="mb-0 text-success">All teachers have marked attendance today.</p>
-                                    <?php else: ?>
-                                        <p class="mb-0 text-warning">Some teachers have not marked attendance yet.</p>
-                                    <?php endif; ?>
-                                </div>
+                                <!-- Date Picker Input -->
+                                <form method="GET" action="">
+                                    <input type="hidden" name="class" value="<?php echo htmlspecialchars($selected_branch); ?>">
+                                    <label for="attendance-date" class="text-gray-700 font-medium">Select Date:</label>
+                                    <input type="date" id="attendance-date" class="form-control w-full sm:w-auto rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 
+                                    focus:border-blue-500 p-3" name="date" value="<?php echo $date_today; ?>" onchange="this.form.submit()">
+                                </form>
+
+
                             </div>
 
-                            <!-- Attendance Table -->
                             <form action="" method="POST">
                                 <div class="table-responsive">
-                                    <table class="table table-hover mt-4" style="font-size: 1.2rem; border-spacing: 0.5rem;">
-                                        <thead class="text-center bg-info text-white">
-                                            <tr>
+                                    <table id="dataTable" class="table table-striped table-bordered col-lg-12 mt-3">
+                                        <thead class="text-center">
+                                            <tr class="table-warning">
                                                 <th>Slno</th>
+                                                <th>Branch</th>
                                                 <th>Designation</th>
                                                 <th>Name</th>
                                                 <th>Present</th>
@@ -129,31 +137,43 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                         <tbody class="text-center">
                                             <?php
                                             $slno = 1;
-                                            while ($row = $result_teachers->fetch_assoc()):
+                                            if ($result_teachers && $result_teachers->num_rows > 0):
+                                                while ($row = $result_teachers->fetch_assoc()):
                                             ?>
+                                                    <tr>
+                                                        <td><?php echo $slno++; ?></td>
+                                                        <td><?php echo htmlspecialchars($row['branch']); ?></td>
+                                                        <td><?php echo htmlspecialchars($row['designation']); ?></td>
+                                                        <td><?php echo htmlspecialchars($row['name']); ?></td>
+                                                        <td>
+                                                            <input type="radio" name="status[<?php echo $row['tid']; ?>]" class="form-check-input" value="Present"
+                                                                <?php echo in_array($row['tid'], $marked_teacher_ids) ? 'disabled checked' : ''; ?>>
+                                                        </td>
+                                                        <td>
+                                                            <input type="radio" name="status[<?php echo $row['tid']; ?>]" class="form-check-input" value="Absent"
+                                                                <?php echo in_array($row['tid'], $marked_teacher_ids) ? 'disabled' : ''; ?>>
+                                                        </td>
+                                                    </tr>
+                                                <?php
+                                                endwhile;
+                                            else:
+                                                ?>
                                                 <tr>
-                                                    <td><?php echo $slno++; ?>
-                                                    </td>
-                                                    <td><?php echo htmlspecialchars($row['designation']); ?></td>
-                                                    <td><?php echo htmlspecialchars($row['name']); ?></td>
-
-                                                    <td>
-                                                        <input type="radio" name="status[<?php echo $row['tid']; ?>]" value="Present" <?php echo in_array($row['tid'], $marked_teacher_ids) ? 'disabled' : ''; ?>>
-                                                    </td>
-                                                    <td>
-                                                        <input type="radio" name="status[<?php echo $row['tid']; ?>]" value="Absent" <?php echo in_array($row['tid'], $marked_teacher_ids) ? 'disabled' : ''; ?>>
-                                                    </td>
+                                                    <td colspan="6">No teachers found for this branch.</td>
                                                 </tr>
-                                            <?php endwhile; ?>
+                                            <?php endif; ?>
                                         </tbody>
                                     </table>
                                 </div>
 
-
                                 <div class="form-group text-center mt-4">
-                                    <button type="submit" class="btn btn-primary fw-bolder" <?php echo $attendance_done ? 'disabled' : ''; ?>>Submit Attendance</button>
+                                    <button type="submit" class="btn btn-primary fw-bolder" <?php echo $attendance_done ? 'disabled' : ''; ?>>
+                                        Submit Attendance
+                                    </button>
                                 </div>
                             </form>
+
+
                         </div>
                     </div>
                 </div>

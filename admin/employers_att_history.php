@@ -91,14 +91,14 @@ $result = $conn->query($query);
                                     <div class="row mt-3">
                                         <div class="col-12">
                                             <div class="table-responsive">
-                                                <table id="dataTable" class="table display expandable-table col-lg-12">
-                                                    <thead class="text-center text-wrap">
+                                            <table id="dataTable" class="table table-striped table-bordered">
+                                            <thead class="text-center table-warning">
                                                         <tr>
                                                             <th>Slno</th>
                                                             <th>Name</th>
                                                             <th>Designation</th>
                                                             <th>Date</th>
-                                                            <th>Attendance Status</th>
+                                                            <th>Status</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody class="text-center text-wrap">
@@ -122,7 +122,12 @@ $result = $conn->query($query);
                                                         <?php endif; ?>
                                                     </tbody>
                                                 </table>
-
+                                            </div>
+                                            <!-- PDF Download Button -->
+                                            <div class="text-center mt-3">
+                                                <button id="downloadPDF" class="btn btn-success text-white">
+                                                    <i class="fa fa-download"></i> Download PDF
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -137,6 +142,9 @@ $result = $conn->query($query);
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable"></script>
+
     <script>
         $(document).ready(function() {
             // Function to filter rows based on search input
@@ -169,6 +177,40 @@ $result = $conn->query($query);
                 }
             });
         }
+
+
+
+        document.getElementById('downloadPDF').addEventListener('click', function() {
+            const {
+                jsPDF
+            } = window.jspdf; // Destructure jsPDF from the jspdf library
+            const doc = new jsPDF(); // Create a new PDF document instance
+
+            // Add a title to the PDF
+            doc.text("Employees Attendance History", 105, 10, {
+                align: 'center'
+            });
+
+            // Generate the table with custom header styles
+            doc.autoTable({
+                html: '#dataTable', // Reference the table in the HTML
+                startY: 20, // Starting position for the table (y-coordinate)
+                theme: 'grid', // Table theme
+                headStyles: {
+                    fillColor: [255, 195, 0], // Header background color (RGB: Royal Blue)
+                    textColor: [255, 255, 255], // Header text color (white)
+                    fontStyle: 'bold', // Make the header text bold
+                    halign: 'center', // Center-align header text
+                },
+                bodyStyles: {
+                    textColor: [0, 0, 0], // Body text color (black)
+                    halign: 'center', // Center-align body text
+                },
+            });
+
+            // Save the PDF document
+            doc.save('Attendance_History.pdf');
+        });
     </script>
     <!-- Include JS and other script files here -->
 

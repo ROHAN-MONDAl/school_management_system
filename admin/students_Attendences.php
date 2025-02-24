@@ -51,7 +51,7 @@ if (!$result_branches) {
                         <div class="col-lg-12 col-md-12 grid-margin stretch-card">
                             <div class="card">
                                 <div class="card-body">
-                                    <h3 class="text-center text-info"><b>Attendance</b></h3>
+                                    <h3 class="text-center text-info"><b>Students Attendance</b></h3>
                                     <form action="student_mark_attendance.php" method="GET" class="mt-4">
                                         <div class="form-group">
                                             <label for="class">Select Class:</label>
