@@ -1,62 +1,50 @@
 <?php
 include '../server_database.php';
 
-// Get the current date
+// Set timezone and get selected date or use today's date
 date_default_timezone_set('Asia/Kolkata');
-$date_today = date('Y-m-d');
+$date_today = isset($_GET['date']) ? $_GET['date'] : date('Y-m-d');
+
+// Get selected branch from GET
+$selected_branch = isset($_GET['class']) ? $_GET['class'] : '';
 
 // Fetch staffs from the database
-$query_staffs = "SELECT id, name, designation FROM staffs";
+$query_staffs = "SELECT id, name, designation, branch FROM staffs WHERE branch = '$selected_branch'";
 $result_staffs = $conn->query($query_staffs);
 if (!$result_staffs) {
     die("Error fetching staffs: " . $conn->error);
 }
 
-// Fetch already marked staffs' attendance for today
-$query_get_marked_staffs = "SELECT staff_id FROM staff_attendance WHERE date = ?";
-$stmt = $conn->prepare($query_get_marked_staffs);
-$stmt->bind_param('s', $date_today);
-$stmt->execute();
-$result_marked_staffs = $stmt->get_result();
+// Fetch already marked staffs' attendance for the selected date
+$query_get_marked_staffs = "SELECT staff_id FROM staff_attendance WHERE date = '$date_today'";
+$result_marked_staffs = $conn->query($query_get_marked_staffs);
+if (!$result_marked_staffs) {
+    die("Error fetching attendance: " . $conn->error);
+}
 
 $marked_staff_ids = [];
 while ($row = $result_marked_staffs->fetch_assoc()) {
     $marked_staff_ids[] = $row['staff_id'];
 }
-$stmt->close();
-
-// Fetch the total number of staffs
-$total_staffs = $result_staffs->num_rows;
 
 // Check if attendance is fully marked
+$total_staffs = $result_staffs->num_rows;
 $attendance_done = (count($marked_staff_ids) === $total_staffs);
 
 // Handle form submission for attendance marking
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Loop through the form data to insert attendance
     foreach ($_POST['status'] as $staff_id => $status) {
-        $staff_id = $conn->real_escape_string($staff_id); // Sanitize input
-        $status = $conn->real_escape_string($status); // Sanitize input
+        $staff_id = $conn->real_escape_string($staff_id);
+        $status = $conn->real_escape_string($status);
 
-        // Insert attendance record
-        $query_insert = "INSERT INTO staff_attendance (staff_id, status, date) 
-                         VALUES ('$staff_id', '$status', '$date_today')";
+        $query_insert = "INSERT INTO staff_attendance (staff_id, status, date) VALUES ('$staff_id', '$status', '$date_today')";
         if (!$conn->query($query_insert)) {
             die("Error inserting attendance: " . $conn->error);
         }
     }
-
-    // Redirect to refresh the attendance status page
-    header("Location: staffs_Attendence.php");
-    exit();
+    header("Location: staffs_Attendence.php?date=$date_today&class=$selected_branch");
 }
 ?>
-
-
-
-
-
-
 <!DOCTYPE php>
 <html lang="en">
 
@@ -101,65 +89,66 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="content-wrapper">
                     <div class="row">
                         <div class="col-12">
-                            <h4 class="mb-3 text-center text-primary">Mark Employer Attendance for Today</h4>
+                            <h3 class="mb-3 text-center fw-bold text-primary">Mark Staffs Attendance</h3>
 
                             <!-- Row for Date and Attendance Status -->
                             <div class="row justify-content-between align-items-center">
-                                <!-- Date Section -->
-                                <div class="col-12 col-md-6 mb-3 mb-md-0">
-                                    <span class="fs-6 text-info" id="date"><?php echo $date_today; ?></span>
-                                </div>
                                 <!-- Attendance Status Section -->
-                                <div class="col-12 col-md-6 text-center text-md-end">
+                                <div class="text-center">
                                     <?php if ($attendance_done): ?>
-                                        <p class="mb-0 text-success">All employers have marked attendance today.</p>
+                                        <p class="text-success">All teachers have marked attendance for <?php echo $date_today; ?>.</p>
                                     <?php else: ?>
-                                        <p class="mb-0 text-warning">Some employers have not marked attendance yet.</p>
+                                        <p class="text-info">Some teachers have not marked attendance yet for <?php echo $date_today; ?>.</p>
                                     <?php endif; ?>
                                 </div>
                             </div>
-
+                            <!-- Row for Date and Attendance Status -->
+                            <div class="row justify-content-between align-items-center">
+                                <!-- Date Picker HTML -->
+                                <form method="GET" action="">
+                                    <label for="attendance-date" class="text-gray-700 font-medium">Select Date:</label>
+                                    <input type="date" id="attendance-date" name="date" class="form-control w-full sm:w-auto rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3" value="<?php echo $date_today; ?>" onchange="this.form.submit()">
+                                    <input type="hidden" name="class" value="<?php echo $selected_branch; ?>">
+                                </form>
+                            </div>
                             <!-- Attendance Table -->
                             <form action="" method="POST">
                                 <div class="table-responsive">
-                                    <table class="table table-hover mt-4" style="font-size: 1.2rem; border-spacing: 0.5rem;">
-                                        <thead class="text-center bg-info text-white">
-                                            <tr>
+                                    <table id="dataTable" class="table table-striped table-bordered col-lg-12 mt-3">
+                                        <thead class="text-center">
+                                            <tr class="table-warning">
                                                 <th>Slno</th>
+                                                <th>Branch</th>
                                                 <th>Designation</th>
                                                 <th>Name</th>
                                                 <th>Present</th>
                                                 <th>Absent</th>
                                                 <th>Halfday</th>
+                                                <th>Status</th>
                                             </tr>
                                         </thead>
                                         <tbody class="text-center">
                                             <?php
                                             $slno = 1;
                                             while ($row = $result_staffs->fetch_assoc()):
+                                                $is_marked = in_array($row['id'], $marked_staff_ids);
                                             ?>
                                                 <tr>
                                                     <td><?php echo $slno++; ?></td>
+                                                    <td><?php echo htmlspecialchars($row['branch']); ?></td>
                                                     <td><?php echo htmlspecialchars($row['designation']); ?></td>
                                                     <td><?php echo htmlspecialchars($row['name']); ?></td>
-
-                                                    <td>
-                                                        <input type="radio" name="status[<?php echo $row['id']; ?>]" value="Present"
-                                                            <?php echo in_array($row['id'], $marked_staff_ids) ? 'disabled' : ''; ?> required> Present
-                                                    </td>
-                                                    <td>
-                                                        <input type="radio" name="status[<?php echo $row['id']; ?>]" value="Absent"
-                                                            <?php echo in_array($row['id'], $marked_staff_ids) ? 'disabled' : ''; ?> required> Absent
-                                                    </td>
-                                                    <td>
-                                                        <input type="radio" name="status[<?php echo $row['id']; ?>]" value="Halfday"
-                                                            <?php echo in_array($row['id'], $marked_staff_ids) ? 'disabled' : ''; ?> required> Halfday
-                                                    </td>
-
-
+                                                    <?php if ($is_marked): ?>
+                                                        <td colspan="3">Already marked</td>
+                                                        <td class="text-success">Marked</td>
+                                                    <?php else: ?>
+                                                        <td><input type="radio" name="status[<?php echo $row['id']; ?>]" value="Present" required></td>
+                                                        <td><input type="radio" name="status[<?php echo $row['id']; ?>]" value="Absent" required></td>
+                                                        <td><input type="radio" name="status[<?php echo $row['id']; ?>]" value="Halfday" required></td>
+                                                        <td class="text-warning">Pending</td>
+                                                    <?php endif; ?>
                                                 </tr>
                                             <?php endwhile; ?>
-
                                         </tbody>
                                     </table>
                                 </div>

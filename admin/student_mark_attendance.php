@@ -137,14 +137,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['status'])) {
                                                                     <?php if (in_array($student['id'], $marked_student_ids)): ?>
                                                                         <span class="text-danger">Already Marked</span>
                                                                     <?php else: ?>
-                                                                        <label><input type="radio" name="status[<?php echo $student['id']; ?>]" class="form-check-input"  value="Present"> Present</label>
+                                                                        <label><input type="radio" name="status[<?php echo $student['id']; ?>]" value="Present"> Present</label>
                                                                     <?php endif; ?>
                                                                 </td>
                                                                 <td>
                                                                     <?php if (in_array($student['id'], $marked_student_ids)): ?>
                                                                         <span class="text-danger">Already Marked</span>
                                                                     <?php else: ?>
-                                                                        <label><input type="radio" name="status[<?php echo $student['id']; ?>]" class="form-check-input"  value="Absent"> Absent</label>
+                                                                        <label><input type="radio" name="status[<?php echo $student['id']; ?>]" value="Absent"> Absent</label>
                                                                     <?php endif; ?>
                                                                 </td>
                                                             </tr>

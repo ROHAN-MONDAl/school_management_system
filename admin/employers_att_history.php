@@ -3,7 +3,7 @@ include '../server_database.php';
 
 // Fetch employer attendance records
 $query = "
-SELECT employers.name, employers.designation, employer_attendance.date, employer_attendance.status
+SELECT employers.name, employers.designation, employers.branch, employer_attendance.date, employer_attendance.status
 FROM employer_attendance
 JOIN employers ON employer_attendance.employer_id = employers.id
 ORDER BY employer_attendance.date DESC
@@ -47,7 +47,7 @@ $result = $conn->query($query);
                                     <div class="row">
                                         <div class="col-12 col-xl-8 mb-4 mb-xl-0">
                                             <h2 class="font-weight-bold text-primary fw-bolder">History</h2>
-                                            <p class="text-secondary">Attendance history</p>
+                                            <p class="text-secondary">Employees Attendance History</p>
                                         </div>
                                     </div>
                                     <div class="row justify-content-center p-1">
@@ -97,6 +97,7 @@ $result = $conn->query($query);
                                                             <th>Slno</th>
                                                             <th>Name</th>
                                                             <th>Designation</th>
+                                                            <th>Branch</th>
                                                             <th>Date</th>
                                                             <th>Status</th>
                                                         </tr>
@@ -111,13 +112,14 @@ $result = $conn->query($query);
                                                                     <td><?php echo $slno++; ?></td>
                                                                     <td><?php echo htmlspecialchars($row['name']); ?></td>
                                                                     <td><?php echo htmlspecialchars($row['designation']); ?></td>
+                                                                    <td><?php echo htmlspecialchars($row['branch']); ?></td>
                                                                     <td><?php echo htmlspecialchars($row['date']); ?></td>
                                                                     <td><?php echo htmlspecialchars($row['status']); ?></td>
                                                                 </tr>
                                                             <?php endwhile; ?>
                                                         <?php else: ?>
                                                             <tr>
-                                                                <td colspan="5">No data found</td>
+                                                                <td colspan="6">No data found</td>
                                                             </tr>
                                                         <?php endif; ?>
                                                     </tbody>
@@ -168,7 +170,7 @@ $result = $conn->query($query);
 
             $('#dataTable tbody tr').each(function() {
                 var row = $(this);
-                var rowDate = new Date(row.find('td:eq(3)').text()); // Get date from the 3rd column (index 2)
+                var rowDate = new Date(row.find('td:eq(4)').text()); // Get date from the 3rd column (index 2)
 
                 if (startDate && rowDate < new Date(startDate) || endDate && rowDate > new Date(endDate)) {
                     row.hide();

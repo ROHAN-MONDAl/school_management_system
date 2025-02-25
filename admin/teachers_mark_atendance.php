@@ -99,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="content-wrapper">
                     <div class="row">
                         <div class="col-12">
-                            <h4 class="mb-3 text-center text-primary">Mark Teacher Attendance for Today</h4>
+                            <h3 class="mb-3 text-center text-primary fw-bold">Mark Teacher Attendance for Today</h3>
                             <!-- Attendance Status Section -->
                             <div class="text-center">
                                 <?php if ($attendance_done): ?>
@@ -117,8 +117,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     <input type="date" id="attendance-date" class="form-control w-full sm:w-auto rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 
                                     focus:border-blue-500 p-3" name="date" value="<?php echo $date_today; ?>" onchange="this.form.submit()">
                                 </form>
-
-
                             </div>
 
                             <form action="" method="POST">
@@ -146,13 +144,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                         <td><?php echo htmlspecialchars($row['designation']); ?></td>
                                                         <td><?php echo htmlspecialchars($row['name']); ?></td>
                                                         <td>
-                                                            <input type="radio" name="status[<?php echo $row['tid']; ?>]" class="form-check-input" value="Present"
-                                                                <?php echo in_array($row['tid'], $marked_teacher_ids) ? 'disabled checked' : ''; ?>>
+                                                            <?php if (in_array($row['tid'], $marked_teacher_ids)): ?>
+                                                                <span class="text-danger">Already Marked</span>
+                                                            <?php else: ?>
+                                                                <label class="form-check-label">
+                                                                    <input type="radio" name="status[<?php echo $row['tid']; ?>]" value="Present"
+                                                                        <?php echo in_array($row['tid'], $marked_teacher_ids) ? 'disabled checked' : ''; ?>>
+                                                                    <span>Present</span>
+                                                                </label>
+                                                            <?php endif; ?>
                                                         </td>
+
                                                         <td>
-                                                            <input type="radio" name="status[<?php echo $row['tid']; ?>]" class="form-check-input" value="Absent"
-                                                                <?php echo in_array($row['tid'], $marked_teacher_ids) ? 'disabled' : ''; ?>>
+                                                            <?php if (in_array($row['tid'], $marked_teacher_ids)): ?>
+                                                                <span class="text-danger">Already Marked</span>
+                                                            <?php else: ?>
+                                                                <label class="form-check-label">
+                                                                    <input type="radio" name="status[<?php echo $row['tid']; ?>]" value="Absent"
+                                                                        <?php echo in_array($row['tid'], $marked_teacher_ids) ? 'disabled' : ''; ?>>
+                                                                    <span class="radio-text">Absent</span>
+                                                                </label>
+                                                            <?php endif; ?>
                                                         </td>
+
                                                     </tr>
                                                 <?php
                                                 endwhile;

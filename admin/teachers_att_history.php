@@ -47,7 +47,7 @@ $result = $conn->query($query);
                                     <div class="row">
                                         <div class="col-12 col-xl-8 mb-4 mb-xl-0">
                                             <h2 class="font-weight-bold text-primary fw-bolder">History</h2>
-                                            <p class="text-secondary">Attendance history</p>
+                                            <p class="text-secondary">Teachers attendance History</p>
                                         </div>
                                     </div>
                                     <div class="row justify-content-center p-1">
@@ -173,7 +173,7 @@ $result = $conn->query($query);
 
             $('#dataTable tbody tr').each(function() {
                 var row = $(this);
-                var rowDate = new Date(row.find('td:eq(3)').text()); // Get date from the 3rd column (index 2)
+                var rowDate = new Date(row.find('td:eq(4)').text()); // Get date from the 3rd column (index 2)
 
                 if (startDate && rowDate < new Date(startDate) || endDate && rowDate > new Date(endDate)) {
                     row.hide();
